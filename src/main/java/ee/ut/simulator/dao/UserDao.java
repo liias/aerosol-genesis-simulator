@@ -2,7 +2,7 @@ package ee.ut.simulator.dao;
 
 import java.util.List;
 
-import ee.ut.simulator.pojo.User;
+import ee.ut.simulator.domain.User;
  
 public interface UserDao {
 	 

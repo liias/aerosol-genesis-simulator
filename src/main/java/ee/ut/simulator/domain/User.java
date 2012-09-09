@@ -1,4 +1,4 @@
-package ee.ut.simulator.pojo;
+package ee.ut.simulator.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

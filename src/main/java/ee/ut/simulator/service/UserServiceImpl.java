@@ -1,7 +1,7 @@
 package ee.ut.simulator.service;
 
 import ee.ut.simulator.dao.UserDao;
-import ee.ut.simulator.pojo.User;
+import ee.ut.simulator.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

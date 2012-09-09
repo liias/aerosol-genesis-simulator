@@ -2,7 +2,7 @@ package ee.ut.simulator.controller;
 
 import java.util.Map;
 
-import ee.ut.simulator.pojo.User;
+import ee.ut.simulator.domain.User;
 import ee.ut.simulator.service.UserService;
  
 import org.springframework.beans.factory.annotation.Autowired;

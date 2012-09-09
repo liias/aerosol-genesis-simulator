@@ -1,6 +1,6 @@
 package ee.ut.simulator.dao;
 
-import ee.ut.simulator.pojo.User;
+import ee.ut.simulator.domain.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
