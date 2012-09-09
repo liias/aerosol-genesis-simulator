@@ -2,7 +2,6 @@ package ee.ut.simulator.domain.simulation;
 
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class SimulationResultValue {
@@ -12,7 +11,6 @@ public class SimulationResultValue {
     @SequenceGenerator(name = "SIMULATION_RESULT_VALUE_SEQ", sequenceName = "simulation_result_value_seq", allocationSize = 1)
     private long id;
 
-    @NotNull
     @ManyToOne
     private SimulationResult simulationResult;
 

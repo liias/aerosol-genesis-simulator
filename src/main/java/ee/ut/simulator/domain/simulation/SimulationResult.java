@@ -3,7 +3,6 @@ package ee.ut.simulator.domain.simulation;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,7 +19,6 @@ public class SimulationResult {
     @DateTimeFormat(style = "M-")
     private Calendar completionDate;
 
-    @NotNull
     @ManyToOne
     private SimulationProcess simulationProcess;
 

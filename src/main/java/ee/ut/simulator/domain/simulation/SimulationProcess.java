@@ -6,6 +6,9 @@ import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * SimulationOrder makes exactly so many proccesses as the value for number of runs is set
+ */
 @Entity
 public class SimulationProcess {
 
@@ -20,6 +23,9 @@ public class SimulationProcess {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "simulationProcess")
     private Set<SimulationResult> results = new HashSet<SimulationResult>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "simulationProcess")
+    private Set<SimulationProcessParameter> parameters = new HashSet<SimulationProcessParameter>();
 
     public long getId() {
         return id;
@@ -43,5 +49,13 @@ public class SimulationProcess {
 
     public void setResults(Set<SimulationResult> results) {
         this.results = results;
+    }
+
+    public Set<SimulationProcessParameter> getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(Set<SimulationProcessParameter> parameters) {
+        this.parameters = parameters;
     }
 }
