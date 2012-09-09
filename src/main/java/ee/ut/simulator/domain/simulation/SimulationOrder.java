@@ -18,17 +18,6 @@ public class SimulationOrder {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "simulationOrder")
     private Set<SimulationOrderParameter> parameters = new HashSet<SimulationOrderParameter>();
 
-    /*public void createParameters() {
-        //TODO: This is temporary, in future generate parameters (without explicit values) from JSON
-        SimulationOrderParameter parameter = new SimulationOrderParameter();
-        parameter.setName("time");
-        parameters.add(parameter);
-        SimulationOrderParameter parameter2 = new SimulationOrderParameter();
-        parameter2.setName("nst");
-        parameter2.setLabel("Number of evolution steps in a minute (recommended 20...60)");
-        parameters.add(parameter2);
-    } */
-
     public Set<SimulationOrderParameter> getParameters() {
         return parameters;
     }

@@ -1,0 +1,15 @@
+{"parameters":[
+    {
+        "id":"time",
+        "label":"Time period under consideration (<= 1440)"
+    },
+    {
+        "id":"nst",
+        "label":"Number of evolution steps in a minute (recommended 20...60)"
+    },
+    {
+        "id":"acc",
+        "label":"Acceleration coefficient dd/dd_min, normal value is 1"
+    }
+]
+}

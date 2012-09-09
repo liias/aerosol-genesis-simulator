@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class SimulationOrderTest {
 
     @Test
-    public void testAddition() {
+    public void testCreateParameters() {
         assertEquals(4, 2 + 2);
     }
 }
