@@ -15,4 +15,20 @@ public class SimulationOrder {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "simulationOrder")
     private Set<SimulationProcess> processes = new HashSet<SimulationProcess>();
+
+    public Set<SimulationProcess> getProcesses() {
+        return processes;
+    }
+
+    public void setProcesses(Set<SimulationProcess> processes) {
+        this.processes = processes;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }

@@ -15,4 +15,20 @@ public class SimulationResultValue {
     @NotNull
     @ManyToOne
     private SimulationResult simulationResult;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public SimulationResult getSimulationResult() {
+        return simulationResult;
+    }
+
+    public void setSimulationResult(SimulationResult simulationResult) {
+        this.simulationResult = simulationResult;
+    }
 }

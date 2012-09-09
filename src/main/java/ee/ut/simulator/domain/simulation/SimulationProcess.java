@@ -14,8 +14,32 @@ public class SimulationProcess {
 
     @NotNull
     @ManyToOne
-    private SimulationResult simulationOrder;
+    private SimulationOrder simulationOrder;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "simulationProcess")
     private Set<SimulationResult> results = new HashSet<SimulationResult>();
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public SimulationOrder getSimulationOrder() {
+        return simulationOrder;
+    }
+
+    public void setSimulationOrder(SimulationOrder simulationOrder) {
+        this.simulationOrder = simulationOrder;
+    }
+
+    public Set<SimulationResult> getResults() {
+        return results;
+    }
+
+    public void setResults(Set<SimulationResult> results) {
+        this.results = results;
+    }
 }
