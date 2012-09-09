@@ -1,18 +1,21 @@
 package ee.ut.simulator.domain.simulation;
 
-import com.sun.istack.internal.NotNull;
 
 import javax.persistence.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name="SIMULATION_PROCESS")
 public class SimulationProcess {
 
     @Id
+    @Column(name="ID")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "SIMULATION_PROCESS_SEQ")
+    @SequenceGenerator(name = "SIMULATION_PROCESS_SEQ", sequenceName="simulation_process_seq", allocationSize=1)
     private long id;
 
-    @NotNull
     @ManyToOne
     private SimulationOrder simulationOrder;
 

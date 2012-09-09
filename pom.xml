@@ -17,7 +17,7 @@
 				<version>2.2</version>
 				<configuration>
 					<warName>webapp</warName>
-					<outputDirectory>C:/Program Files/Tomcat 7.0/webapps</outputDirectory>
+					<outputDirectory>C:\apache-tomcat-6.0.35\webapps</outputDirectory>
 				</configuration>
 			</plugin>
 		</plugins>

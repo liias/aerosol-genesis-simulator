@@ -1,24 +1,27 @@
 package ee.ut.simulator.domain.simulation;
 
-import com.sun.istack.internal.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name="SIMULATION_RESULT")
 public class SimulationResult {
 
     @Id
+    @Column(name="ID")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "SIMULATION_RESULT_SEQ")
+    @SequenceGenerator(name = "SIMULATION_RESULT_SEQ", sequenceName="simulation_result_seq", allocationSize=1)
     private long id;
 
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(style = "M-")
-    private Calendar completionDate;
-
-    @NotNull
+    private Calendar completionDate;    
+    
     @ManyToOne
     private SimulationProcess simulationProcess;
 
