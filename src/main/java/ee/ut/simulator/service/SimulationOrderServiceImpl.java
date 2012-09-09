@@ -2,11 +2,13 @@ package ee.ut.simulator.service;
 
 import com.google.gson.Gson;
 import ee.ut.simulator.domain.simulation.parameter.DefaultParameters;
+import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
+@Service
 public class SimulationOrderServiceImpl implements SimulationOrderService {
     private DefaultParameters defaultParameters;
 
@@ -22,12 +24,11 @@ public class SimulationOrderServiceImpl implements SimulationOrderService {
 
     @Override
     public void generateDefaultParameters() {
-        try {
-            BufferedReader json = new BufferedReader(new FileReader("src/main/resources/parameters.json"));
-            DefaultParameters defaultParameters = new Gson().fromJson(json, DefaultParameters.class);
-            setDefaultParameters(defaultParameters);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+
+        InputStream stream = getClass().getClassLoader().getResourceAsStream("parameters.json");
+        Reader json = new InputStreamReader(stream);
+        DefaultParameters defaultParameters = new Gson().fromJson(json, DefaultParameters.class);
+        setDefaultParameters(defaultParameters);
+
     }
 }
