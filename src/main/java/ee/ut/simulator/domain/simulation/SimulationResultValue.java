@@ -1,25 +1,18 @@
 package ee.ut.simulator.domain.simulation;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="SIMULATION_RESULT_VALUE")
 public class SimulationResultValue {
 
     @Id
-    @Column(name="ID")
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "SIMULATION_RESULT_VALUE_SEQ")
-    @SequenceGenerator(name = "SIMULATION_RESULT_VALUE_SEQ", sequenceName="simulation_result_value_seq", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIMULATION_RESULT_VALUE_SEQ")
+    @SequenceGenerator(name = "SIMULATION_RESULT_VALUE_SEQ", sequenceName = "simulation_result_value_seq", allocationSize = 1)
     private long id;
 
+    @NotNull
     @ManyToOne
     private SimulationResult simulationResult;
 

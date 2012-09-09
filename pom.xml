@@ -24,6 +24,11 @@
 	</build>
   
 	<dependencies>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.0.0.GA</version>
+        </dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -123,5 +128,6 @@
 			<name>EBR External Release Repository</name>
 	    	<url>http:// repository.springsource.com/maven/bundles/external</url>
 		</repository>
-	</repositories>	
+	</repositories>
+
 </project>
