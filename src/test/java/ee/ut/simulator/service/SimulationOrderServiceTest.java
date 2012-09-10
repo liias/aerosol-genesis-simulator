@@ -10,7 +10,7 @@ public class SimulationOrderServiceTest {
     public void testGenerateDefaultParameters() throws Exception {
         SimulationOrderService simulationOrderService = new SimulationOrderServiceImpl();
         simulationOrderService.generateDefaultParameters();
-        int numberOfParameters = simulationOrderService.getDefaultParameters().getParameters().size();
+        int numberOfParameters = simulationOrderService.getParametersConfiguration().getParameterDefinitions().size();
         assertEquals(3, numberOfParameters);
     }
 

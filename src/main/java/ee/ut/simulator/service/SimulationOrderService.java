@@ -1,11 +1,14 @@
 package ee.ut.simulator.service;
 
-import ee.ut.simulator.domain.simulation.parameter.DefaultParameters;
+import ee.ut.simulator.domain.simulation.parameter.ParametersConfiguration;
+
+import javax.annotation.PostConstruct;
 
 public interface SimulationOrderService {
+    @PostConstruct
     public void generateDefaultParameters();
 
-    DefaultParameters getDefaultParameters();
+    ParametersConfiguration getParametersConfiguration();
 
-    void setDefaultParameters(DefaultParameters defaultParameters);
+    void setParametersConfiguration(ParametersConfiguration parametersConfiguration);
 }

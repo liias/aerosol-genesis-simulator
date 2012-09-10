@@ -1,4 +1,4 @@
-{"parameters":[
+{"parameterDefinitions":[
     {
         "id":"time",
         "label":"Time period under consideration (<= 1440)"

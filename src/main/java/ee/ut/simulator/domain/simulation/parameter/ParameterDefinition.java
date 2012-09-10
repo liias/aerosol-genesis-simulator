@@ -1,6 +1,6 @@
 package ee.ut.simulator.domain.simulation.parameter;
 
-public class Parameter {
+public class ParameterDefinition {
     //Used in BurstSimulator I/O files
     private String id;
 

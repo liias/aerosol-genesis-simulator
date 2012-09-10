@@ -15,8 +15,7 @@ public class SimulationOrderController {
 
     @RequestMapping("/order")
     public String order(Map<String, Object> map) {
-        simulationOrderService.generateDefaultParameters();
-        map.put("parameters", simulationOrderService.getDefaultParameters().getParameters());
+        map.put("parameters", simulationOrderService.getParametersConfiguration().getParameterDefinitions());
         return "simulation/order";
     }
 }

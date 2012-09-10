@@ -10,7 +10,7 @@
 
 <c:forEach items="${parameters}" var="parameter">
     ${parameter.id}
-    ${parameter.label}">
+    ${parameter.label}
 </c:forEach>
 </body>
 </html>

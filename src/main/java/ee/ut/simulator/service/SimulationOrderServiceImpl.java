@@ -1,34 +1,35 @@
 package ee.ut.simulator.service;
 
 import com.google.gson.Gson;
-import ee.ut.simulator.domain.simulation.parameter.DefaultParameters;
+import ee.ut.simulator.domain.simulation.parameter.ParametersConfiguration;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
 @Service
 public class SimulationOrderServiceImpl implements SimulationOrderService {
-    private DefaultParameters defaultParameters;
+    private ParametersConfiguration parametersConfiguration;
 
     @Override
-    public DefaultParameters getDefaultParameters() {
-        return defaultParameters;
+    public ParametersConfiguration getParametersConfiguration() {
+        return parametersConfiguration;
     }
 
     @Override
-    public void setDefaultParameters(DefaultParameters defaultParameters) {
-        this.defaultParameters = defaultParameters;
+    public void setParametersConfiguration(ParametersConfiguration parametersConfiguration) {
+        this.parametersConfiguration = parametersConfiguration;
     }
 
     @Override
+    //PostConstruct will call this method on initialization
+    @PostConstruct
     public void generateDefaultParameters() {
-
         InputStream stream = getClass().getClassLoader().getResourceAsStream("parameters.json");
         Reader json = new InputStreamReader(stream);
-        DefaultParameters defaultParameters = new Gson().fromJson(json, DefaultParameters.class);
-        setDefaultParameters(defaultParameters);
-
+        ParametersConfiguration parametersConfiguration = new Gson().fromJson(json, ParametersConfiguration.class);
+        setParametersConfiguration(parametersConfiguration);
     }
 }
