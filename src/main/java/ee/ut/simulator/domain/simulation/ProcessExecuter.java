@@ -1,33 +1,34 @@
 package ee.ut.simulator.domain.simulation;
 
-import ee.ut.simulator.service.simulation.SimulationProcessService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Properties;
 
-@Component
 public class ProcessExecuter implements Runnable {
 
-    @Autowired
-    SimulationProcessService simulationProcessService;
+    Properties configuration;
 
-    public SimulationProcessService getSimulationProcessService() {
-        return simulationProcessService;
+    public ProcessExecuter(Properties configuration) {
+        setConfiguration(configuration);
     }
 
-    public void setSimulationProcessService(SimulationProcessService simulationProcessService) {
-        this.simulationProcessService = simulationProcessService;
+    public Properties getConfiguration() {
+        return configuration;
+    }
+
+    public void setConfiguration(Properties configuration) {
+        this.configuration = configuration;
     }
 
     @Override
     public void run() {
         //long startTime = System.currentTimeMillis();
-        String path = simulationProcessService.getConfiguration().getProperty("burstsimulator.path");
-        String fullPath = path + simulationProcessService.getConfiguration().getProperty("burstsimulator.fileName");
+        String path = getConfiguration().getProperty("burstsimulator.path");
+        String fullPath = path + getConfiguration().getProperty("burstsimulator.fileName");
 
         Process process;
         try {

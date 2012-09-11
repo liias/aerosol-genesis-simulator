@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/order")
 public class SimulationOrderController {
 
     @Autowired
@@ -28,7 +29,7 @@ public class SimulationOrderController {
         return "simulation/order";
     }
 
-    @RequestMapping(value = "/orderadd", method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(@ModelAttribute("order") SimulationOrder order, BindingResult result) {
         simulationOrderService.add(order);
         return "redirect:/order";

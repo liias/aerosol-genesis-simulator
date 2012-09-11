@@ -1,11 +1,13 @@
 package ee.ut.simulator.service.simulation;
 
 import ee.ut.simulator.dao.simulation.SimulationProcessDao;
+import ee.ut.simulator.domain.simulation.ProcessExecuter;
 import ee.ut.simulator.domain.simulation.SimulationProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -19,6 +21,7 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
     private Properties configuration;
 
     @Override
+    @PostConstruct
     public void loadConfiguration() throws IOException {
         System.out.println("LOADING CONFIGURATION PROPERTIES FILE");
         Properties prop = new Properties();
@@ -42,6 +45,10 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
     public void start(long processId) {
         SimulationProcess process = simulationProcessDao.getById(processId);
         System.out.println("starting process...");
-        process.start();
+
+        //Currently not associated with process entity (could use operations system-s pid)
+        ProcessExecuter processExecuter = new ProcessExecuter(getConfiguration());
+        processExecuter.run();
     }
+
 }

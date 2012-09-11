@@ -19,7 +19,7 @@
     </p>
 </c:forEach>
 
-<form:form method="post" action="orderadd" modelAttribute="order">
+<form:form method="post" action="order/add" modelAttribute="order">
     <input type="submit" value="Go"/>
 </form:form>
 

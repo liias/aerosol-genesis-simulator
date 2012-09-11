@@ -10,10 +10,10 @@ public class ProcessExecuterTest {
 
     @Test
     public void testRun() throws Exception {
-        ProcessExecuter processExecuter = new ProcessExecuter();
+
         SimulationProcessService processService = new SimulationProcessServiceImpl();
         processService.loadConfiguration();
-        processExecuter.setSimulationProcessService(processService);
+        ProcessExecuter processExecuter = new ProcessExecuter(processService.getConfiguration());
         processExecuter.run();
         assertEquals(4, 2 + 2);
     }

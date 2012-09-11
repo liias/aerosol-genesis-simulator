@@ -55,9 +55,4 @@ public class SimulationProcess {
     public void setParameters(Set<SimulationProcessParameter> parameters) {
         this.parameters = parameters;
     }
-
-    public void start() {
-        ProcessExecuter processExecuter = new ProcessExecuter();
-        processExecuter.run();
-    }
 }
