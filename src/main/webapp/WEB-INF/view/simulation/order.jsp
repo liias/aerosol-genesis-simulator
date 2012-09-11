@@ -9,8 +9,27 @@
 <body>
 
 <c:forEach items="${parameters}" var="parameter">
-    ${parameter.id}
-    ${parameter.label}
+    <p>
+        <label for="${parameter.id}_value">${parameter.label}:</label>
+
+        <select id="${parameter.id}_value">
+            <option>0</option>
+            <option>1</option>
+        </select>
+    </p>
 </c:forEach>
+
+
+<pre>
+TODO:
+
+free air   /   forest
+min max    /   min max
+
+
+Input#number_of_runs
+etc
+</pre>
+
 </body>
 </html>

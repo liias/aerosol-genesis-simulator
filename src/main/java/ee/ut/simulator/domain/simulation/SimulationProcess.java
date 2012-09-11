@@ -1,13 +1,12 @@
 package ee.ut.simulator.domain.simulation;
 
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * SimulationOrder makes exactly so many proccesses as the value for number of runs is set
+ * SimulationOrder makes exactly so many processes as the value for number of runs is set
  */
 @Entity
 public class SimulationProcess {
@@ -57,5 +56,10 @@ public class SimulationProcess {
 
     public void setParameters(Set<SimulationProcessParameter> parameters) {
         this.parameters = parameters;
+    }
+
+    public void start() {
+        ProcessExecuter processExecuter = new ProcessExecuter();
+        //processExecuter.run();
     }
 }
