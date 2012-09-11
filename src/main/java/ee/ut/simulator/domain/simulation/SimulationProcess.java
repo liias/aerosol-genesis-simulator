@@ -1,12 +1,11 @@
 package ee.ut.simulator.domain.simulation;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * SimulationOrder makes exactly so many processes as the value for number of runs is set
+ * SimulationOrderDao makes exactly so many processes as the value for number of runs is set
  */
 @Entity
 public class SimulationProcess {
@@ -16,7 +15,6 @@ public class SimulationProcess {
     @SequenceGenerator(name = "SIMULATION_PROCESS_SEQ", sequenceName = "simulation_process_seq", allocationSize = 1)
     private long id;
 
-    @NotNull
     @ManyToOne
     private SimulationOrder simulationOrder;
 
@@ -60,6 +58,6 @@ public class SimulationProcess {
 
     public void start() {
         ProcessExecuter processExecuter = new ProcessExecuter();
-        //processExecuter.run();
+        processExecuter.run();
     }
 }

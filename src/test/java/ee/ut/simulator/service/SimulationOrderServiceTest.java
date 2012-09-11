@@ -1,5 +1,7 @@
 package ee.ut.simulator.service;
 
+import ee.ut.simulator.service.simulation.SimulationOrderService;
+import ee.ut.simulator.service.simulation.SimulationOrderServiceImpl;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;

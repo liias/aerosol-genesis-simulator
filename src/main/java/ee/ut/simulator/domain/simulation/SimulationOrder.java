@@ -34,6 +34,10 @@ public class SimulationOrder {
         this.processes = processes;
     }
 
+    public void addProcess(SimulationProcess process) {
+        getProcesses().add(process);
+    }
+
     public long getId() {
         return id;
     }

@@ -17,7 +17,6 @@ public class UserDaoImpl implements UserDao {
         entityManager.persist(user);
     }
 
-
     public List<User> listUsers() {
         return entityManager.createQuery("from User", User.class).getResultList();
     }

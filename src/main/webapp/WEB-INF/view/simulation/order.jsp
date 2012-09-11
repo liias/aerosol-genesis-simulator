@@ -19,6 +19,10 @@
     </p>
 </c:forEach>
 
+<form:form method="post" action="orderadd" modelAttribute="order">
+    <input type="submit" value="Go"/>
+</form:form>
+
 
 <pre>
 TODO:
