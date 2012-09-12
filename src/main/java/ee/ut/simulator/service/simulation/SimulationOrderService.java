@@ -18,4 +18,6 @@ public interface SimulationOrderService {
     void listProcesses();
 
     public SimulationOrder getNewOrder();
+
+    public void generateProcesses(SimulationOrder order);
 }

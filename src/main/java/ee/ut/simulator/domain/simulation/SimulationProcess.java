@@ -55,4 +55,8 @@ public class SimulationProcess {
     public void setParameters(Set<SimulationProcessParameter> parameters) {
         this.parameters = parameters;
     }
+
+    public void addParameter(SimulationProcessParameter parameter) {
+        getParameters().add(parameter);
+    }
 }

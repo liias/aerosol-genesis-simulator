@@ -3,7 +3,9 @@ package ee.ut.simulator.service.simulation;
 import com.google.gson.Gson;
 import ee.ut.simulator.dao.simulation.SimulationOrderDao;
 import ee.ut.simulator.domain.simulation.SimulationOrder;
+import ee.ut.simulator.domain.simulation.SimulationOrderParameter;
 import ee.ut.simulator.domain.simulation.SimulationProcess;
+import ee.ut.simulator.domain.simulation.SimulationProcessParameter;
 import ee.ut.simulator.domain.simulation.parameter.ParameterDefinition;
 import ee.ut.simulator.domain.simulation.parameter.ParametersConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,10 +48,25 @@ public class SimulationOrderServiceImpl implements SimulationOrderService {
     @Override
     @Transactional
     public void add(SimulationOrder order) {
-        SimulationProcess testProcess = new SimulationProcess();
-        testProcess.setSimulationOrder(order);
-        order.addProcess(testProcess);
         simulationOrderDao.add(order);
+    }
+
+    @Override
+    public void generateProcesses(SimulationOrder order) {
+        // TODO: Generate process from real info set form order
+        // There are 2 possibilities: random, or all possible, at first implement random (like it was in old app)
+        //order.getParameters()
+        // TODO: number of processes is selected in order, currently lets make only one
+        SimulationProcess generatedProcess = new SimulationProcess();
+        generatedProcess.setSimulationOrder(order);
+        for (SimulationOrderParameter orderParameter : order.getParameters()) {
+            SimulationProcessParameter processParameter = new SimulationProcessParameter();
+            //currently assume only setting exact value (instead of min and max)
+            float generatedValue = orderParameter.getValue();
+            processParameter.setValue(generatedValue);
+            generatedProcess.addParameter(processParameter);
+        }
+        order.addProcess(generatedProcess);
     }
 
     @Override
