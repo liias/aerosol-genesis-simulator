@@ -8,18 +8,24 @@
 </head>
 <body>
 
-<c:forEach items="${parameters}" var="parameter">
-    <p>
-        <label for="${parameter.id}_value">${parameter.label}:</label>
 
-        <select id="${parameter.id}_value">
-            <option>0</option>
-            <option>1</option>
-        </select>
-    </p>
-</c:forEach>
+<form:form method="post" action="order/add" modelAttribute="simulationOrder">
 
-<form:form method="post" action="order/add" modelAttribute="order">
+
+    <c:forEach items="${simulationOrder.parameters}" var="parameter" varStatus="loop">
+        <p>
+            <form:errors path="parameters[${loop.index}].value"/>
+                <%--            <select id="${parameter.id}_value">
+                    <option>0</option>
+                    <option>1</option>
+                </select>--%>
+            Value: <form:input path="parameters[${loop.index}].value"/>
+            Min: <form:input path="parameters[${loop.index}].min"/>
+            Max: <form:input path="parameters[${loop.index}].max"/>
+        </p>
+    </c:forEach>
+
+
     <input type="submit" value="Go"/>
 </form:form>
 

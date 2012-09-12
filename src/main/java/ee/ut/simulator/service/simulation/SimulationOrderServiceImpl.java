@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import ee.ut.simulator.dao.simulation.SimulationOrderDao;
 import ee.ut.simulator.domain.simulation.SimulationOrder;
 import ee.ut.simulator.domain.simulation.SimulationProcess;
+import ee.ut.simulator.domain.simulation.parameter.ParameterDefinition;
 import ee.ut.simulator.domain.simulation.parameter.ParametersConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import javax.annotation.PostConstruct;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Collection;
 
 @Service
 public class SimulationOrderServiceImpl implements SimulationOrderService {
@@ -53,5 +55,13 @@ public class SimulationOrderServiceImpl implements SimulationOrderService {
     @Override
     public void listProcesses() {
 
+    }
+
+    @Override
+    public SimulationOrder getNewOrder() {
+        SimulationOrder order = new SimulationOrder();
+        Collection<ParameterDefinition> parameterDefinitions = getParametersConfiguration().getParameterDefinitions();
+        order.setEmptyParametersFromDefinitions(parameterDefinitions);
+        return order;
     }
 }

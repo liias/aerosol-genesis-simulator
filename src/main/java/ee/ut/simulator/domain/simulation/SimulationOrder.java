@@ -1,8 +1,11 @@
 package ee.ut.simulator.domain.simulation;
 
+import ee.ut.simulator.domain.simulation.parameter.ParameterDefinition;
+import org.apache.commons.collections.FactoryUtils;
+import org.apache.commons.collections.list.LazyList;
+
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class SimulationOrder {
@@ -16,13 +19,15 @@ public class SimulationOrder {
     private Set<SimulationProcess> processes = new HashSet<SimulationProcess>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "simulationOrder")
-    private Set<SimulationOrderParameter> parameters = new HashSet<SimulationOrderParameter>();
+    private List<SimulationOrderParameter> parameters = LazyList.decorate(new ArrayList<SimulationOrderParameter>(), FactoryUtils.instantiateFactory(SimulationOrderParameter.class));
 
-    public Set<SimulationOrderParameter> getParameters() {
+    //private Set<SimulationOrderParameter> parameters = new HashSet<SimulationOrderParameter>();
+
+    public List<SimulationOrderParameter> getParameters() {
         return parameters;
     }
 
-    public void setParameters(Set<SimulationOrderParameter> parameters) {
+    public void setParameters(List<SimulationOrderParameter> parameters) {
         this.parameters = parameters;
     }
 
@@ -44,5 +49,16 @@ public class SimulationOrder {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public void setEmptyParametersFromDefinitions(Collection<ParameterDefinition> definitions) {
+        for (ParameterDefinition definition : definitions) {
+            SimulationOrderParameter simulationOrderParameter = new SimulationOrderParameter();
+            simulationOrderParameter.setSimulationOrder(this);
+            simulationOrderParameter.setName(definition.getId());
+            simulationOrderParameter.setLabel(definition.getLabel());
+            simulationOrderParameter.setDescription(definition.getDescription());
+            getParameters().add(simulationOrderParameter);
+        }
     }
 }

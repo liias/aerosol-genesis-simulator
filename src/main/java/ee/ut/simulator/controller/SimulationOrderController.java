@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.Map;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/order")
@@ -23,18 +23,26 @@ public class SimulationOrderController {
     @Autowired
     private SimulationProcessService simulationProcessService;
 
-    @RequestMapping("/order")
-    public String order(Map<String, Object> map) {
-        map.put("parameters", simulationOrderService.getParametersConfiguration().getParameterDefinitions());
+    @Valid
+    @ModelAttribute("simulationOrder")
+    public SimulationOrder getSimulationOrder() {
+        return simulationOrderService.getNewOrder();
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public String edit(@ModelAttribute("simulationOrder") SimulationOrder simulationOrder) {
         return "simulation/order";
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(@ModelAttribute("order") SimulationOrder order, BindingResult result) {
-        simulationOrderService.add(order);
-        return "redirect:/order";
+    @RequestMapping(value = "add", method = RequestMethod.POST)
+    public String submit(@ModelAttribute("simulationOrder") SimulationOrder simulationOrder, BindingResult result) {
+        if (result.hasErrors()) {
+            return "simulation/order";
+        } else {
+            simulationOrderService.add(simulationOrder);
+            return "redirect:/order";
+        }
     }
-
 
     @RequestMapping("/orderlist/{orderId}")
     public String listProcessesForOrder(@PathVariable("orderId") long orderId) {

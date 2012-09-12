@@ -16,4 +16,6 @@ public interface SimulationOrderService {
     public void add(SimulationOrder order);
 
     void listProcesses();
+
+    public SimulationOrder getNewOrder();
 }

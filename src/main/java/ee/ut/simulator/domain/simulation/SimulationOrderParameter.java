@@ -1,9 +1,6 @@
 package ee.ut.simulator.domain.simulation;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 /**
  * Will produce SimulationProcessParameters.
@@ -12,12 +9,15 @@ import javax.persistence.Transient;
 @Entity
 public class SimulationOrderParameter {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @ManyToOne
+    @JoinColumn(name = "simulationOrderId")
     private SimulationOrder simulationOrder;
 
     //Used in BurstSimulator I/O files
+    //must be same as ParameterDefinition id
     private String name;
 
     //Short description
@@ -32,11 +32,11 @@ public class SimulationOrderParameter {
     private float min;
     private float max;
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -94,5 +94,19 @@ public class SimulationOrderParameter {
 
     public void setMax(float max) {
         this.max = max;
+    }
+
+    @Override
+    public String toString() {
+        return "SimulationOrderParameter{" +
+                "id=" + id +
+                ", simulationOrder=" + simulationOrder +
+                ", name='" + name + '\'' +
+                ", label='" + label + '\'' +
+                ", description='" + description + '\'' +
+                ", value=" + value +
+                ", min=" + min +
+                ", max=" + max +
+                '}';
     }
 }
