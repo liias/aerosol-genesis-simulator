@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
+
+
+    <context:annotation-config/>
+    <!-- The controllers are autodetected POJOs labeled with the @Controller annotation. -->
+    <context:component-scan base-package="ee.ut.simulator" use-default-filters="false">
+        <context:include-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
+    </context:component-scan>
+
+    <!-- Turns on support for mapping requests to Spring MVC @Controller methods -->
+    <mvc:annotation-driven/>
+
+    <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources -->
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+    <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/view/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!-- Allows for mapping the DispatcherServlet to "/" by forwarding static resource
+    requests to the container's default Servlet -->
+    <!-- <mvc:default-servlet-handler/> -->
+    <mvc:default-servlet-handler default-servlet-name="myServlet" />
+
+    <!-- Selects a static view for rendering without the need for an explicit controller -->
+    <!--  <mvc:view-controller path="/" view-name="vision"/>
+    <mvc:view-controller path="/uncaughtException"/>
+    <mvc:view-controller path="/resourceNotFound"/>
+    <mvc:view-controller path="/dataAccessFailure"/>     -->
+
+
+</beans>
