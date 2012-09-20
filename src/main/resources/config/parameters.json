@@ -1,0 +1,65 @@
+{"parametersGroups":[
+    {
+        "name":"General",
+        "definitions":[
+            {
+                "name":"time",
+                "label":"Time period under consideration (<= 1440)",
+                "minimumValue":0,
+                "maximumValue":10,
+                "step":1,
+                "unit":"min",
+                "type":"int"
+            },
+            {
+                "name":"nst",
+                "label":"Number of evolution steps in a minute (recommended 20...60)",
+                "minimumValue":0,
+                "maximumValue":10,
+                "step":1,
+                "type":"int"
+            },
+            {
+                "name":"acc",
+                "label":"Acceleration coefficient dd/dd_min, normal value is 1",
+                "minimumValue":0,
+                "maximumValue":10,
+                "step":1,
+                "type":"float"
+            } ,
+            {
+                "name":"t",
+                "label":"Air temperature",
+                "minimumValue":0,
+                "maximumValue":10,
+                "step":1,
+                "unit":"Celsius",
+                "type":"float"
+            },
+            {
+                "name":"p",
+                "label":"Air pressure",
+                "minimumValue":0,
+                "maximumValue":10,
+                "step":1,
+                "unit":"millibar",
+                "type":"float"
+            }
+        ]
+    }     ,
+    {
+        "name":"Ionization Parameters",
+        "definitions":[
+            {
+                "name":"I0",
+                "label":"Initial ionization rate",
+                "minimumValue":0,
+                "maximumValue":10,
+                "step":1,
+                "unit":"cm-3 s-1",
+                "hasForest":true
+            }
+        ]
+    }
+]
+}
