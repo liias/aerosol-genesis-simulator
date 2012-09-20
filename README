@@ -22,3 +22,7 @@ Definitions of Spring annotations and why they are needed in this code:
     @Transactional      Waits until everything in method is done before saving to database
     @Service            Says Spring that it's a bean what could be autowired.
     @Repository         For database communication
+
+
+Maven targets:
+    mvn package   Creates the big executable jar which has all the dependency jars inside
