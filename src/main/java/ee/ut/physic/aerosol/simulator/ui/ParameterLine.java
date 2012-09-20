@@ -20,11 +20,12 @@ public class ParameterLine extends JPanel {
         init();
     }
 
+    @SuppressWarnings("unchecked")
     public void init() {
         label = new JLabel();
         label.setText(parameterDefinition.getLabel());
         String[] values = parameterDefinition.getAllValues();
-        freeAirComboBox = new JComboBox<String>(values);
+        freeAirComboBox = new JComboBox(values);
         SpinnerModel model = new SpinnerNumberModel(0, parameterDefinition.getMinimumValue(), parameterDefinition.getMaximumValue(), parameterDefinition.getStep());
         freeAirMinSpinner = new JSpinner(model);
         freeAirMaxSpinner = new JSpinner(model);
@@ -33,7 +34,7 @@ public class ParameterLine extends JPanel {
         add(freeAirMinSpinner);
         add(freeAirMaxSpinner);
         if (parameterDefinition.isHasForest()) {
-            forestComboBox = new JComboBox<String>(values);
+            forestComboBox = new JComboBox(values);
             forestMinSpinner = new JSpinner(model);
             forestMaxSpinner = new JSpinner(model);
             add(forestComboBox);
