@@ -8,7 +8,7 @@ public class SimulationOrderParameter {
     private SimulationOrder simulationOrder;
 
     //Used in BurstSimulator I/O files
-    //must be same as ParameterDefinition id
+    //must be same as ParameterDefinition name
     private String name;
     private String label;
     private String description;

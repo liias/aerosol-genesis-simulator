@@ -11,7 +11,6 @@ public class SimulationOrder {
     private long id;
     private Set<SimulationProcess> simulationProcesses = new HashSet<SimulationProcess>();
     private Collection<SimulationOrderParameter> simulationOrderParameters = new ArrayList<SimulationOrderParameter>();
-//    private List<OrderParameter> parameters = LazyList.decorate(new ArrayList<OrderParameter>(), FactoryUtils.instantiateFactory(OrderParameter.class));
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIMU_ORDER_SEQ")
@@ -45,17 +44,6 @@ public class SimulationOrder {
     public void addProcess(SimulationProcess process) {
         getSimulationProcesses().add(process);
     }
-
-/*    public void setEmptyParametersFromDefinitions(Collection<ParameterDefinition> definitions) {
-        for (ParameterDefinition definition : definitions) {
-            SimulationOrderParameter simulationOrderParameter = new SimulationOrderParameter();
-            simulationOrderParameter.setSimulationOrder(this);
-            simulationOrderParameter.setName(definition.getName());
-            simulationOrderParameter.setLabel(definition.getLabel());
-            simulationOrderParameter.setDescription(definition.getDescription());
-            getSimulationOrderParameters().add(simulationOrderParameter);
-        }
-    }*/
 
     public void generateProcesses() {
         // TODO: Generate process from real info set form order
