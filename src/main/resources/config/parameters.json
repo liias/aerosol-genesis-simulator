@@ -7,7 +7,7 @@
                 "label":"Time period under consideration (<= 1440)",
                 "minimumValue":0,
                 "maximumValue":10,
-                "step":1,
+                "step":5,
                 "unit":"min",
                 "type":"int"
             },
@@ -17,6 +17,7 @@
                 "minimumValue":0,
                 "maximumValue":10,
                 "step":1,
+                "selectionValues":[20, 30, 99],
                 "type":"int"
             },
             {

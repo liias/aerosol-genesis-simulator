@@ -17,12 +17,13 @@ public class ParameterDefinition {
     private float minimumValue;
     private float maximumValue;
     private float step;
+    private List<Float> selectionValues;
     private String unit = "";
     private boolean hasForest = false;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PARAM_DEF_SEQ")
-    @SequenceGenerator(name = "PARAM_DEF_SEQ", sequenceName="PARAM_DEF_SEQ", allocationSize=1)
+    @SequenceGenerator(name = "PARAM_DEF_SEQ", sequenceName = "PARAM_DEF_SEQ", allocationSize = 1)
     public long getId() {
         return id;
     }
@@ -96,13 +97,30 @@ public class ParameterDefinition {
     }
 
     @Transient
+    public List<Float> getSelectionValues() {
+        return selectionValues;
+    }
+
+    public void setSelectionValues(List<Float> selectionValues) {
+        this.selectionValues = selectionValues;
+    }
+
+    @Transient
     public String[] getAllValues() {
-        float min = getMinimumValue();
-        float max = getMaximumValue();
-        float step = getStep();
         List<String> values = new ArrayList<String>();
-        for (Float value = min; value < max; value += step) {
-            values.add(value.toString());
+        List<Float> selectionValues = getSelectionValues();
+        if (selectionValues != null && !selectionValues.isEmpty()) {
+            for (Float value : selectionValues) {
+                values.add(value.toString());
+            }
+        } else {
+            float min = getMinimumValue();
+            float max = getMaximumValue();
+            float step = getStep();
+
+            for (Float value = min; value < max; value += step) {
+                values.add(value.toString());
+            }
         }
         return values.toArray(new String[values.size()]);
     }
