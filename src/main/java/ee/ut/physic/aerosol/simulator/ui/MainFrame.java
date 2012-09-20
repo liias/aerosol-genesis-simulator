@@ -14,7 +14,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         setTitle("Simple example");
-        setSize(300, 200);
+        setSize(600, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         LayoutManager layout = new GridBagLayout();
