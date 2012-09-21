@@ -1,11 +1,11 @@
 package ee.ut.physic.aerosol.simulator.service.simulation;
 
-import ee.ut.physic.aerosol.simulator.domain.simulation.*;
+import ee.ut.physic.aerosol.simulator.domain.simulation.ProcessExecuter;
+import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcess;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SimulationProcessServiceImpl implements SimulationProcessService {
-
     //returns true if succeeded
     public boolean start(SimulationProcess process) {
         System.out.println("starting process...");
