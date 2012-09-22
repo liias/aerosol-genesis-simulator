@@ -1,6 +1,9 @@
-package ee.ut.physic.aerosol.simulator.domain.simulation;
+package ee.ut.physic.aerosol.simulator.service.simulation;
 
 import ee.ut.physic.aerosol.simulator.Configuration;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,7 +11,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
-public class ProcessExecuter implements Runnable {
+@Service
+@Scope("prototype")
+@Lazy(value=true)
+public class SimulationProcessExecutionServiceImpl implements SimulationProcessExecutionService {
 
     @Override
     public void run() {

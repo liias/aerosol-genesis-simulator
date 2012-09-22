@@ -32,9 +32,7 @@ public class SimulationOrderServiceImpl implements SimulationOrderService {
         //TODO: call processes after last one is done
         //Just for testing
         SimulationProcess firstSimulationProcess = processes.iterator().next();
-        boolean is_succeeded = simulationProcessService.start(firstSimulationProcess);
-        if (is_succeeded) {
+        simulationProcessService.start(firstSimulationProcess);
 
-        }
     }
 }
