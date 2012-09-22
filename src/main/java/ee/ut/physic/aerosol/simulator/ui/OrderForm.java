@@ -16,6 +16,10 @@ import java.util.Collection;
 public class OrderForm extends JPanel {
     private Collection<ParametersGroupPaneWithTitle> parametersGroupPanesWithTitle = new ArrayList<ParametersGroupPaneWithTitle>();
 
+    private JTextField commentField;
+    private JSpinner numberOfProcessesSpinner;
+    private JButton simulateButton;
+
     @Autowired
     private SimulationOrderService simulationOrderService;
 
@@ -24,9 +28,9 @@ public class OrderForm extends JPanel {
         LayoutManager layout = new GridBagLayout();
         setLayout(layout);
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.weightx = 1.0;
+        constraints.weightx = 0.5;
         constraints.weighty = 1.0;
-        constraints.fill = GridBagConstraints.BOTH;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 0;
         constraints.anchor = GridBagConstraints.NORTHWEST;
         int i = 0;
@@ -37,15 +41,52 @@ public class OrderForm extends JPanel {
             add(parametersGroupPaneWithTitle, constraints);
             i++;
         }
+        JLabel commentLabel = new JLabel("Comment:");
+        commentField = createCommentField();
+        JLabel numberOfProcessesLabel = new JLabel("Number of simulations:");
+        numberOfProcessesSpinner = createNumberOfProcessesSpinner();
+        simulateButton = createSimulateButton();
+        constraints.gridx = 2;
+        constraints.gridy = 0;
+        add(commentLabel, constraints);
+        constraints.gridy = 1;
+        add(commentField, constraints);
+        constraints.gridy = 2;
+        add(numberOfProcessesLabel, constraints);
+        constraints.gridy = 3;
+        add(numberOfProcessesSpinner, constraints);
+        constraints.gridy = 4;
+        add(simulateButton, constraints);
+    }
 
+    private JTextField createCommentField() {
+        JTextField commentField = new JTextField();
+        Dimension minSize = new Dimension(200, 10);
+        commentField.setMinimumSize(minSize);
+        return commentField;
+    }
+
+    private JSpinner createNumberOfProcessesSpinner() {
+        SpinnerModel model = new SpinnerNumberModel(1, 1, 10, 1);
+        return new JSpinner(model);
+    }
+
+    private JButton createSimulateButton() {
         JButton simulateButton = new JButton("Simulate");
         simulateButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 simulate();
             }
         });
-        constraints.gridx = 2;
-        add(simulateButton, constraints);
+        return simulateButton;
+    }
+
+    public JTextField getCommentField() {
+        return commentField;
+    }
+
+    public JSpinner getNumberOfProcessesSpinner() {
+        return numberOfProcessesSpinner;
     }
 
     //When simulate button is pressed
@@ -58,8 +99,8 @@ public class OrderForm extends JPanel {
 
     public SimulationOrder createSimulationOrderWithData() {
         SimulationOrder simulationOrder = new SimulationOrder();
-        simulationOrder.setComment("test_comment");
-        simulationOrder.setNumberOfProcesses(2);
+        simulationOrder.setComment(getCommentField().getText());
+        simulationOrder.setNumberOfProcesses((Integer) getNumberOfProcessesSpinner().getValue());
         Collection<SimulationOrderParameter> simulationOrderParameters = new ArrayList<SimulationOrderParameter>();
         for (ParametersGroupPaneWithTitle parametersGroupPaneWithTitle : parametersGroupPanesWithTitle) {
             for (ParameterLine parameterLine : parametersGroupPaneWithTitle.getParameterLines()) {
