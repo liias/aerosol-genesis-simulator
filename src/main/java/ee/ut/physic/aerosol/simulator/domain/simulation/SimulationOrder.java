@@ -1,10 +1,9 @@
 package ee.ut.physic.aerosol.simulator.domain.simulation;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class SimulationOrder {
@@ -13,6 +12,7 @@ public class SimulationOrder {
     private Collection<SimulationOrderParameter> simulationOrderParameters = new ArrayList<SimulationOrderParameter>();
     private String comment;
     private int numberOfProcesses;
+    private Calendar createdAt;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIMU_ORDER_SEQ")
@@ -79,5 +79,18 @@ public class SimulationOrder {
 
     public void setNumberOfProcesses(int numberOfProcesses) {
         this.numberOfProcesses = numberOfProcesses;
+    }
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(style = "M-")
+    public Calendar getCreatedAt() {
+        if (createdAt == null) {
+            createdAt = new GregorianCalendar();
+        }
+        return createdAt;
+    }
+
+    public void setCreatedAt(Calendar createdAt) {
+        this.createdAt = createdAt;
     }
 }

@@ -1,6 +1,10 @@
 package ee.ut.physic.aerosol.simulator.domain.simulation;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,6 +14,7 @@ public class SimulationProcess {
     private SimulationOrder simulationOrder;
     private Set<SimulationResult> simulationResults = new HashSet<SimulationResult>();
     private Set<SimulationProcessParameter> simulationProcessParameters = new HashSet<SimulationProcessParameter>();
+    private Calendar createdAt;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIMU_PROCESS_SEQ")
@@ -51,5 +56,18 @@ public class SimulationProcess {
 
     public void addParameter(SimulationProcessParameter parameterSimulation) {
         getSimulationProcessParameters().add(parameterSimulation);
+    }
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(style = "M-")
+    public Calendar getCreatedAt() {
+        if (createdAt == null) {
+            createdAt = new GregorianCalendar();
+        }
+        return createdAt;
+    }
+
+    public void setCreatedAt(Calendar createdAt) {
+        this.createdAt = createdAt;
     }
 }
