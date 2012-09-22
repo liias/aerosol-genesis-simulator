@@ -1,6 +1,7 @@
 package ee.ut.physic.aerosol.simulator.service.simulation;
 
 import ee.ut.physic.aerosol.simulator.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,12 @@ import java.util.Properties;
 @Scope("prototype")
 @Lazy(value=true)
 public class SimulationProcessExecutionServiceImpl implements SimulationProcessExecutionService {
+
+    @Autowired
+    private SimulationProcessService simulationProcessService;
+
+    //@Autowired
+    //private ControlFileGenerationService controlFileGenerationService;
 
     @Override
     public void run() {
@@ -61,6 +68,7 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
         }
         int exitCode = process.exitValue();
         System.out.println("Exit code: " + exitCode);
+        simulationProcessService.setCompleted();
         //long endTime = System.currentTimeMillis();
         //jobManager.onExit(this);
     }
