@@ -48,29 +48,18 @@ public class OrderForm extends JPanel {
         add(simulateButton, constraints);
     }
 
-    /*public Map<String, ParameterLine> gedtAllParameterLines() {
-        Map<String, ParameterLine> parameterLines = new HashMap<String, ParameterLine>();
-        for (ParametersGroupPaneWithTitle parametersGroupPaneWithTitle : parametersGroupPanesWithTitle) {
-            for (ParameterLine parameterLine : parametersGroupPaneWithTitle.getParameterLines()) {
-                String name = parameterLine.getParameterName();
-                parameterLines.put(name, parameterLine);
-            }
-        }
-        return parameterLines;
-    }*/
-
     //When simulate button is pressed
     public void simulate() {
         //Execute when button is pressed
         System.out.println("Simulate called");
-        SimulationOrder simulationOrder = generateOrder();
+        SimulationOrder simulationOrder = createSimulationOrderWithData();
         simulationOrderService.simulate(simulationOrder);
-        //simulationOrderService
-        // order.generateProcesses();
     }
 
-    public SimulationOrder generateOrder() {
+    public SimulationOrder createSimulationOrderWithData() {
         SimulationOrder simulationOrder = new SimulationOrder();
+        simulationOrder.setComment("test_comment");
+        simulationOrder.setNumberOfProcesses(2);
         Collection<SimulationOrderParameter> simulationOrderParameters = new ArrayList<SimulationOrderParameter>();
         for (ParametersGroupPaneWithTitle parametersGroupPaneWithTitle : parametersGroupPanesWithTitle) {
             for (ParameterLine parameterLine : parametersGroupPaneWithTitle.getParameterLines()) {

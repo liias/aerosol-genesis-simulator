@@ -11,6 +11,8 @@ public class SimulationOrder {
     private long id;
     private Set<SimulationProcess> simulationProcesses = new HashSet<SimulationProcess>();
     private Collection<SimulationOrderParameter> simulationOrderParameters = new ArrayList<SimulationOrderParameter>();
+    private String comment;
+    private int numberOfProcesses;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIMU_ORDER_SEQ")
@@ -48,7 +50,6 @@ public class SimulationOrder {
     public void generateProcesses() {
         // TODO: Generate process from real info set form order
         // There are 2 possibilities: random, or all possible, at first implement random (like it was in old app)
-        //order.getParameters()
         // TODO: number of simulationProcesses is selected in order, currently lets make only one
         SimulationProcess generatedProcess = new SimulationProcess();
         generatedProcess.setSimulationOrder(this);
@@ -62,5 +63,21 @@ public class SimulationOrder {
             generatedProcess.addParameter(simulationProcessParameter);
         }
         addProcess(generatedProcess);
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public int getNumberOfProcesses() {
+        return numberOfProcesses;
+    }
+
+    public void setNumberOfProcesses(int numberOfProcesses) {
+        this.numberOfProcesses = numberOfProcesses;
     }
 }
