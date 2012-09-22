@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SimulationProcessServiceImpl implements SimulationProcessService {
 
-    //TODO: Test if spring really creates new instance of SPEService every time
+    //Execution service is singleton. Is this will be a problem, consider this:
     //If not, apply this: http://stackoverflow.com/questions/7621920/scopeprototype-bean-scope-not-creating-new-bean
     @Autowired
     private SimulationProcessExecutionService simulationProcessExecutionService;

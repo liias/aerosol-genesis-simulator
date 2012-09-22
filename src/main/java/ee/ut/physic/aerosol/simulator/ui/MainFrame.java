@@ -28,7 +28,7 @@ public class MainFrame extends JFrame {
         ParametersConfiguration parametersConfiguration = Configuration.getInstance().getParametersConfiguration();
         Collection<ParametersGroup> parametersGroups = parametersConfiguration.getParametersGroups();
         OrderForm orderForm = new OrderForm(parametersGroups);
-        //TODO: Add auto-injection to all objects
+        //TODO: Add auto-injection to all objects, not only orderForm. Seems weird, maybe it's ok?
         long startTime = System.currentTimeMillis()/1000;
         ApplicationContextLoader loader = new ApplicationContextLoader();
         loader.load(orderForm, "META-INF/spring/beans.xml");

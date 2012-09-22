@@ -42,7 +42,6 @@ public class Configuration {
         this.burstAppProperties = burstAppProperties;
     }
 
-    //TODO: add separate step for manual input
     public void loadParametersConfiguration() {
         InputStream stream = getClass().getClassLoader().getResourceAsStream("config/parameters.json");
         Reader json = new InputStreamReader(stream);
