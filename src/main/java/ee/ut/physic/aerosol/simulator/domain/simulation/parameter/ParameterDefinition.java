@@ -20,6 +20,7 @@ public class ParameterDefinition {
     private List<Float> selectionValues;
     private String unit = "";
     private boolean hasForest = false;
+    private String valueType;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PARAM_DEF_SEQ")
@@ -103,6 +104,20 @@ public class ParameterDefinition {
 
     public void setSelectionValues(List<Float> selectionValues) {
         this.selectionValues = selectionValues;
+    }
+
+    /**
+     * If not specified, then default is float
+     */
+    public String getValueType() {
+        if (valueType == null) {
+            return "float";
+        }
+        return valueType;
+    }
+
+    public void setValueType(String valueType) {
+        this.valueType = valueType;
     }
 
     @Transient

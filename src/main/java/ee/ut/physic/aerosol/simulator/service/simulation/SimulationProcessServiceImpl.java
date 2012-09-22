@@ -13,13 +13,14 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
     private SimulationProcessExecutionService simulationProcessExecutionService;
 
     //Starts the task asynchronously, meaning return value has no real use
-    public void start(SimulationProcess process) {
+    public void start(final SimulationProcess process) {
         System.out.println("starting process...");
         //TODO: Generate and write burstcontrol.txt based on process parameters
 
         //Consider ScheduledExecutorService http://devlearnings.wordpress.com/2010/09/21/tip-use-scheduledexecutor-instead-of-thread-for-polling-or-infinite-loops/
         Thread thread = new Thread() {
             public void run() {
+                simulationProcessExecutionService.setSimulationProcess(process);
                 simulationProcessExecutionService.run();
             }
         };

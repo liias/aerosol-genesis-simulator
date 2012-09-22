@@ -1,6 +1,7 @@
 package ee.ut.physic.aerosol.simulator.service.simulation;
 
 import ee.ut.physic.aerosol.simulator.Configuration;
+import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
@@ -14,22 +15,36 @@ import java.util.Properties;
 
 @Service
 @Scope("prototype")
-@Lazy(value=true)
+@Lazy(value = true)
 public class SimulationProcessExecutionServiceImpl implements SimulationProcessExecutionService {
 
     @Autowired
     private SimulationProcessService simulationProcessService;
 
-    //@Autowired
-    //private ControlFileGenerationService controlFileGenerationService;
+    @Autowired
+    private ControlFileGenerationService controlFileGenerationService;
+
+    private SimulationProcess simulationProcess;
+
+    @Override
+    public SimulationProcess getSimulationProcess() {
+        return simulationProcess;
+    }
+
+    @Override
+    public void setSimulationProcess(SimulationProcess simulationProcess) {
+        this.simulationProcess = simulationProcess;
+    }
 
     @Override
     public void run() {
         Properties burstAppProperties = Configuration.getInstance().getBurstAppProperties();
         //long startTime = System.currentTimeMillis();
-        String path = burstAppProperties.getProperty("burstsimulator.path");
-        String fullPath = path + burstAppProperties.getProperty("burstsimulator.fileName");
-
+        String path = burstAppProperties.getProperty("burstapp.path");
+        String fullPath = path + burstAppProperties.getProperty("burstapp.fileName");
+        String configPath = path + burstAppProperties.getProperty("burstapp.configPath");
+        controlFileGenerationService.createContent(simulationProcess);
+        controlFileGenerationService.saveContentToPath(configPath);
         Process process;
         try {
             System.out.println(path);

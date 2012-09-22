@@ -9,7 +9,7 @@
                 "maximumValue":10,
                 "step":5,
                 "unit":"min",
-                "type":"int"
+                "valueType":"int"
             },
             {
                 "name":"nst",
@@ -18,15 +18,14 @@
                 "maximumValue":10,
                 "step":1,
                 "selectionValues":[20, 30, 99],
-                "type":"int"
+                "valueType":"int"
             },
             {
                 "name":"acc",
                 "label":"Acceleration coefficient dd/dd_min, normal value is 1",
                 "minimumValue":0,
                 "maximumValue":10,
-                "step":1,
-                "type":"float"
+                "step":1
             } ,
             {
                 "name":"t",
@@ -34,8 +33,7 @@
                 "minimumValue":0,
                 "maximumValue":10,
                 "step":1,
-                "unit":"Celsius",
-                "type":"float"
+                "unit":"Celsius"
             },
             {
                 "name":"p",
@@ -43,8 +41,7 @@
                 "minimumValue":0,
                 "maximumValue":10,
                 "step":1,
-                "unit":"millibar",
-                "type":"float"
+                "unit":"millibar"
             }
         ]
     }     ,
@@ -54,6 +51,15 @@
             {
                 "name":"I0",
                 "label":"Initial ionization rate",
+                "minimumValue":0,
+                "maximumValue":10,
+                "step":1,
+                "unit":"cm-3 s-1",
+                "hasForest":true
+            },
+            {
+                "name":"I1",
+                "label":"Halftime ionization rate",
                 "minimumValue":0,
                 "maximumValue":10,
                 "step":1,
