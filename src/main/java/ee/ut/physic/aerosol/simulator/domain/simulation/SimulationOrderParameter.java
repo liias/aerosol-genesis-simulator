@@ -126,10 +126,15 @@ public class SimulationOrderParameter {
         return getExactValueOrRandomBetweenMinMax(getForestValue(), getForestMin(), getForestMax());
     }
 
+    @Transient
+    public boolean isOnlyMinAndMaxSet(Float value, Float min, Float max) {
+        return value == null && min != null && max != null;
+    }
+
     //TODO: add integer support (can still return float, but with .0 precision)
     @Transient
     public Float getExactValueOrRandomBetweenMinMax(Float value, Float min, Float max) {
-        if (value == null) {
+        if (isOnlyMinAndMaxSet(value, min, max)) {
             value = new Random().nextFloat() * (max - min + 1) + min;
         }
         return value;

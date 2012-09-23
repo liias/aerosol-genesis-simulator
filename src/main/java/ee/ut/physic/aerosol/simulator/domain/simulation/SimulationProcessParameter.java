@@ -8,8 +8,8 @@ public class SimulationProcessParameter {
     private SimulationProcess simulationProcess;
     //Used in BurstSimulator I/O files
     private String name;
-    private float freeAirValue;
-    private float forestValue;
+    private Float freeAirValue;
+    private Float forestValue;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIMU_PROCESS_PARAM_SEQ")
@@ -39,19 +39,19 @@ public class SimulationProcessParameter {
         this.name = name;
     }
 
-    public float getFreeAirValue() {
+    public Float getFreeAirValue() {
         return freeAirValue;
     }
 
-    public void setFreeAirValue(float freeAirValue) {
+    public void setFreeAirValue(Float freeAirValue) {
         this.freeAirValue = freeAirValue;
     }
 
-    public float getForestValue() {
+    public Float getForestValue() {
         return forestValue;
     }
 
-    public void setForestValue(float forestValue) {
+    public void setForestValue(Float forestValue) {
         this.forestValue = forestValue;
     }
 }
