@@ -48,21 +48,34 @@ public class SimulationOrder {
     }
 
     public void generateProcesses() {
+        //generate process for numberOfProcesses times
+        for (int i = 0; i < getNumberOfProcesses(); i++) {
+            generateProcess();
+        }
+    }
+
+    public void generateProcess() {
         // TODO: Generate process from real info set form order
-        // There are 2 possibilities: random, or all possible, at first implement random (like it was in old app)
-        // TODO: number of simulationProcesses is selected in order, currently lets make only one
+        // There are 2 possibilities: random, or all possible, at first implement random
+        // (like it was in old app)
         SimulationProcess generatedProcess = new SimulationProcess();
         generatedProcess.setSimulationOrder(this);
         for (SimulationOrderParameter simulationOrderParameter : getSimulationOrderParameters()) {
-            SimulationProcessParameter simulationProcessParameter = new SimulationProcessParameter();
-            //currently assume only setting exact free air value (instead of min and max)
-            float freeAirValue = simulationOrderParameter.getFreeAirValue();
+            SimulationProcessParameter simulationProcessParameter = generateProcessParameterFromOrderParameter(simulationOrderParameter);
             simulationProcessParameter.setSimulationProcess(generatedProcess);
-            simulationProcessParameter.setName(simulationOrderParameter.getName());
-            simulationProcessParameter.setFreeAirValue(freeAirValue);
             generatedProcess.addParameter(simulationProcessParameter);
         }
         addProcess(generatedProcess);
+    }
+
+    public SimulationProcessParameter generateProcessParameterFromOrderParameter(SimulationOrderParameter simulationOrderParameter) {
+        SimulationProcessParameter simulationProcessParameter = new SimulationProcessParameter();
+        simulationProcessParameter.setName(simulationOrderParameter.getName());
+        Float freeAirValue = simulationOrderParameter.getFreeAirExactValueOrRandomBetweenMinMax();
+        simulationProcessParameter.setFreeAirValue(freeAirValue);
+        Float forestValue = simulationOrderParameter.getForestExactValueOrRandomBetweenMinMax();
+        simulationProcessParameter.setForestValue(forestValue);
+        return simulationProcessParameter;
     }
 
     public String getComment() {

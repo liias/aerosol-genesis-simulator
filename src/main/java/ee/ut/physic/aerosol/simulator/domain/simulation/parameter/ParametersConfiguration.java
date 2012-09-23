@@ -12,4 +12,14 @@ public class ParametersConfiguration {
     public void setParametersGroups(Collection<ParametersGroup> parametersGroups) {
         this.parametersGroups = parametersGroups;
     }
+
+    public ParameterDefinition getParameterByName(String name) {
+        for (ParametersGroup parametersGroup : getParametersGroups()) {
+            ParameterDefinition parameterDefinition = parametersGroup.getParameterByName(name);
+            if (parameterDefinition != null) {
+                return parameterDefinition;
+            }
+        }
+        return null;
+    }
 }

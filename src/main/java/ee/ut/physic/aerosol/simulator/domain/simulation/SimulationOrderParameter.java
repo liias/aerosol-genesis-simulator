@@ -1,6 +1,7 @@
 package ee.ut.physic.aerosol.simulator.domain.simulation;
 
 import javax.persistence.*;
+import java.util.Random;
 
 @Entity
 public class SimulationOrderParameter {
@@ -13,12 +14,12 @@ public class SimulationOrderParameter {
     private String label;
     private String description;
 
-    private float freeAirValue;
-    private float freeAirMin;
-    private float freeAirMax;
-    private float forestValue;
-    private float forestMin;
-    private float forestMax;
+    private Float freeAirValue;
+    private Float freeAirMin;
+    private Float freeAirMax;
+    private Float forestValue;
+    private Float forestMin;
+    private Float forestMax;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIMU_ORDER_PARAM_SEQ")
@@ -67,51 +68,70 @@ public class SimulationOrderParameter {
         this.description = description;
     }
 
-    public float getFreeAirValue() {
+    public Float getFreeAirValue() {
         return freeAirValue;
     }
 
-    public void setFreeAirValue(float freeAirValue) {
+    public void setFreeAirValue(Float freeAirValue) {
         this.freeAirValue = freeAirValue;
     }
 
-    public float getFreeAirMin() {
+    public Float getFreeAirMin() {
         return freeAirMin;
     }
 
-    public void setFreeAirMin(float freeAirMin) {
+    public void setFreeAirMin(Float freeAirMin) {
         this.freeAirMin = freeAirMin;
     }
 
-    public float getFreeAirMax() {
+    public Float getFreeAirMax() {
         return freeAirMax;
     }
 
-    public void setFreeAirMax(float freeAirMax) {
+    public void setFreeAirMax(Float freeAirMax) {
         this.freeAirMax = freeAirMax;
     }
 
-    public float getForestValue() {
+    public Float getForestValue() {
         return forestValue;
     }
 
-    public void setForestValue(float forestValue) {
+    public void setForestValue(Float forestValue) {
         this.forestValue = forestValue;
     }
 
-    public float getForestMin() {
+    public Float getForestMin() {
         return forestMin;
     }
 
-    public void setForestMin(float forestMin) {
+    public void setForestMin(Float forestMin) {
         this.forestMin = forestMin;
     }
 
-    public float getForestMax() {
+    public Float getForestMax() {
         return forestMax;
     }
 
-    public void setForestMax(float forestMax) {
+    public void setForestMax(Float forestMax) {
         this.forestMax = forestMax;
+    }
+
+    @Transient
+    public Float getFreeAirExactValueOrRandomBetweenMinMax() {
+        return getExactValueOrRandomBetweenMinMax(getFreeAirValue(), getFreeAirMin(), getFreeAirMax());
+    }
+
+    @Transient
+    public Float getForestExactValueOrRandomBetweenMinMax() {
+        return getExactValueOrRandomBetweenMinMax(getForestValue(), getForestMin(), getForestMax());
+    }
+
+    //TODO: add integer support (can still return float, but with .0 precision)
+    @Transient
+    public Float getExactValueOrRandomBetweenMinMax(Float value, Float min, Float max) {
+        if (value == null) {
+            value = new Random().nextFloat() * (max - min + 1) + min;
+        }
+        return value;
     }
 }

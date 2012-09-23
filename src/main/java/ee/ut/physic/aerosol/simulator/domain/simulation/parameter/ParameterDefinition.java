@@ -16,7 +16,9 @@ public class ParameterDefinition {
 
     private float minimumValue;
     private float maximumValue;
+    //The step for combobox
     private float step;
+    //If set, use these values instead of step-based
     private List<Float> selectionValues;
     private String unit = "";
     private boolean hasForest = false;

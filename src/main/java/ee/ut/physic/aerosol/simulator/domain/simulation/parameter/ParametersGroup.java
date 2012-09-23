@@ -21,4 +21,13 @@ public class ParametersGroup {
     public void setDefinitions(Collection<ParameterDefinition> definitions) {
         this.definitions = definitions;
     }
+
+    public ParameterDefinition getParameterByName(String name) {
+        for (ParameterDefinition parameterDefinition : getDefinitions()) {
+            if (parameterDefinition.getName().equals(name)) {
+                return parameterDefinition;
+            }
+        }
+        return null;
+    }
 }
