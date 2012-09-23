@@ -1,6 +1,7 @@
 package ee.ut.physic.aerosol.simulator.domain.simulation;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.*;
@@ -8,11 +9,12 @@ import java.util.*;
 @Entity
 public class SimulationOrder {
     private long id;
-    private Set<SimulationProcess> simulationProcesses = new HashSet<SimulationProcess>();
+    private List<SimulationProcess> simulationProcesses = new ArrayList<SimulationProcess>();
     private Collection<SimulationOrderParameter> simulationOrderParameters = new ArrayList<SimulationOrderParameter>();
     private String comment;
     private int numberOfProcesses;
     private Calendar createdAt;
+    private int numberOfFinishedProcesses = 0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIMU_ORDER_SEQ")
@@ -35,11 +37,11 @@ public class SimulationOrder {
     }
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "simulationOrder")
-    public Set<SimulationProcess> getSimulationProcesses() {
+    public List<SimulationProcess> getSimulationProcesses() {
         return simulationProcesses;
     }
 
-    public void setSimulationProcesses(Set<SimulationProcess> simulationProcesses) {
+    public void setSimulationProcesses(List<SimulationProcess> simulationProcesses) {
         this.simulationProcesses = simulationProcesses;
     }
 
@@ -105,5 +107,27 @@ public class SimulationOrder {
 
     public void setCreatedAt(Calendar createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public int getNumberOfFinishedProcesses() {
+        return numberOfFinishedProcesses;
+    }
+
+    public void setNumberOfFinishedProcesses(int numberOfFinishedProcesses) {
+        this.numberOfFinishedProcesses = numberOfFinishedProcesses;
+    }
+
+    public void incrementNumberOfFinishedProcesses() {
+        setNumberOfFinishedProcesses(getNumberOfFinishedProcesses() + 1);
+    }
+
+    @Transient
+    public SimulationProcess getNextNotStartedProcess() {
+        List<SimulationProcess> processes = getSimulationProcesses();
+        int nextProcessIndex = getNumberOfFinishedProcesses();
+        if (nextProcessIndex == getNumberOfProcesses()) {
+            return null;
+        }
+        return processes.get(nextProcessIndex);
     }
 }

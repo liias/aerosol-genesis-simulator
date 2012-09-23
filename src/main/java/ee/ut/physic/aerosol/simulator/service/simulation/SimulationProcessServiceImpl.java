@@ -1,8 +1,13 @@
 package ee.ut.physic.aerosol.simulator.service.simulation;
 
+import ee.ut.physic.aerosol.simulator.database.simulation.SimulationOrderDao;
+import ee.ut.physic.aerosol.simulator.database.simulation.SimulationProcessDao;
+import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrder;
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcess;
+import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcessState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SimulationProcessServiceImpl implements SimulationProcessService {
@@ -11,6 +16,12 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
     //If not, apply this: http://stackoverflow.com/questions/7621920/scopeprototype-bean-scope-not-creating-new-bean
     @Autowired
     private SimulationProcessExecutionService simulationProcessExecutionService;
+
+    @Autowired
+    private SimulationProcessDao simulationProcessDao;
+
+    @Autowired
+    private SimulationOrderDao simulationOrderDao;
 
     //Starts the task asynchronously, meaning return value has no real use
     public void start(final SimulationProcess process) {
@@ -28,15 +39,24 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
     }
 
     @Override
-    public void setFailed() {
-
+    public void setFailed(SimulationProcess process) {
+        process.setState(SimulationProcessState.FAILED);
+        process = simulationProcessDao.update(process);
     }
 
     //This is a callback method
     @Override
-    public void setCompleted() {
+    @Transactional
+    public void setCompleted(SimulationProcess process) {
+        //process.setState(SimulationProcessState.FINISHED);
+        //process = simulationProcessDao.update(process);
+        SimulationOrder order = process.getSimulationOrder();
+        order.incrementNumberOfFinishedProcesses();
+        order = simulationOrderDao.update(order);
         System.out.println("COMPLETED NOW");
-        //TODO: set SimulationProcess state to completed and persist the state
-        //TODO: call next order
+        SimulationProcess nextProcess = order.getNextNotStartedProcess();
+        if (nextProcess != null) {
+            start(nextProcess);
+        }
     }
 }

@@ -15,6 +15,7 @@ public class SimulationProcess {
     private Set<SimulationResult> simulationResults = new HashSet<SimulationResult>();
     private Set<SimulationProcessParameter> simulationProcessParameters = new HashSet<SimulationProcessParameter>();
     private Calendar createdAt;
+    private SimulationProcessState state = SimulationProcessState.NOT_STARTED;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIMU_PROCESS_SEQ")
@@ -69,5 +70,14 @@ public class SimulationProcess {
 
     public void setCreatedAt(Calendar createdAt) {
         this.createdAt = createdAt;
+    }
+
+    @Enumerated
+    public SimulationProcessState getState() {
+        return state;
+    }
+
+    public void setState(SimulationProcessState state) {
+        this.state = state;
     }
 }

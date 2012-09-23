@@ -15,4 +15,9 @@ public class SimulationOrderDaoImpl implements SimulationOrderDao {
     public void add(SimulationOrder order) {
         entityManager.persist(order);
     }
+
+    @Override
+    public SimulationOrder update(SimulationOrder order) {
+        return entityManager.merge(order);
+    }
 }

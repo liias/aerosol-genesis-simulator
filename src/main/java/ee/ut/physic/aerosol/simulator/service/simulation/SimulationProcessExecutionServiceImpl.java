@@ -2,6 +2,7 @@ package ee.ut.physic.aerosol.simulator.service.simulation;
 
 import ee.ut.physic.aerosol.simulator.Configuration;
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcess;
+import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcessState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
@@ -38,6 +39,7 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
 
     @Override
     public void run() {
+        getSimulationProcess().setState(SimulationProcessState.FINISHED);
         Properties burstAppProperties = Configuration.getInstance().getBurstAppProperties();
         //long startTime = System.currentTimeMillis();
         String path = burstAppProperties.getProperty("burstapp.path");
@@ -83,8 +85,8 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
         }
         int exitCode = process.exitValue();
         System.out.println("Exit code: " + exitCode);
-        simulationProcessService.setCompleted();
+
+        simulationProcessService.setCompleted(simulationProcess);
         //long endTime = System.currentTimeMillis();
-        //jobManager.onExit(this);
     }
 }
