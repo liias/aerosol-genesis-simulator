@@ -37,16 +37,21 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
         this.simulationProcess = simulationProcess;
     }
 
+    public void createControlFile(String configPath) {
+        controlFileGenerationService.createContent(simulationProcess);
+        controlFileGenerationService.saveContentToPath(configPath);
+    }
+
     @Override
     public void run() {
-        getSimulationProcess().setState(SimulationProcessState.FINISHED);
+        getSimulationProcess().setState(SimulationProcessState.RUNNING);
         Properties burstAppProperties = Configuration.getInstance().getBurstAppProperties();
         //long startTime = System.currentTimeMillis();
         String path = burstAppProperties.getProperty("burstapp.path");
         String fullPath = path + burstAppProperties.getProperty("burstapp.fileName");
         String configPath = path + burstAppProperties.getProperty("burstapp.configPath");
-        controlFileGenerationService.createContent(simulationProcess);
-        controlFileGenerationService.saveContentToPath(configPath);
+        createControlFile(configPath);
+
         Process process;
         try {
             System.out.println(path);
