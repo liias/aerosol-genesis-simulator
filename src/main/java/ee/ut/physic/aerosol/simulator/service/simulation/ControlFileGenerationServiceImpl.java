@@ -39,6 +39,7 @@ public class ControlFileGenerationServiceImpl implements ControlFileGenerationSe
         /*  create a context and add data */
         VelocityContext context = new VelocityContext();
         context.put("id", simulationProcess.getId());
+        context.put("output_filename", "simulation_output");
         /* now render the template into a StringWriter */
         StringWriter writer = new StringWriter();
         t.merge(context, writer);

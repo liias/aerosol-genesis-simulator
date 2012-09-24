@@ -3,6 +3,8 @@ package ee.ut.physic.aerosol.simulator.service.simulation;
 import ee.ut.physic.aerosol.simulator.Configuration;
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcess;
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcessState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
@@ -18,6 +20,8 @@ import java.util.Properties;
 @Scope("prototype")
 @Lazy(value = true)
 public class SimulationProcessExecutionServiceImpl implements SimulationProcessExecutionService {
+
+    final Logger logger = LoggerFactory.getLogger(SimulationProcessExecutionServiceImpl.class);
 
     @Autowired
     private SimulationProcessService simulationProcessService;
@@ -54,7 +58,7 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
 
         Process process;
         try {
-            System.out.println(path);
+            logger.debug("Path for app is {}", path);
             String[] command = {fullPath};
             ProcessBuilder builder = new ProcessBuilder(command);
             builder.redirectErrorStream();
@@ -70,7 +74,7 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
         String line;
         try {
             while ((line = input.readLine()) != null) {
-                System.out.println(line);
+                logger.debug(line);
                 if ((line.startsWith("Press ENTER for exit"))) {
                     break;
                 }
@@ -89,7 +93,7 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
             e.printStackTrace();
         }
         int exitCode = process.exitValue();
-        System.out.println("Exit code: " + exitCode);
+        logger.debug("Burst Simulator exit code: {}", exitCode);
 
         simulationProcessService.setCompleted(simulationProcess);
         //long endTime = System.currentTimeMillis();

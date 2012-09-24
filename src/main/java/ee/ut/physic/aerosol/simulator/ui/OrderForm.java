@@ -4,6 +4,8 @@ import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrder;
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrderParameter;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParametersGroup;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationOrderService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
@@ -14,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class OrderForm extends JPanel {
+    final Logger logger = LoggerFactory.getLogger(OrderForm.class);
+
     private Collection<ParametersGroupPaneWithTitle> parametersGroupPanesWithTitle = new ArrayList<ParametersGroupPaneWithTitle>();
 
     private JTextField commentField;
@@ -92,7 +96,7 @@ public class OrderForm extends JPanel {
     //When simulate button is pressed
     public void simulate() {
         //Execute when button is pressed
-        System.out.println("Simulate called");
+        logger.debug("Simulate button pressed");
         SimulationOrder simulationOrder = createSimulationOrderWithData();
         simulationOrderService.simulate(simulationOrder);
     }

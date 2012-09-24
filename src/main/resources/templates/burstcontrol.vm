@@ -80,7 +80,7 @@
 5 #min: Duration of a time interval in the output table, 58
 1 #min: Unit of time in the output table, 59:unit
 0 #: Delimiter in the signature file 0) gap 1) tab 2) comma, 60
-ht_burst : The name for the output files. NB: without extension, no gaps! 61
+$output_filename : The name for the output files. NB: without extension, no gaps! 61
 === RANKS OF VARIABLES AND SUBTABLES (RANK 0 = SKIP VARIABLE) ===
 0 #: Free air positive nucleation rate, 62:J+a
 0 #: Free air negative nucleation rate, 63:J-a
