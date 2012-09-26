@@ -1,6 +1,7 @@
 package ee.ut.physic.aerosol.simulator.service.simulation;
 
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcess;
+import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcessParameter;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -40,6 +41,11 @@ public class ControlFileGenerationServiceImpl implements ControlFileGenerationSe
         VelocityContext context = new VelocityContext();
         context.put("id", simulationProcess.getId());
         context.put("output_filename", "simulation_output");
+
+        for (SimulationProcessParameter parameter : simulationProcess.getSimulationProcessParameters()) {
+            context.put(parameter.getName(), parameter.getControlLineValue());
+        }
+
         /* now render the template into a StringWriter */
         StringWriter writer = new StringWriter();
         t.merge(context, writer);

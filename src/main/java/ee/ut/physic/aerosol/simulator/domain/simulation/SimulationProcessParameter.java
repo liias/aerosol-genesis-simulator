@@ -54,4 +54,21 @@ public class SimulationProcessParameter {
     public void setForestValue(Float forestValue) {
         this.forestValue = forestValue;
     }
+
+    //TODO: Maybe should get it from definition, as forest value being null might be error instead
+    // and it really should need forest value. But calling the definition every time seems a bit expensive,
+    // if we plan to move definitions to db
+    @Transient
+    public boolean hasForestValue() {
+        return forestValue != null;
+    }
+
+    @Transient
+    public String getControlLineValue() {
+        String controlLineValue = getFreeAirValue().toString();
+        if (hasForestValue()) {
+            controlLineValue += "/" + getForestValue();
+        }
+        return controlLineValue;
+    }
 }

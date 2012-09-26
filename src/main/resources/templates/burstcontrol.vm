@@ -13,7 +13,7 @@
 === where the first is valid in the free air and the second in the forest.
 = Full instruction is available as a separate document.
 ===========================================================================
-20 #min : Time period under consideration (<= 1440), 1
+$time #min : Time period under consideration (<= 1440), 1
 40 #: Number of evolution steps in a minute (recommended 20...60), 2:nst
 2 : Acceleration coefficient dd/dd_min, normal value is 1, 3:acc
 -24 Celsius: Air temperature, 4:t
