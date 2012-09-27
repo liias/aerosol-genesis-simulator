@@ -29,15 +29,8 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
     //Starts the task asynchronously, meaning return value has no real use
     public void start(final SimulationProcess process) {
         logger.info("Process start called");
-        //TODO: Generate and write burstcontrol.txt based on process parameters
-
-        //Consider ScheduledExecutorService http://devlearnings.wordpress.com/2010/09/21/tip-use-scheduledexecutor-instead-of-thread-for-polling-or-infinite-loops/
-        Thread thread = new Thread() {
-            public void run() {
-                simulationProcessExecutionService.setSimulationProcess(process);
-                simulationProcessExecutionService.run();
-            }
-        };
+        simulationProcessExecutionService.setSimulationProcess(process);
+        Thread thread = new Thread(simulationProcessExecutionService);
         thread.start();
     }
 
@@ -51,6 +44,7 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
     @Override
     @Transactional
     public void setCompleted(SimulationProcess process) {
+        //TODO: does it also save process to db when saving order?
         //process.setState(SimulationProcessState.FINISHED);
         //process = simulationProcessDao.update(process);
         SimulationOrder order = process.getSimulationOrder();

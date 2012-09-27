@@ -1,7 +1,6 @@
 package ee.ut.physic.aerosol.simulator.domain.simulation;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.*;
@@ -123,11 +122,11 @@ public class SimulationOrder {
 
     @Transient
     public SimulationProcess getNextNotStartedProcess() {
-        List<SimulationProcess> processes = getSimulationProcesses();
         int nextProcessIndex = getNumberOfFinishedProcesses();
         if (nextProcessIndex == getNumberOfProcesses()) {
             return null;
         }
+        List<SimulationProcess> processes = getSimulationProcesses();
         return processes.get(nextProcessIndex);
     }
 }
