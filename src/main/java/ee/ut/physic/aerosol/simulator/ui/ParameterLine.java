@@ -108,8 +108,7 @@ public class ParameterLine extends JPanel {
     }
 
     public SimulationOrderParameter getOrderParameter() {
-        SimulationOrderParameter simulationOrderParameter = new SimulationOrderParameter();
-        simulationOrderParameter.setName(getParameterDefinition().getName());
+        SimulationOrderParameter simulationOrderParameter = new SimulationOrderParameter(getParameterDefinition());
         //TODO: Try casting to Float instead of String
         //TODO: shorten the code
         Float freeAirValue = Float.parseFloat((String) getFreeAirComboBox().getSelectedItem());

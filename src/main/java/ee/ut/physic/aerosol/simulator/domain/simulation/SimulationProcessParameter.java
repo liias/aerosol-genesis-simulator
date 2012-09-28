@@ -1,5 +1,7 @@
 package ee.ut.physic.aerosol.simulator.domain.simulation;
 
+import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParameterDefinition;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +12,18 @@ public class SimulationProcessParameter {
     private String name;
     private Float freeAirValue;
     private Float forestValue;
+    private ParameterDefinition definition;
+
+    public SimulationProcessParameter() {
+    }
+
+    public SimulationProcessParameter(ParameterDefinition definition) throws IllegalArgumentException {
+        if (definition == null) {
+            throw new IllegalArgumentException("Parameter definition does not exist!");
+        }
+        this.definition = definition;
+        setName(definition.getName());
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIMU_PROCESS_PARAM_SEQ")
@@ -55,6 +69,15 @@ public class SimulationProcessParameter {
         this.forestValue = forestValue;
     }
 
+    @Transient
+    public ParameterDefinition getDefinition() {
+        return definition;
+    }
+
+    public void setDefinition(ParameterDefinition definition) {
+        this.definition = definition;
+    }
+
     //TODO: Maybe should get it from definition, as forest value being null might be error instead
     // and it really should need forest value. But calling the definition every time seems a bit expensive,
     // if we plan to move definitions to db
@@ -63,11 +86,19 @@ public class SimulationProcessParameter {
         return forestValue != null;
     }
 
+    public String getValueStringBasedOnType(Float floatValue) {
+        if ("int".equals(getDefinition().getValueType())) {
+            int intVal = floatValue.intValue();
+            return Integer.toString(intVal);
+        }
+        return floatValue.toString();
+    }
+
     @Transient
     public String getControlLineValue() {
-        String controlLineValue = getFreeAirValue().toString();
+        String controlLineValue = getValueStringBasedOnType(getFreeAirValue());
         if (hasForestValue()) {
-            controlLineValue += "/" + getForestValue();
+            controlLineValue += "/" + getValueStringBasedOnType(getForestValue());
         }
         return controlLineValue;
     }

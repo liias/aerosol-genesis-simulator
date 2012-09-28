@@ -1,5 +1,7 @@
 package ee.ut.physic.aerosol.simulator.domain.simulation;
 
+import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParameterDefinition;
+
 import javax.persistence.*;
 import java.util.Random;
 
@@ -20,6 +22,16 @@ public class SimulationOrderParameter {
     private Float forestValue;
     private Float forestMin;
     private Float forestMax;
+    private ParameterDefinition definition;
+
+
+    public SimulationOrderParameter() {
+    }
+
+    public SimulationOrderParameter(ParameterDefinition definition) {
+        this.definition = definition;
+        setName(definition.getName());
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIMU_ORDER_PARAM_SEQ")
@@ -117,6 +129,15 @@ public class SimulationOrderParameter {
     }
 
     @Transient
+    public ParameterDefinition getDefinition() {
+        return definition;
+    }
+
+    public void setDefinition(ParameterDefinition definition) {
+        this.definition = definition;
+    }
+
+    @Transient
     public Float getFreeAirExactValueOrRandomBetweenMinMax() {
         return getExactValueOrRandomBetweenMinMax(getFreeAirValue(), getFreeAirMin(), getFreeAirMax());
     }
@@ -138,5 +159,14 @@ public class SimulationOrderParameter {
             value = new Random().nextFloat() * (max - min + 1) + min;
         }
         return value;
+    }
+
+    public SimulationProcessParameter generateProcessParameter() {
+        SimulationProcessParameter simulationProcessParameter = new SimulationProcessParameter(getDefinition());
+        Float freeAirValue = getFreeAirExactValueOrRandomBetweenMinMax();
+        simulationProcessParameter.setFreeAirValue(freeAirValue);
+        Float forestValue = getForestExactValueOrRandomBetweenMinMax();
+        simulationProcessParameter.setForestValue(forestValue);
+        return simulationProcessParameter;
     }
 }

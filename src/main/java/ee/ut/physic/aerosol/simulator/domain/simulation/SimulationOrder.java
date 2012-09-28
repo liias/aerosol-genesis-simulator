@@ -1,5 +1,7 @@
 package ee.ut.physic.aerosol.simulator.domain.simulation;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -7,6 +9,7 @@ import java.util.*;
 
 @Entity
 public class SimulationOrder {
+    final Logger logger = LoggerFactory.getLogger(SimulationOrder.class);
     private long id;
     private List<SimulationProcess> simulationProcesses = new ArrayList<SimulationProcess>();
     private Collection<SimulationOrderParameter> simulationOrderParameters = new ArrayList<SimulationOrderParameter>();
@@ -51,7 +54,11 @@ public class SimulationOrder {
     public void generateProcesses() {
         //generate process for numberOfProcesses times
         for (int i = 0; i < getNumberOfProcesses(); i++) {
-            generateProcess();
+            try {
+                generateProcess();
+            } catch (IllegalArgumentException e) {
+                logger.error(e.getMessage());
+            }
         }
     }
 
@@ -62,21 +69,11 @@ public class SimulationOrder {
         SimulationProcess generatedProcess = new SimulationProcess();
         generatedProcess.setSimulationOrder(this);
         for (SimulationOrderParameter simulationOrderParameter : getSimulationOrderParameters()) {
-            SimulationProcessParameter simulationProcessParameter = generateProcessParameterFromOrderParameter(simulationOrderParameter);
+            SimulationProcessParameter simulationProcessParameter = simulationOrderParameter.generateProcessParameter();
             simulationProcessParameter.setSimulationProcess(generatedProcess);
             generatedProcess.addParameter(simulationProcessParameter);
         }
         addProcess(generatedProcess);
-    }
-
-    public SimulationProcessParameter generateProcessParameterFromOrderParameter(SimulationOrderParameter simulationOrderParameter) {
-        SimulationProcessParameter simulationProcessParameter = new SimulationProcessParameter();
-        simulationProcessParameter.setName(simulationOrderParameter.getName());
-        Float freeAirValue = simulationOrderParameter.getFreeAirExactValueOrRandomBetweenMinMax();
-        simulationProcessParameter.setFreeAirValue(freeAirValue);
-        Float forestValue = simulationOrderParameter.getForestExactValueOrRandomBetweenMinMax();
-        simulationProcessParameter.setForestValue(forestValue);
-        return simulationProcessParameter;
     }
 
     public String getComment() {
