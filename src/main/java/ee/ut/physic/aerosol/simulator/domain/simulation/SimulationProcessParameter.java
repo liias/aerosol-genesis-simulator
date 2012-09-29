@@ -84,9 +84,7 @@ public class SimulationProcessParameter implements Comparable<SimulationProcessP
         this.definition = definition;
     }
 
-    //TODO: Maybe should get it from definition, as forest value being null might be error instead
-    // and it really should need forest value. But calling the definition every time seems a bit expensive,
-    // if we plan to move definitions to db
+    //TODO: Maybe should get it from definition, as forest value being null might be error instead and it really should need forest value.
     @Transient
     public boolean hasForestValue() {
         return forestValue != null;
