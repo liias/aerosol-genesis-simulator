@@ -21,6 +21,9 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
     private SimulationProcessExecutionService simulationProcessExecutionService;
 
     @Autowired
+    private SimulationResultService simulationResultService;
+
+    @Autowired
     private SimulationProcessDao simulationProcessDao;
 
     @Autowired
@@ -53,6 +56,9 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
         order.incrementNumberOfFinishedProcesses();
         order = simulationOrderDao.update(order);
         logger.info("setCompleted callback called");
+
+        simulationResultService.addResultsForProcess(process);
+
         SimulationProcess nextProcess = order.getNextNotStartedProcess();
         if (nextProcess != null) {
             start(nextProcess);
