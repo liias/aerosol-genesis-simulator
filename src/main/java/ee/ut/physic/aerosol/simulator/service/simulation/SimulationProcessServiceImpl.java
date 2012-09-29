@@ -32,6 +32,8 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
         simulationProcessExecutionService.setSimulationProcess(process);
         Thread thread = new Thread(simulationProcessExecutionService);
         thread.start();
+        logger.debug("new thread started");
+        // I think now the old thread stops
     }
 
     @Override

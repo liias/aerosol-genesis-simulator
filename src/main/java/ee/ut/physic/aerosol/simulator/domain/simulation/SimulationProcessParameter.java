@@ -1,5 +1,6 @@
 package ee.ut.physic.aerosol.simulator.domain.simulation;
 
+import ee.ut.physic.aerosol.simulator.Configuration;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParameterDefinition;
 
 import javax.persistence.*;
@@ -71,6 +72,11 @@ public class SimulationProcessParameter {
 
     @Transient
     public ParameterDefinition getDefinition() {
+        // If the definition reference is gone e.g because the parameter was just received from db
+        // or whatever reason then get it again from configuration (no worries, it's still fast)
+        if (definition == null) {
+            definition = Configuration.getInstance().getDefinitionByName(getName());
+        }
         return definition;
     }
 

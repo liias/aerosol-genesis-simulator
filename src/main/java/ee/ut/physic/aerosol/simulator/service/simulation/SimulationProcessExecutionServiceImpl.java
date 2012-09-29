@@ -74,7 +74,7 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
         String line;
         try {
             while ((line = input.readLine()) != null) {
-                logger.debug(line);
+                logger.info(line);
                 if ((line.startsWith("Press ENTER for exit"))) {
                     break;
                 }
@@ -85,12 +85,12 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.debug(e.getMessage());
         }
         try {
             input.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.debug(e.getMessage());
         }
         int exitCode = process.exitValue();
         logger.debug("Burst Simulator exit code: {}", exitCode);

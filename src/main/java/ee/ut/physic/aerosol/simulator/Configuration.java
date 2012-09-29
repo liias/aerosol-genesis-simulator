@@ -1,6 +1,7 @@
 package ee.ut.physic.aerosol.simulator;
 
 import com.google.gson.Gson;
+import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParameterDefinition;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParametersConfiguration;
 
 import java.io.IOException;
@@ -46,6 +47,7 @@ public class Configuration {
         InputStream stream = getClass().getClassLoader().getResourceAsStream("config/parameters.json");
         Reader json = new InputStreamReader(stream);
         ParametersConfiguration parametersConfiguration = new Gson().fromJson(json, ParametersConfiguration.class);
+        parametersConfiguration.buildDefinitionsByName();
         setParametersConfiguration(parametersConfiguration);
     }
 
@@ -59,5 +61,9 @@ public class Configuration {
             e.printStackTrace();
         }
         setBurstAppProperties(properties);
+    }
+
+    public ParameterDefinition getDefinitionByName(String name) {
+        return getParametersConfiguration().getParameterByName(name);
     }
 }
