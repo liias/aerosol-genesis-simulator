@@ -22,7 +22,8 @@ public class ParameterDefinition {
     private List<Float> selectionValues;
     private String unit = "";
     private boolean hasForest = false;
-    private String valueType;
+    // If not specified, then default is float
+    private String valueType = "float";
     private int lineNumber;
 
     @Id
@@ -117,13 +118,7 @@ public class ParameterDefinition {
         this.selectionValues = selectionValues;
     }
 
-    /**
-     * If not specified, then default is float
-     */
     public String getValueType() {
-        if (valueType == null) {
-            return "float";
-        }
         return valueType;
     }
 

@@ -20,27 +20,46 @@ public class ParameterLine extends JPanel {
         init();
     }
 
-    @SuppressWarnings("unchecked")
     public void init() {
-        label = new JLabel();
-        label.setText(parameterDefinition.getLabel());
-        String[] values = parameterDefinition.getAllValues();
-        freeAirComboBox = new JComboBox(values);
-        SpinnerModel model = new SpinnerNumberModel(0, parameterDefinition.getMinimumValue(), parameterDefinition.getMaximumValue(), parameterDefinition.getStep());
-        freeAirMinSpinner = new JSpinner(model);
-        freeAirMaxSpinner = new JSpinner(model);
+        createWidgets();
         add(label);
         add(freeAirComboBox);
         add(freeAirMinSpinner);
         add(freeAirMaxSpinner);
         if (parameterDefinition.isHasForest()) {
-            forestComboBox = new JComboBox(values);
-            forestMinSpinner = new JSpinner(model);
-            forestMaxSpinner = new JSpinner(model);
             add(forestComboBox);
             add(forestMinSpinner);
             add(forestMaxSpinner);
         }
+    }
+
+    private void createWidgets() {
+        label = new JLabel();
+        label.setText(parameterDefinition.getLabel());
+        String[] values = parameterDefinition.getAllValues();
+        freeAirComboBox = createComboBoxForValues(values);
+        freeAirMinSpinner = createSpinner();
+        freeAirMaxSpinner = createSpinner();
+        if (parameterDefinition.isHasForest()) {
+            forestComboBox = createComboBoxForValues(values);
+            forestMinSpinner = createSpinner();
+            forestMaxSpinner = createSpinner();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private JComboBox createComboBoxForValues(String[] values) {
+        JComboBox comboBox = new JComboBox();
+        comboBox.addItem("");
+        for (String value : values) {
+            comboBox.addItem(value);
+        }
+        return comboBox;
+    }
+
+    private JSpinner createSpinner() {
+        SpinnerModel model = new SpinnerNumberModel(0, parameterDefinition.getMinimumValue(), parameterDefinition.getMaximumValue(), parameterDefinition.getStep());
+        return new JSpinner(model);
     }
 
     public JComboBox getFreeAirComboBox() {
@@ -107,19 +126,28 @@ public class ParameterLine extends JPanel {
         this.label = label;
     }
 
+    // Returns null when nothing was selected
+    private Float getSelectedValue(JComboBox comboBox) {
+        String selectedValue = (String) comboBox.getSelectedItem();
+        Float value = null;
+        if (!selectedValue.isEmpty()) {
+            value = Float.parseFloat(selectedValue);
+        }
+        return value;
+    }
+
     public SimulationOrderParameter getOrderParameter() {
         SimulationOrderParameter simulationOrderParameter = new SimulationOrderParameter(getParameterDefinition());
-        //TODO: Try casting to Float instead of String
-        //TODO: shorten the code
-        Float freeAirValue = Float.parseFloat((String) getFreeAirComboBox().getSelectedItem());
+        Float freeAirValue = getSelectedValue(getFreeAirComboBox());
         simulationOrderParameter.setFreeAirValue(freeAirValue);
+        //TODO: shorten the code
         Float freeAirMin = new Float((Double) getFreeAirMinSpinner().getValue());
         simulationOrderParameter.setFreeAirMin(freeAirMin);
         Float freeAirMax = new Float((Double) getFreeAirMaxSpinner().getValue());
         simulationOrderParameter.setFreeAirMax(freeAirMax);
         if (parameterDefinition.isHasForest()) {
-            Float forestValue = Float.parseFloat((String) getForestComboBox().getSelectedItem());
-            simulationOrderParameter.setForestValue(forestValue);
+            Float forestValue = getSelectedValue(getForestComboBox());
+            simulationOrderParameter.setFreeAirValue(forestValue);
             Float forestMin = new Float((Double) getForestMinSpinner().getValue());
             simulationOrderParameter.setForestMin(forestMin);
             Float forestMax = new Float((Double) getForestMaxSpinner().getValue());
