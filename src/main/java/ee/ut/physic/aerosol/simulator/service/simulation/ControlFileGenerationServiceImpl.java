@@ -11,6 +11,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 @Service
@@ -24,6 +27,15 @@ public class ControlFileGenerationServiceImpl implements ControlFileGenerationSe
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public List<SimulationProcessParameter> getParametersOrderedByLineNumber(SimulationProcess simulationProcess) {
+        List<SimulationProcessParameter> orderedParameters = new ArrayList<SimulationProcessParameter>();
+        for (SimulationProcessParameter parameter : simulationProcess.getSimulationProcessParameters()) {
+            orderedParameters.add(parameter);
+        }
+        Collections.sort(orderedParameters);
+        return orderedParameters;
     }
 
     @Override
@@ -41,6 +53,7 @@ public class ControlFileGenerationServiceImpl implements ControlFileGenerationSe
         VelocityContext context = new VelocityContext();
         context.put("id", simulationProcess.getId());
         context.put("output_filename", "simulation_output");
+        context.put("parameters", getParametersOrderedByLineNumber(simulationProcess));
 
         for (SimulationProcessParameter parameter : simulationProcess.getSimulationProcessParameters()) {
             context.put(parameter.getName(), parameter.getControlLineValue());

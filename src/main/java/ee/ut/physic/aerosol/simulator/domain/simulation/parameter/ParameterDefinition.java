@@ -23,6 +23,7 @@ public class ParameterDefinition {
     private String unit = "";
     private boolean hasForest = false;
     private String valueType;
+    private int lineNumber;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PARAM_DEF_SEQ")
@@ -97,6 +98,14 @@ public class ParameterDefinition {
 
     public void setHasForest(boolean hasForest) {
         this.hasForest = hasForest;
+    }
+
+    public int getLineNumber() {
+        return lineNumber;
+    }
+
+    public void setLineNumber(int lineNumber) {
+        this.lineNumber = lineNumber;
     }
 
     @Transient

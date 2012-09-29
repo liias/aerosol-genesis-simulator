@@ -1,3 +1,4 @@
+#* @vtlvariable name="parameters" type="java.util.Set<ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcessParameter>" *#
 ======= BURSTCONTROL_DEMO.TXT for BURSTSIMULATOR version HT20060912 =======
 == process id is $id ==
 = The lines beginning with a symbol "=" in the first position and all lines
@@ -13,6 +14,12 @@
 === where the first is valid in the free air and the second in the forest.
 = Full instruction is available as a separate document.
 ===========================================================================
+
+== Generated values would look like that:
+#foreach($parameter in $parameters)
+== $parameter.controlLine
+#end
+
 $time #min : Time period under consideration (<= 1440), 1
 40 #: Number of evolution steps in a minute (recommended 20...60), 2:nst
 2 : Acceleration coefficient dd/dd_min, normal value is 1, 3:acc

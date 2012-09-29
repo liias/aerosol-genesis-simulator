@@ -6,7 +6,7 @@ import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParameterDefin
 import javax.persistence.*;
 
 @Entity
-public class SimulationProcessParameter {
+public class SimulationProcessParameter implements Comparable<SimulationProcessParameter> {
     private long id;
     private SimulationProcess simulationProcess;
     //Used in BurstSimulator I/O files
@@ -101,11 +101,60 @@ public class SimulationProcessParameter {
     }
 
     @Transient
+    public boolean isIntegerValue() {
+        return "int".equals(getDefinition().getValueType());
+    }
+
+    @Transient
+    public boolean isFloatValue() {
+        return "float".equals(getDefinition().getValueType());
+    }
+
+    @Transient
+    public String getUnit() {
+        return getDefinition().getUnit();
+    }
+
+    @Transient
+    public int getLineNumber() {
+        return getDefinition().getLineNumber();
+    }
+
+    @Transient
+    public String getLabel() {
+        return getDefinition().getLabel();
+    }
+
+    @Transient
     public String getControlLineValue() {
         String controlLineValue = getValueStringBasedOnType(getFreeAirValue());
         if (hasForestValue()) {
             controlLineValue += "/" + getValueStringBasedOnType(getForestValue());
         }
         return controlLineValue;
+    }
+
+    @Transient
+    public String getControlLine() {
+        String controlLine = getControlLineValue() + " ";
+        if (isIntegerValue()) {
+            controlLine += "#";
+        }
+        if (hasForestValue()) {
+            controlLine += "*";
+        }
+        controlLine += getUnit() + ": " + getLabel() + ", " + getLineNumber() + ":" + getName();
+        return controlLine;
+    }
+
+    @Override
+    public int compareTo(SimulationProcessParameter otherParameter) {
+        int otherLineNumber = otherParameter.getLineNumber();
+        if (getLineNumber() > otherLineNumber) {
+            return 1;
+        } else if (getLineNumber() < otherLineNumber) {
+            return -1;
+        }
+        return 0;
     }
 }

@@ -9,7 +9,8 @@
                 "maximumValue":10,
                 "step":5,
                 "unit":"min",
-                "valueType":"int"
+                "valueType":"int",
+                "lineNumber":1
             },
             {
                 "name":"nst",
@@ -18,14 +19,16 @@
                 "maximumValue":10,
                 "step":1,
                 "selectionValues":[20, 30, 99],
-                "valueType":"int"
+                "valueType":"int",
+                "lineNumber":2
             },
             {
                 "name":"acc",
                 "label":"Acceleration coefficient dd/dd_min, normal value is 1",
                 "minimumValue":0,
                 "maximumValue":10,
-                "step":1
+                "step":1,
+                "lineNumber":3
             } ,
             {
                 "name":"t",
@@ -33,7 +36,8 @@
                 "minimumValue":0,
                 "maximumValue":10,
                 "step":1,
-                "unit":"Celsius"
+                "unit":"Celsius",
+                "lineNumber":4
             },
             {
                 "name":"p",
@@ -41,7 +45,8 @@
                 "minimumValue":0,
                 "maximumValue":10,
                 "step":1,
-                "unit":"millibar"
+                "unit":"millibar",
+                "lineNumber":5
             }
         ]
     }     ,
@@ -55,7 +60,8 @@
                 "maximumValue":10,
                 "step":1,
                 "unit":"cm-3 s-1",
-                "hasForest":true
+                "hasForest":true,
+                "lineNumber":6
             },
             {
                 "name":"I1",
@@ -64,7 +70,8 @@
                 "maximumValue":10,
                 "step":1,
                 "unit":"cm-3 s-1",
-                "hasForest":true
+                "hasForest":true,
+                "lineNumber":7
             }
         ]
     }
