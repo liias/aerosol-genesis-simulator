@@ -4,10 +4,8 @@ import com.google.gson.Gson;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParameterDefinition;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParametersConfiguration;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
+import java.net.URLDecoder;
 import java.util.Properties;
 
 /**
@@ -65,5 +63,14 @@ public class Configuration {
 
     public ParameterDefinition getDefinitionByName(String name) {
         return getParametersConfiguration().getParameterByName(name);
+    }
+
+    public String getFullPath() {
+        String path = Configuration.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        try {
+            return URLDecoder.decode(path, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return path;
+        }
     }
 }

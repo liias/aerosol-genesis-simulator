@@ -54,6 +54,9 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
         String path = burstAppProperties.getProperty("burstapp.path");
         String fullPath = path + burstAppProperties.getProperty("burstapp.fileName");
         String configPath = path + burstAppProperties.getProperty("burstapp.configPath");
+
+        //String newFullPath = Configuration.getInstance().getFullPath();
+
         createControlFile(configPath);
 
         Process process;
