@@ -55,8 +55,8 @@ public class SimulationProcess {
         this.simulationProcessParameters = simulationProcessParameters;
     }
 
-    public void addParameter(SimulationProcessParameter parameterSimulation) {
-        getSimulationProcessParameters().add(parameterSimulation);
+    public void addParameter(SimulationProcessParameter parameter) {
+        getSimulationProcessParameters().add(parameter);
     }
 
     @Temporal(TemporalType.TIMESTAMP)
