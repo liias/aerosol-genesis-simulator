@@ -40,8 +40,4 @@ public class ParametersGroupPane extends JXCollapsiblePane {
     public Collection<ParameterLine> getParameterLines() {
         return parameterLines;
     }
-
-    public void setParameterLines(Collection<ParameterLine> parameterLines) {
-        this.parameterLines = parameterLines;
-    }
 }

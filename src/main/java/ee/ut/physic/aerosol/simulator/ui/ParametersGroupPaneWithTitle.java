@@ -40,16 +40,8 @@ public class ParametersGroupPaneWithTitle extends JPanel {
         return title;
     }
 
-    public void setTitle(JButton title) {
-        this.title = title;
-    }
-
     public ParametersGroup getParametersGroup() {
         return parametersGroup;
-    }
-
-    public void setParametersGroup(ParametersGroup parametersGroup) {
-        this.parametersGroup = parametersGroup;
     }
 
     public void createTitle() {

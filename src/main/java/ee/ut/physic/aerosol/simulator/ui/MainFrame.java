@@ -34,10 +34,11 @@ public class MainFrame extends JFrame {
         OrderForm orderForm = new OrderForm(parametersGroups);
         //TODO: Load Spring application context into some other object not orderForm?
         long startTime = System.currentTimeMillis() / 1000;
-        ApplicationContextLoader loader = new ApplicationContextLoader();
+        ApplicationContextLoader loader = ApplicationContextLoader.getInstance();
         loader.load(orderForm, "META-INF/spring/beans.xml");
         long endTime = System.currentTimeMillis() / 1000;
-        logger.debug("Spring context loading took {} seconds", endTime - startTime);
+        logger.info("Spring context loading took {} seconds", endTime - startTime);
         setContentPane(orderForm);
+        System.out.println("well");
     }
 }

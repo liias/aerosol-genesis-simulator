@@ -6,31 +6,18 @@ import javax.persistence.*;
 import java.util.Random;
 
 @Entity
-public class SimulationOrderParameter {
-    private long id;
+public class SimulationOrderParameter extends AbstractParameter {
     private SimulationOrder simulationOrder;
-
-    //Used in BurstSimulator I/O files
-    //must be same as ParameterDefinition name
-    private String name;
-    private String label;
-    private String description;
-
-    private Float freeAirValue;
     private Float freeAirMin;
     private Float freeAirMax;
-    private Float forestValue;
     private Float forestMin;
     private Float forestMax;
-    private ParameterDefinition definition;
-
 
     public SimulationOrderParameter() {
     }
 
-    public SimulationOrderParameter(ParameterDefinition definition) {
-        this.definition = definition;
-        setName(definition.getName());
+    public SimulationOrderParameter(ParameterDefinition definition) throws IllegalArgumentException {
+        super(definition);
     }
 
     @Id
@@ -38,10 +25,6 @@ public class SimulationOrderParameter {
     @SequenceGenerator(name = "SIMU_ORDER_PARAM_SEQ", sequenceName = "SIMU_ORDER_PARAM_SEQ", allocationSize = 1)
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     @ManyToOne
@@ -52,40 +35,6 @@ public class SimulationOrderParameter {
 
     public void setSimulationOrder(SimulationOrder simulationOrder) {
         this.simulationOrder = simulationOrder;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Transient
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    @Transient
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Float getFreeAirValue() {
-        return freeAirValue;
-    }
-
-    public void setFreeAirValue(Float freeAirValue) {
-        this.freeAirValue = freeAirValue;
     }
 
     public Float getFreeAirMin() {
@@ -104,14 +53,6 @@ public class SimulationOrderParameter {
         this.freeAirMax = freeAirMax;
     }
 
-    public Float getForestValue() {
-        return forestValue;
-    }
-
-    public void setForestValue(Float forestValue) {
-        this.forestValue = forestValue;
-    }
-
     public Float getForestMin() {
         return forestMin;
     }
@@ -126,15 +67,6 @@ public class SimulationOrderParameter {
 
     public void setForestMax(Float forestMax) {
         this.forestMax = forestMax;
-    }
-
-    @Transient
-    public ParameterDefinition getDefinition() {
-        return definition;
-    }
-
-    public void setDefinition(ParameterDefinition definition) {
-        this.definition = definition;
     }
 
     @Transient

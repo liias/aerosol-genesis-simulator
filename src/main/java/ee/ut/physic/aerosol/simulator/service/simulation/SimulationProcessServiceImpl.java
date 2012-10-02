@@ -30,7 +30,7 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
     private SimulationOrderDao simulationOrderDao;
 
     //Starts the task asynchronously, meaning return value has no real use
-    public void start(final SimulationProcess process) {
+    public void startInNewThread(final SimulationProcess process) {
         logger.info("Process start called");
         simulationProcessExecutionService.setSimulationProcess(process);
         Thread thread = new Thread(simulationProcessExecutionService);
@@ -61,7 +61,7 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
 
         SimulationProcess nextProcess = order.getNextNotStartedProcess();
         if (nextProcess != null) {
-            start(nextProcess);
+            startInNewThread(nextProcess);
         }
     }
 }

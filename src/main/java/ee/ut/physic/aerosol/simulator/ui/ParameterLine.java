@@ -22,6 +22,10 @@ public class ParameterLine extends JPanel {
 
     public void init() {
         createWidgets();
+        addWidgets();
+    }
+
+    private void addWidgets() {
         add(label);
         add(freeAirComboBox);
         add(freeAirMinSpinner);
@@ -66,64 +70,32 @@ public class ParameterLine extends JPanel {
         return freeAirComboBox;
     }
 
-    public void setFreeAirComboBox(JComboBox freeAirComboBox) {
-        this.freeAirComboBox = freeAirComboBox;
-    }
-
     public JComboBox getForestComboBox() {
         return forestComboBox;
-    }
-
-    public void setForestComboBox(JComboBox forestComboBox) {
-        this.forestComboBox = forestComboBox;
     }
 
     public JSpinner getFreeAirMinSpinner() {
         return freeAirMinSpinner;
     }
 
-    public void setFreeAirMinSpinner(JSpinner freeAirMinSpinner) {
-        this.freeAirMinSpinner = freeAirMinSpinner;
-    }
-
     public JSpinner getFreeAirMaxSpinner() {
         return freeAirMaxSpinner;
-    }
-
-    public void setFreeAirMaxSpinner(JSpinner freeAirMaxSpinner) {
-        this.freeAirMaxSpinner = freeAirMaxSpinner;
     }
 
     public JSpinner getForestMinSpinner() {
         return forestMinSpinner;
     }
 
-    public void setForestMinSpinner(JSpinner forestMinSpinner) {
-        this.forestMinSpinner = forestMinSpinner;
-    }
-
     public JSpinner getForestMaxSpinner() {
         return forestMaxSpinner;
-    }
-
-    public void setForestMaxSpinner(JSpinner forestMaxSpinner) {
-        this.forestMaxSpinner = forestMaxSpinner;
     }
 
     public ParameterDefinition getParameterDefinition() {
         return parameterDefinition;
     }
 
-    public void setParameterDefinition(ParameterDefinition parameterDefinition) {
-        this.parameterDefinition = parameterDefinition;
-    }
-
     public JLabel getLabel() {
         return label;
-    }
-
-    public void setLabel(JLabel label) {
-        this.label = label;
     }
 
     // Returns null when nothing was selected

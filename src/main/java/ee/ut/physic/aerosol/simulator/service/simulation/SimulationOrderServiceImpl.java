@@ -24,6 +24,6 @@ public class SimulationOrderServiceImpl implements SimulationOrderService {
     public void simulate(SimulationOrder simulationOrder) {
         simulationOrder.generateProcesses();
         simulationOrderDao.add(simulationOrder);
-        simulationProcessService.start(simulationOrder.getNextNotStartedProcess());
+        simulationProcessService.startInNewThread(simulationOrder.getNextNotStartedProcess());
     }
 }
