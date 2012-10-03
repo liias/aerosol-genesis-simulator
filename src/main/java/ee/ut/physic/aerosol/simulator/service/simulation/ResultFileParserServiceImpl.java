@@ -30,10 +30,14 @@ public class ResultFileParserServiceImpl implements ResultFileParserService {
     }
 
     private SimulationResult createSimulationResultFromLine(SimulationProcess process, String[] valueNames, String line) {
+        String[] values = line.split("\t");
+        int i = 0;
+
         SimulationResult result = new SimulationResult();
         result.setSimulationProcess(process);
-        int i = 0;
-        for (String value : line.split("\t")) {
+        Integer time = Integer.parseInt(values[0]);
+        result.setTime(time);
+        for (String value : values) {
             createResultValue(result, valueNames[i], value);
             i++;
         }

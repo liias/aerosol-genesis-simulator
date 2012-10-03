@@ -11,7 +11,7 @@ import java.util.Set;
 public class SimulationResult {
     private long id;
     private Date completionDate;
-
+    private Integer time;
     private SimulationProcess simulationProcess;
     private Set<SimulationResultValue> simulationResultValues = new HashSet<SimulationResultValue>();
 
@@ -39,6 +39,14 @@ public class SimulationResult {
 
     public void setCompletionDate(Date completionDate) {
         this.completionDate = completionDate;
+    }
+
+    public Integer getTime() {
+        return time;
+    }
+
+    public void setTime(Integer time) {
+        this.time = time;
     }
 
     @ManyToOne
