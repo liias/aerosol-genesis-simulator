@@ -21,7 +21,7 @@ import java.util.Properties;
 @Lazy(value = true)
 public class SimulationProcessExecutionServiceImpl implements SimulationProcessExecutionService {
 
-    final Logger logger = LoggerFactory.getLogger(SimulationProcessExecutionServiceImpl.class);
+    final Logger log = LoggerFactory.getLogger(SimulationProcessExecutionServiceImpl.class);
 
     @Autowired
     private SimulationProcessService simulationProcessService;
@@ -61,7 +61,7 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
 
         Process process;
         try {
-            logger.debug("Path for app is {}", path);
+            log.debug("Path for app is {}", path);
             String[] command = {fullPath};
             ProcessBuilder builder = new ProcessBuilder(command);
             builder.redirectErrorStream();
@@ -77,26 +77,29 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
         String line;
         try {
             while ((line = input.readLine()) != null) {
-                logger.info(line);
+                log.info(line);
                 if ((line.startsWith("Press ENTER for exit"))) {
                     break;
                 }
-                if (!line.isEmpty()) {
+                if (line.startsWith("simulation_output.xl exists")) {
+                	process.getOutputStream().write("y\n".getBytes());
+                	process.getOutputStream().flush();
+                } else if (!line.isEmpty()) {
                     // Just emulate pressing enter after each line
                     process.getOutputStream().write("\n".getBytes());
                     process.getOutputStream().flush();
                 }
             }
         } catch (IOException e) {
-            logger.debug(e.getMessage());
+            log.debug(e.getMessage());
         }
         try {
             input.close();
         } catch (IOException e) {
-            logger.debug(e.getMessage());
+            log.debug(e.getMessage());
         }
         int exitCode = process.exitValue();
-        logger.debug("Burst Simulator exit code: {}", exitCode);
+        log.debug("Burst Simulator exit code: {}", exitCode);
 
         simulationProcessService.setCompleted(simulationProcess);
         //long endTime = System.currentTimeMillis();

@@ -113,7 +113,7 @@ public class SimulationOrder {
         this.numberOfFinishedProcesses = numberOfFinishedProcesses;
     }
 
-    public void incrementNumberOfFinishedProcesses() {
+    public void increaseCountOfFinishedProcesses() {
         setNumberOfFinishedProcesses(getNumberOfFinishedProcesses() + 1);
     }
 

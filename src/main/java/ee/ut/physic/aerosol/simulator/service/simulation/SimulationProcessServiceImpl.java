@@ -49,11 +49,9 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
     @Override
     @Transactional
     public void setCompleted(SimulationProcess process) {
-        //TODO: does it also save process to db when saving order?
-        //process.setState(SimulationProcessState.FINISHED);
-        //process = simulationProcessDao.update(process);
+        process.setState(SimulationProcessState.FINISHED);
         SimulationOrder order = process.getSimulationOrder();
-        order.incrementNumberOfFinishedProcesses();
+        order.increaseCountOfFinishedProcesses();
         order = simulationOrderDao.update(order);
         logger.info("setCompleted callback called");
 
