@@ -1,10 +1,12 @@
 package ee.ut.physic.aerosol.simulator.service.simulation;
 
-public interface ResultFileParserService {
-    // reads in the file
-    void readResultFile();
+import java.io.BufferedReader;
+import java.util.Set;
 
-    //parses the content to something semantical. Should create SimulationResultValue from each item and add them to SimulationResult
-    // and add SimulationResult to SimulationProcess and then persist the result
-    void parseResultFile();
+import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcess;
+import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationResult;
+
+public interface ResultFileParserService {
+	Set<SimulationResult> parseResultFile(SimulationProcess process);
+    BufferedReader readResultFile();
 }

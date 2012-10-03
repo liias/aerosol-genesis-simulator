@@ -1,17 +1,29 @@
 package ee.ut.physic.aerosol.simulator.domain.simulation;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class SimulationResult {
     private long id;
-    private Calendar completionDate;
-    private SimulationProcess simulationProcess;
+    private Date completionDate;
+
+	private SimulationProcess simulationProcess;
     private Set<SimulationResultValue> simulationResultValues = new HashSet<SimulationResultValue>();
 
     @Id
@@ -25,19 +37,24 @@ public class SimulationResult {
         this.id = id;
     }
 
+    @PrePersist
+    protected void onCreate() {
+    	completionDate = new Date();
+    }
+    
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(style = "M-")
-    public Calendar getCompletionDate() {
-        return completionDate;
-    }
+    public Date getCompletionDate() {
+		return completionDate;
+	}
 
-    public void setCompletionDate(Calendar completionDate) {
-        this.completionDate = completionDate;
-    }
+	public void setCompletionDate(Date completionDate) {
+		this.completionDate = completionDate;
+	}
 
     @ManyToOne
     public SimulationProcess getSimulationProcess() {
-        return simulationProcess;
+    	return simulationProcess;
     }
 
     public void setSimulationProcess(SimulationProcess simulationProcess) {
