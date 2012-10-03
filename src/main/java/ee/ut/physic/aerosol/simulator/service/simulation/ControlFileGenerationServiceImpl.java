@@ -38,30 +38,28 @@ public class ControlFileGenerationServiceImpl implements ControlFileGenerationSe
         return orderedParameters;
     }
 
-    @Override
-    public void createContent(SimulationProcess simulationProcess) {
+    private Template getBurstControlTemplate() {
         Properties velocityProperties = new Properties();
         velocityProperties.put("resource.loader", "class");
-        velocityProperties.put("class.resource.loader.description", "Velocity Classpath Resource Loader");
         velocityProperties.put("class.resource.loader.class",
                 "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         VelocityEngine velocityEngine = new VelocityEngine();
         velocityEngine.init(velocityProperties);
-        /*  next, get the Template  */
-        Template t = velocityEngine.getTemplate("templates/burstcontrol.vm");
-        /*  create a context and add data */
+        return velocityEngine.getTemplate("templates/burstcontrol.vm");
+    }
+
+    @Override
+    public void createContent(SimulationProcess simulationProcess) {
         VelocityContext context = new VelocityContext();
         context.put("id", simulationProcess.getId());
         context.put("output_filename", "simulation_output");
         context.put("parameters", getParametersOrderedByLineNumber(simulationProcess));
-
         for (SimulationProcessParameter parameter : simulationProcess.getSimulationProcessParameters()) {
             context.put(parameter.getName(), parameter.getControlLineValue());
         }
-
-        /* now render the template into a StringWriter */
         StringWriter writer = new StringWriter();
-        t.merge(context, writer);
+        Template template = getBurstControlTemplate();
+        template.merge(context, writer);
         setContent(writer.toString());
     }
 
