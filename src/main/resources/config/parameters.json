@@ -73,6 +73,16 @@
                 "hasForest":true,
                 "lineNumber":7
             }
+             {
+                "name":"I2",
+                "label":"Final ionization rate",
+                "minimumValue":0,
+                "maximumValue":10,
+                "step":1,
+                "unit":"cm-3 s-1",
+                "hasForest":true,
+                "lineNumber":8
+            }
         ]
     }
 ]}
