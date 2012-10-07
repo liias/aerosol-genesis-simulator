@@ -65,11 +65,20 @@ public class ResultFileParserServiceImpl implements ResultFileParserService {
         return results;
     }
 
+    // number can be 1-999
+    private String resultFileNumberToFileName(int number) {
+        // with zero-padding with length 3
+        String numberAsString = String.format("%03d", number);
+        return "T" + numberAsString + ".xl";
+    }
+
     @Override
     public BufferedReader readResultFile() {
         Properties burstAppProperties = Configuration.getInstance().getBurstAppProperties();
         String path = burstAppProperties.getProperty("burstapp.path");
-        String fullPath = path + burstAppProperties.getProperty("burstapp.outputFile");
+        Integer resultFileNumber = 1;
+        String outputFilename = resultFileNumberToFileName(resultFileNumber);
+        String fullPath = path + outputFilename;
         try {
             FileInputStream stream = new FileInputStream(fullPath);
             DataInputStream in = new DataInputStream(stream);

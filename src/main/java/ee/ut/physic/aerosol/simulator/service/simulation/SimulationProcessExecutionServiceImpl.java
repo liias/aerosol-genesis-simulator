@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
+
 @Service
 @Scope("prototype")
 @Lazy(value = true)
@@ -46,6 +47,39 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
         controlFileGenerationService.saveContentToPath(configPath);
     }
 
+
+    private void writeToConsole(Process process, String text) throws IOException {
+        process.getOutputStream().write((text + "\n").getBytes());
+        process.getOutputStream().flush();
+    }
+
+    private void writeEnterToConsole(Process process) throws IOException {
+        writeToConsole(process, "");
+    }
+
+
+    // We can't use readLine() reliably, because Burstapp mostly calls write (instead of writeln) before read(),
+    // so there are not line ending and our readLine() will never end, because burstapp waits for input.
+    // We could read every character, but all these error messages are so different plain-text it's ugly.
+    // So we pre-fill buffer with:
+    // 1) the result file number
+    // 2) 5 newlines (simulates pressing ENTER, also suits for selecting y from y/n as y is default when only
+    //    ENTER is pressed). We can add extra ENTERs, these shouldn't be a problem.
+    //Normal lines wanting input (with our answer):
+    /*    Please write number 1..999 for output files: <1>
+        T001.xl exists, owerwrite (y/n)? <ENTER>
+        L001.txt exists, owerwrite (y/n)? <ENTER>
+        Press ENTER for exit! <ENTER>
+    */
+    private void preFillBurstAppInput(Process process, Integer fileNumber) throws IOException {
+        writeToConsole(process, fileNumber.toString());
+        writeEnterToConsole(process);
+        writeEnterToConsole(process);
+        writeEnterToConsole(process);
+        writeEnterToConsole(process);
+        writeEnterToConsole(process);
+    }
+
     @Override
     public void run() {
         getSimulationProcess().setState(SimulationProcessState.RUNNING);
@@ -54,11 +88,13 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
         String path = burstAppProperties.getProperty("burstapp.path");
         String fullPath = path + burstAppProperties.getProperty("burstapp.fileName");
         String configPath = path + burstAppProperties.getProperty("burstapp.configPath");
-
+        // Could be 1-999
+        Integer resultFileNumber = 1;
+        String uniqueSuccessLineStart = "Press ENTER for exit";
         //String newFullPath = Configuration.getInstance().getFullPath();
-
         createControlFile(configPath);
-
+        // I think it is currently singleton, so we could set Process process as a class field only when we wont run processes
+        // simultaneously
         Process process;
         try {
             log.debug("Path for app is {}", path);
@@ -75,33 +111,32 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
         //input of java, output of exe file
         BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
         String line;
+        boolean is_success = false;
         try {
+            preFillBurstAppInput(process, resultFileNumber);
             while ((line = input.readLine()) != null) {
-                log.info(line);
-                if ((line.startsWith("Press ENTER for exit"))) {
-                    break;
-                }
-                if (line.startsWith("simulation_output.xl exists")) {
-                	process.getOutputStream().write("y\n".getBytes());
-                	process.getOutputStream().flush();
-                } else if (!line.isEmpty()) {
-                    // Just emulate pressing enter after each line
-                    process.getOutputStream().write("\n".getBytes());
-                    process.getOutputStream().flush();
+                System.out.println(line);
+                if ((line.startsWith(uniqueSuccessLineStart))) {
+                    is_success = true;
                 }
             }
+            process.waitFor();
+            int exitCode = process.exitValue();
+            log.debug("Burst Simulator exit code: {}", exitCode);
         } catch (IOException e) {
             log.debug(e.getMessage());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         try {
             input.close();
         } catch (IOException e) {
             log.debug(e.getMessage());
         }
-        int exitCode = process.exitValue();
-        log.debug("Burst Simulator exit code: {}", exitCode);
-
-        simulationProcessService.setCompleted(simulationProcess);
-        //long endTime = System.currentTimeMillis();
+        if (is_success) {
+            simulationProcessService.setCompleted(simulationProcess);
+        } else {
+            simulationProcessService.setFailed(simulationProcess);
+        }
     }
 }
