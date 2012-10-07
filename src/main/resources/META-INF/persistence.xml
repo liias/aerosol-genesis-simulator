@@ -6,6 +6,7 @@
     <persistence-unit name="persistenceUnit">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <properties>
+            <!--<property name="hibernate.dialect" value="dialect.ImprovedSQLiteDialect"/>-->
             <property name="hibernate.dialect" value="dialect.ImprovedH2Dialect"/>
             <property name="hibernate.default_schema" value="ags" />
             <property name="hibernate.show_sql" value="true"/>

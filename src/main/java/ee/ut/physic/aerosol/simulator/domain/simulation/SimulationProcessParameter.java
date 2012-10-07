@@ -2,7 +2,9 @@ package ee.ut.physic.aerosol.simulator.domain.simulation;
 
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParameterDefinition;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class SimulationProcessParameter extends AbstractParameter {
@@ -13,13 +15,6 @@ public class SimulationProcessParameter extends AbstractParameter {
 
     public SimulationProcessParameter(ParameterDefinition definition) throws IllegalArgumentException {
         super(definition);
-    }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIMU_PROCESS_PARAM_SEQ")
-    @SequenceGenerator(name = "SIMU_PROCESS_PARAM_SEQ", sequenceName = "SIMU_PROCESS_PARAM_SEQ", allocationSize = 1)
-    public long getId() {
-        return id;
     }
 
     @ManyToOne

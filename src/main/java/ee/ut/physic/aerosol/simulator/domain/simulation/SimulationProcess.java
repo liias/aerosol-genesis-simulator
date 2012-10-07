@@ -18,8 +18,7 @@ public class SimulationProcess {
     private SimulationProcessState state = SimulationProcessState.NOT_STARTED;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIMU_PROCESS_SEQ")
-    @SequenceGenerator(name = "SIMU_PROCESS_SEQ", sequenceName = "SIMU_PROCESS_SEQ", allocationSize = 1)
+    @GeneratedValue
     public long getId() {
         return id;
     }

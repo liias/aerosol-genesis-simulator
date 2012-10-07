@@ -1,13 +1,4 @@
 package dialect;
-/*
- * The author disclaims copyright to this source code. In place of
- * a legal notice, here is a blessing:
- *
- * May you do good and not evil.
- * May you find forgiveness for yourself and forgive others.
- * May you share freely, never taking more than you give.
- *
- */
 
 import org.hibernate.dialect.Dialect;
 import org.hibernate.dialect.function.SQLFunctionTemplate;
@@ -17,8 +8,8 @@ import org.hibernate.type.StandardBasicTypes;
 
 import java.sql.Types;
 
-public class SQLiteDialect extends Dialect {
-    public SQLiteDialect() {
+public class ImprovedSQLiteDialect extends Dialect {
+    public ImprovedSQLiteDialect() {
         super();
         registerColumnType(Types.BIT, "integer");
         registerColumnType(Types.TINYINT, "tinyint");
@@ -44,15 +35,10 @@ public class SQLiteDialect extends Dialect {
         registerColumnType(Types.CLOB, "clob");
         registerColumnType(Types.BOOLEAN, "integer");
 
-
-        registerFunction("concat", new VarArgsSQLFunction(StandardBasicTypes.STRING, "",
-                "||", ""));
-        registerFunction("mod", new SQLFunctionTemplate(StandardBasicTypes.INTEGER,
-                "?1 % ?2"));
-        registerFunction("substr", new StandardSQLFunction("substr",
-                StandardBasicTypes.STRING));
-        registerFunction("substring", new StandardSQLFunction("substr",
-                StandardBasicTypes.STRING));
+        registerFunction("concat", new VarArgsSQLFunction(StandardBasicTypes.STRING, "", "||", ""));
+        registerFunction("mod", new SQLFunctionTemplate(StandardBasicTypes.INTEGER, "?1 % ?2"));
+        registerFunction("substr", new StandardSQLFunction("substr", StandardBasicTypes.STRING));
+        registerFunction("substring", new StandardSQLFunction("substr", StandardBasicTypes.STRING));
     }
 
     public boolean supportsIdentityColumns() {
@@ -60,23 +46,23 @@ public class SQLiteDialect extends Dialect {
     }
 
     /*
-      public boolean supportsInsertSelectIdentity() {
-      return true; // As specify in NHibernate dialect
-      }
-      */
+     public boolean supportsInsertSelectIdentity() {
+     return true; // As specify in NHibernate dialect
+     }
+     */
 
     public boolean hasDataTypeInIdentityColumn() {
         return false; // As specify in NHibernate dialect
     }
 
     /*
-      public String appendIdentitySelectToInsert(String insertString) {
-      return new StringBuffer(insertString.length()+30). // As specify in NHibernate dialect
-      append(insertString).
-      append("; ").append(getIdentitySelectString()).
-      toString();
-      }
-      */
+     public String appendIdentitySelectToInsert(String insertString) {
+     return new StringBuffer(insertString.length()+30). // As specify in NHibernate dialect
+     append(insertString).
+     append("; ").append(getIdentitySelectString()).
+     toString();
+     }
+     */
 
     public String getIdentityColumnString() {
         // return "integer primary key autoincrement";
@@ -92,7 +78,8 @@ public class SQLiteDialect extends Dialect {
     }
 
     public String getLimitString(String query, boolean hasOffset) {
-        return query + (hasOffset ? " limit ? offset ?" : " limit ?");
+        return new StringBuffer(query.length() + 20).append(query)
+                .append(hasOffset ? " limit ? offset ?" : " limit ?").toString();
     }
 
     public boolean supportsTemporaryTables() {
@@ -148,8 +135,8 @@ public class SQLiteDialect extends Dialect {
                 "No drop foreign key syntax supported by SQLiteDialect");
     }
 
-    public String getAddForeignKeyConstraintString(String constraintName,
-                                                   String[] foreignKey, String referencedTable, String[] primaryKey,
+    public String getAddForeignKeyConstraintString(String constraintName, String[] foreignKey,
+                                                   String referencedTable, String[] primaryKey,
                                                    boolean referencesPrimaryKey) {
         throw new UnsupportedOperationException(
                 "No add foreign key syntax supported by SQLiteDialect");

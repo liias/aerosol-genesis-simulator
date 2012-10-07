@@ -1,9 +1,13 @@
 package ee.ut.physic.aerosol.simulator.domain.simulation.parameter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
+// Dont actually use them in database at the moment (if ever will)
 @Entity
 public class ParameterDefinition {
     private long id;
@@ -27,8 +31,7 @@ public class ParameterDefinition {
     private int lineNumber;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PARAM_DEF_SEQ")
-    @SequenceGenerator(name = "PARAM_DEF_SEQ", sequenceName = "PARAM_DEF_SEQ", allocationSize = 1)
+    @GeneratedValue
     public long getId() {
         return id;
     }

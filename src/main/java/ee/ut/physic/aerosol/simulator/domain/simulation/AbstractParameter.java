@@ -3,6 +3,8 @@ package ee.ut.physic.aerosol.simulator.domain.simulation;
 import ee.ut.physic.aerosol.simulator.Configuration;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParameterDefinition;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
@@ -24,6 +26,12 @@ public abstract class AbstractParameter implements Comparable<AbstractParameter>
         }
         this.definition = definition;
         setName(definition.getName());
+    }
+
+    @Id
+    @GeneratedValue
+    public long getId() {
+        return id;
     }
 
     public void setId(long id) {

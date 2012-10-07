@@ -2,7 +2,10 @@ package ee.ut.physic.aerosol.simulator.domain.simulation;
 
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParameterDefinition;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import java.util.Random;
 
 @Entity
@@ -18,13 +21,6 @@ public class SimulationOrderParameter extends AbstractParameter {
 
     public SimulationOrderParameter(ParameterDefinition definition) throws IllegalArgumentException {
         super(definition);
-    }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIMU_ORDER_PARAM_SEQ")
-    @SequenceGenerator(name = "SIMU_ORDER_PARAM_SEQ", sequenceName = "SIMU_ORDER_PARAM_SEQ", allocationSize = 1)
-    public long getId() {
-        return id;
     }
 
     @ManyToOne

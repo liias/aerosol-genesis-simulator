@@ -16,8 +16,7 @@ public class SimulationResult {
     private Set<SimulationResultValue> simulationResultValues = new HashSet<SimulationResultValue>();
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIMU_RESULT_SEQ")
-    @SequenceGenerator(name = "SIMU_RESULT_SEQ", sequenceName = "SIMU_RESULT_SEQ", allocationSize = 1)
+    @GeneratedValue
     public long getId() {
         return id;
     }

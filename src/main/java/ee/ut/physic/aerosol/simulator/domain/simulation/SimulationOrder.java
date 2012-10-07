@@ -19,8 +19,7 @@ public class SimulationOrder {
     private int numberOfFinishedProcesses = 0;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIMU_ORDER_SEQ")
-    @SequenceGenerator(name = "SIMU_ORDER_SEQ", sequenceName = "SIMU_ORDER_SEQ", allocationSize = 1)
+    @GeneratedValue
     public long getId() {
         return id;
     }

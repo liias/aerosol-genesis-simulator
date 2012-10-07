@@ -1,6 +1,9 @@
 package ee.ut.physic.aerosol.simulator.domain.simulation;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class SimulationResultValue {
@@ -10,8 +13,7 @@ public class SimulationResultValue {
     private SimulationResult simulationResult;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SIMU_RESULT_VALUE_SEQ")
-    @SequenceGenerator(name = "SIMU_RESULT_VALUE_SEQ", sequenceName="SIMU_RESULT_VALUE_SEQ", allocationSize=1)
+    @GeneratedValue
     public long getId() {
         return id;
     }
@@ -29,21 +31,21 @@ public class SimulationResultValue {
         this.simulationResult = simulationResult;
     }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getValue() {
-		return value;
-	}
+    public String getValue() {
+        return value;
+    }
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+    public void setValue(String value) {
+        this.value = value;
+    }
 
 
 }
