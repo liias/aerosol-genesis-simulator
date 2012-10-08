@@ -356,7 +356,7 @@
                 "step":1,
                 "unit":"?^3",
                 "hasForest":false,
-                "lineNumber"34
+                "lineNumber":34
             },
              {
                 "name":"S2",
@@ -431,7 +431,7 @@
                 "step":1,
                 "unit":"nm",
                 "hasForest":false,
-                "lineNumber"41
+                "lineNumber":41
             },
              {
                 "name":"B2",
@@ -496,7 +496,7 @@
                 "step":1,
                 "unit":"m s-1",
                 "hasForest":false,
-                "lineNumber"47
+                "lineNumber":47
             },
              {
                 "name":"C2",
