@@ -20,18 +20,20 @@ public class MainFrame extends JFrame {
         URL iconUrl = getClass().getResource("/images/icon.png");
         setIconImage(Toolkit.getDefaultToolkit().getImage(iconUrl));
         setTitle("Aerosol Burst Simulator");
-        setSize(600, 400);
+        setSize(1024, 768);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        LayoutManager layout = new GridBagLayout();
+        LayoutManager layout = new BorderLayout();
         setLayout(layout);
         createForm();
+
     }
 
     public void createForm() {
         ParametersConfiguration parametersConfiguration = Configuration.getInstance().getParametersConfiguration();
         Collection<ParametersGroup> parametersGroups = parametersConfiguration.getParametersGroups();
         OrderForm orderForm = new OrderForm(parametersGroups);
+
         //TODO: Load Spring application context into some other object not orderForm?
         long startTime = System.currentTimeMillis() / 1000;
         ApplicationContextLoader loader = ApplicationContextLoader.getInstance();

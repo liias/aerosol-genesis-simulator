@@ -30,37 +30,55 @@ public class OrderForm extends JPanel {
     public OrderForm(Collection<ParametersGroup> parametersGroups) {
         //LayoutManager layout = new BorderLayout();
         LayoutManager layout = new GridBagLayout();
-        setLayout(layout);
+        JPanel paneel=new JPanel();
+        JPanel paneel2=new JPanel();
+        JPanel paneel3=new JPanel();
+        paneel.setLayout(layout);
+        paneel2.setLayout(layout);
+        paneel3.setLayout(layout);
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.weightx = 0.5;
-        constraints.weighty = 1.0;
+        constraints.weighty = 0.5;
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.gridx = 0;
+
         constraints.anchor = GridBagConstraints.NORTHWEST;
         int i = 0;
+        int j = 0;
         for (ParametersGroup parametersGroup : parametersGroups) {
             constraints.gridy = i;
             ParametersGroupPaneWithTitle parametersGroupPaneWithTitle = new ParametersGroupPaneWithTitle(parametersGroup);
             parametersGroupPanesWithTitle.add(parametersGroupPaneWithTitle);
-            add(parametersGroupPaneWithTitle, constraints);
-            i++;
+
+            if (j == 1) {
+                paneel2.add(parametersGroupPaneWithTitle, constraints);
+                j = 0;
+                i++;
+            } else {
+                paneel.add(parametersGroupPaneWithTitle, constraints);
+                j = 1;
+            }
         }
         JLabel commentLabel = new JLabel("Comment:");
         commentField = createCommentField();
         JLabel numberOfProcessesLabel = new JLabel("Number of simulations:");
         numberOfProcessesSpinner = createNumberOfProcessesSpinner();
         simulateButton = createSimulateButton();
-        constraints.gridx = 2;
+        constraints.weightx = 1.0;
+        constraints.weighty = 1.0;
+        constraints.gridx = 0;
         constraints.gridy = 0;
-        add(commentLabel, constraints);
-        constraints.gridy = 1;
-        add(commentField, constraints);
-        constraints.gridy = 2;
-        add(numberOfProcessesLabel, constraints);
-        constraints.gridy = 3;
-        add(numberOfProcessesSpinner, constraints);
-        constraints.gridy = 4;
-        add(simulateButton, constraints);
+        paneel3.add(commentLabel, constraints);
+        constraints.gridx = 1;
+        paneel3.add(commentField, constraints);
+        constraints.gridx = 5;
+        paneel3.add(numberOfProcessesLabel, constraints);
+        constraints.gridx = 6;
+        paneel3.add(numberOfProcessesSpinner, constraints);
+        constraints.gridx = 7;
+        paneel3.add(simulateButton, constraints);
+        add(paneel);
+        add(paneel2);
+        add(paneel3);
     }
 
     private JTextField createCommentField() {

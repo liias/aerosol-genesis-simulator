@@ -34,6 +34,7 @@ public class ParametersGroupPane extends JXCollapsiblePane {
             constraints.gridy = i;
             add(parameterLine, constraints);
             i++;
+
         }
     }
 
