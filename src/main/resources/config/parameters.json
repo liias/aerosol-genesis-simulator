@@ -51,7 +51,7 @@
         ]
     },
     {
-        "name":"PRESENTATION CONTROL",
+        "name":"Presentation control",
         "definitions":[
             {
                 "name":"P0",
@@ -436,7 +436,7 @@
         ]
     },
     {
-        "name":"PARAMETERS OF THE PRE-EXISTING BACKGROUND AEROSOL",
+        "name":"Parameters of the pre-existing background aerosol",
         "definitions":[
             {
                 "name":"B0",
@@ -501,7 +501,7 @@
         ]
     },
     {
-        "name":"PARAMETERS OF THE CONIFER FOREST",
+        "name":"Parameters of the conifer forest",
         "definitions":[
             {
                 "name":"C0",
