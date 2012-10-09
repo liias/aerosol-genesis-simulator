@@ -80,11 +80,19 @@ public class SimulationOrderParameter extends AbstractParameter {
         return value == null && min != null && max != null;
     }
 
-    //TODO: add integer support (can still return float, but with .0 precision)
     @Transient
     public Float getExactValueOrRandomBetweenMinMax(Float value, Float min, Float max) {
         if (isOnlyMinAndMaxSet(value, min, max)) {
-            value = new Random().nextFloat() * (max - min + 1) + min;
+            Random random = new Random();
+            if (isIntegerValue()) {
+                Integer minInteger = min.intValue();
+                Integer maxInteger = max.intValue();
+                //The lower limit is inclusive, but the upper limit is exclusive.
+                Integer intValue = random.nextInt(maxInteger - minInteger) + minInteger;
+                value = intValue.floatValue();
+            } else {
+                value = random.nextFloat() * (max - min) + min;
+            }
         }
         return value;
     }
