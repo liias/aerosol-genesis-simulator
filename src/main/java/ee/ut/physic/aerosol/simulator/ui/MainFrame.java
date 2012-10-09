@@ -15,7 +15,6 @@ import java.util.Collection;
 public class MainFrame extends JFrame {
     final Logger logger = LoggerFactory.getLogger(MainFrame.class);
 
-
     public MainFrame() {
         URL iconUrl = getClass().getResource("/images/icon.png");
         setIconImage(Toolkit.getDefaultToolkit().getImage(iconUrl));
@@ -26,7 +25,6 @@ public class MainFrame extends JFrame {
         LayoutManager layout = new BorderLayout();
         setLayout(layout);
         createForm();
-
     }
 
     public void createForm() {
@@ -34,14 +32,16 @@ public class MainFrame extends JFrame {
         Collection<ParametersGroup> parametersGroups = parametersConfiguration.getParametersGroups();
         OrderForm orderForm = new OrderForm(parametersGroups);
         JScrollPane scrollPane = new JScrollPane(orderForm);
+        setContentPane(scrollPane);
+        loadSpringApplicationContext(orderForm);
+        System.out.println("Aerosol Genesis Simulator started");
+    }
 
-        //TODO: Load Spring application context into some other object not orderForm?
+    private void loadSpringApplicationContext(Object object) {
         long startTime = System.currentTimeMillis() / 1000;
         ApplicationContextLoader loader = ApplicationContextLoader.getInstance();
-        loader.load(orderForm, "META-INF/spring/beans.xml");
+        loader.load(object, "META-INF/spring/beans.xml");
         long endTime = System.currentTimeMillis() / 1000;
         logger.info("Spring context loading took {} seconds", endTime - startTime);
-        setContentPane(scrollPane);
-        System.out.println("well");
     }
 }

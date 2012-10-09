@@ -25,6 +25,7 @@ public class ApplicationContextLoader {
     protected ConfigurableApplicationContext applicationContext;
 
     private static ApplicationContextLoader instance = new ApplicationContextLoader();
+
     public static ApplicationContextLoader getInstance() {
         return instance;
     }

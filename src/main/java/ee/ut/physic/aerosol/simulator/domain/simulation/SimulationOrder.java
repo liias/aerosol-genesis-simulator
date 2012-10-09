@@ -62,9 +62,6 @@ public class SimulationOrder {
     }
 
     public void generateProcess() {
-        // TODO: Generate process from real info set form order
-        // There are 2 possibilities: random, or all possible, at first implement random
-        // (like it was in old app)
         SimulationProcess generatedProcess = new SimulationProcess();
         generatedProcess.setSimulationOrder(this);
         for (SimulationOrderParameter simulationOrderParameter : getSimulationOrderParameters()) {

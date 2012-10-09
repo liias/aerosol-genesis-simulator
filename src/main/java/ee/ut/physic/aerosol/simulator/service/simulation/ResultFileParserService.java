@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.util.Set;
 
 public interface ResultFileParserService {
-	Set<SimulationResult> parseResultFile(SimulationProcess process);
+    Set<SimulationResult> parseResultFile(SimulationProcess process);
+
     BufferedReader readResultFile(Integer resultFileNumber);
 }

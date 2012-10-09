@@ -108,21 +108,24 @@ public class ParameterLine extends JPanel {
         return value;
     }
 
+    private Float getSpinnerValue(JSpinner spinner) {
+        return new Float((Double) spinner.getValue());
+    }
+
     public SimulationOrderParameter getOrderParameter() {
         SimulationOrderParameter simulationOrderParameter = new SimulationOrderParameter(getParameterDefinition());
         Float freeAirValue = getSelectedValue(getFreeAirComboBox());
         simulationOrderParameter.setFreeAirValue(freeAirValue);
-        //TODO: shorten the code
-        Float freeAirMin = new Float((Double) getFreeAirMinSpinner().getValue());
+        Float freeAirMin = getSpinnerValue(getFreeAirMinSpinner());
         simulationOrderParameter.setFreeAirMin(freeAirMin);
-        Float freeAirMax = new Float((Double) getFreeAirMaxSpinner().getValue());
+        Float freeAirMax = getSpinnerValue(getFreeAirMaxSpinner());
         simulationOrderParameter.setFreeAirMax(freeAirMax);
         if (parameterDefinition.isHasForest()) {
             Float forestValue = getSelectedValue(getForestComboBox());
             simulationOrderParameter.setFreeAirValue(forestValue);
-            Float forestMin = new Float((Double) getForestMinSpinner().getValue());
+            Float forestMin = getSpinnerValue(getForestMinSpinner());
             simulationOrderParameter.setForestMin(forestMin);
-            Float forestMax = new Float((Double) getForestMaxSpinner().getValue());
+            Float forestMax = getSpinnerValue(getForestMaxSpinner());
             simulationOrderParameter.setForestMax(forestMax);
         }
         return simulationOrderParameter;
