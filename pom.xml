@@ -232,10 +232,15 @@
     </dependencies>
     <distributionManagement>
         <repository>
-            <id>releases</id>
+            <id>nexus</id>
             <name>Internal Releases</name>
-            <url>http://ec2-54-246-2-243.eu-west-1.compute.amazonaws.com:8081/nexus/content/repositories/releases</url>
+            <url>http://ec2-54-246-2-243.eu-west-1.compute.amazonaws.com:8081/nexus/content/repositories/releases/</url>
         </repository>
+        <snapshotRepository>
+            <id>nexus</id>
+            <name>Internal Snapshots</name>
+            <url>http://ec2-54-246-2-243.eu-west-1.compute.amazonaws.com:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
     <repositories>
         <repository>
