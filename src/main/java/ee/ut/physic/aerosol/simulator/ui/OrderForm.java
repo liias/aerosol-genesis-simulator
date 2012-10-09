@@ -31,10 +31,12 @@ public class OrderForm extends JPanel {
         //LayoutManager layout = new BorderLayout();
         LayoutManager layout = new GridBagLayout();
         LayoutManager layout2 = new GridBagLayout();
-        setLayout(layout2);
+        LayoutManager mainman= new BorderLayout();
+        JPanel main = new JPanel();
         JPanel paneel=new JPanel();
         JPanel paneel2=new JPanel();
         JPanel paneel3=new JPanel();
+        main.setLayout(layout2);
         paneel.setLayout(layout);
         paneel2.setLayout(layout);
         paneel3.setLayout(layout);
@@ -137,13 +139,18 @@ public class OrderForm extends JPanel {
 
         constraints2.gridx=0;
         constraints2.gridy=0;
-        add(paneel,constraints2);
+        main.add(paneel, constraints2);
         constraints2.gridx=1;
-        add(paneel2,constraints2);
+        main.add(paneel2, constraints2);
         constraints2.gridx=0;
         constraints2.gridy=1;
         constraints2.gridwidth=2;
-        add(paneel3,constraints2);
+        main.add(paneel3, constraints2);
+        JScrollPane keri = new JScrollPane(main);
+        Dimension ScrollScreen = new Dimension(1024,740) ;
+        keri.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        keri.setPreferredSize(ScrollScreen);
+        add(keri);
     }
 
     private JTextField createCommentField() {
