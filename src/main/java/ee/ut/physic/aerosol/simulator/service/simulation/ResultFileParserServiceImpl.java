@@ -13,7 +13,6 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.HashSet;
-import java.util.Properties;
 import java.util.Set;
 
 @Service
@@ -49,7 +48,8 @@ public class ResultFileParserServiceImpl implements ResultFileParserService {
     public Set<SimulationResult> parseResultFile(SimulationProcess process) {
         Set<SimulationResult> results = new HashSet<SimulationResult>();
         try {
-            BufferedReader br = readResultFile();
+            Integer resultFileNumber = process.getResultFileNumber();
+            BufferedReader br = readResultFile(resultFileNumber);
             // Read first line from buffer
             String[] valueNames = br.readLine().split("\t");
             String line;
@@ -73,10 +73,8 @@ public class ResultFileParserServiceImpl implements ResultFileParserService {
     }
 
     @Override
-    public BufferedReader readResultFile() {
-        Properties burstAppProperties = Configuration.getInstance().getBurstAppProperties();
-        String path = burstAppProperties.getProperty("burstapp.path");
-        Integer resultFileNumber = 1;
+    public BufferedReader readResultFile(Integer resultFileNumber) {
+        String path = Configuration.getInstance().getBurstSimulatorDirPath();
         String outputFilename = resultFileNumberToFileName(resultFileNumber);
         String fullPath = path + outputFilename;
         try {

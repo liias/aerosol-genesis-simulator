@@ -37,6 +37,7 @@ Definitions of Spring annotations and why they are needed in this code:
 
 
 Maven targets:
-    mvn package     Creates the big executable jar which has all the dependency jars inside
+    mvn package     Creates executable jar
     mvn compile     Compiles from source
     mvn exec:exec   Starts the application
+    mvn install     Creates jar and copies all libraries to lib/ and binaries to etc/

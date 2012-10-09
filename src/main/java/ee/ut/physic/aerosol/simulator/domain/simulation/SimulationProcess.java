@@ -16,6 +16,7 @@ public class SimulationProcess {
     private Set<SimulationProcessParameter> simulationProcessParameters = new HashSet<SimulationProcessParameter>();
     private Calendar createdAt;
     private SimulationProcessState state = SimulationProcessState.NOT_STARTED;
+    private Integer resultFileNumber;
 
     @Id
     @GeneratedValue
@@ -78,5 +79,15 @@ public class SimulationProcess {
 
     public void setState(SimulationProcessState state) {
         this.state = state;
+    }
+
+    @Transient
+    public void setResultFileNumber(Integer resultFileNumber) {
+        this.resultFileNumber = resultFileNumber;
+    }
+
+    @Transient
+    public Integer getResultFileNumber() {
+        return resultFileNumber;
     }
 }

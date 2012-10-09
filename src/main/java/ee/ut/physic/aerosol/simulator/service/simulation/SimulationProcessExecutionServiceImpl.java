@@ -14,7 +14,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Properties;
 
 
 @Service
@@ -46,7 +45,6 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
         controlFileGenerationService.createContent(simulationProcess);
         controlFileGenerationService.saveContentToPath(configPath);
     }
-
 
     private void writeToConsole(Process process, String text) throws IOException {
         process.getOutputStream().write((text + "\n").getBytes());
@@ -82,17 +80,16 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
 
     @Override
     public void run() {
+        //TODO: update in db maybe
         getSimulationProcess().setState(SimulationProcessState.RUNNING);
-        Properties burstAppProperties = Configuration.getInstance().getBurstAppProperties();
-        //long startTime = System.currentTimeMillis();
-        String path = burstAppProperties.getProperty("burstapp.path");
-        String fullPath = path + burstAppProperties.getProperty("burstapp.fileName");
-        String configPath = path + burstAppProperties.getProperty("burstapp.configPath");
+
+        String path = Configuration.getInstance().getBurstSimulatorDirPath();
+        String fullPath = path + Configuration.getInstance().getBurstSimulatorFileName();
+        String configFilePath = path + "burstcontrol.txt";
         // Could be 1-999
-        Integer resultFileNumber = 1;
+        Integer resultFileNumber = getSimulationProcess().getResultFileNumber();
         String uniqueSuccessLineStart = "Press ENTER for exit";
-        //String newFullPath = Configuration.getInstance().getFullPath();
-        createControlFile(configPath);
+        createControlFile(configFilePath);
         // I think it is currently singleton, so we could set Process process as a class field only when we wont run processes
         // simultaneously
         Process process;

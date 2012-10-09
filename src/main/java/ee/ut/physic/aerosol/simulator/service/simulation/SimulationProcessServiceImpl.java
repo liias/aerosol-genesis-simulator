@@ -32,6 +32,7 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
     //Starts the task asynchronously, meaning return value has no real use
     public void startInNewThread(final SimulationProcess process) {
         logger.info("Process start called");
+        process.setResultFileNumber(1);
         simulationProcessExecutionService.setSimulationProcess(process);
         Thread thread = new Thread(simulationProcessExecutionService);
         thread.start();
@@ -42,10 +43,17 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
     @Override
     public void setFailed(SimulationProcess process) {
         process.setState(SimulationProcessState.FAILED);
-        process = simulationProcessDao.update(process);
+        SimulationOrder order = process.getSimulationOrder();
+        order.increaseCountOfFinishedProcesses();
+        order = simulationOrderDao.update(order);
+        logger.warn("setFailed callback called");
+        //TODO: Should we really try to execute the next process?
+        SimulationProcess nextProcess = order.getNextNotStartedProcess();
+        if (nextProcess != null) {
+            startInNewThread(nextProcess);
+        }
     }
 
-    //This is a callback method
     @Override
     @Transactional
     public void setCompleted(SimulationProcess process) {

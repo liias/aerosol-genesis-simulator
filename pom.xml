@@ -88,6 +88,35 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/etc</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>etc</directory>
+                                    <filtering>false</filtering>
+                                    <excludes>
+                                        <exclude>**/*.txt</exclude>
+                                        <exclude>**/*.xl</exclude>
+                                        <exclude>**/*.db</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
 
 
@@ -239,7 +268,8 @@
         <snapshotRepository>
             <id>nexus</id>
             <name>Internal Snapshots</name>
-            <url>http://ec2-54-246-2-243.eu-west-1.compute.amazonaws.com:8081/nexus/content/repositories/snapshots/</url>
+            <url>http://ec2-54-246-2-243.eu-west-1.compute.amazonaws.com:8081/nexus/content/repositories/snapshots/
+            </url>
         </snapshotRepository>
     </distributionManagement>
     <repositories>
