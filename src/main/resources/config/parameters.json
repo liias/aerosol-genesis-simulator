@@ -6,8 +6,8 @@
                 "name":"time",
                 "label":"Time period under consideration (<= 1440)",
                 "minimumValue":0,
-                "maximumValue":10,
-                "step":5,
+                "maximumValue":1440,
+                "step":25,
                 "unit":"min",
                 "valueType":"int",
                 "lineNumber":1
@@ -15,9 +15,9 @@
             {
                 "name":"nst",
                 "label":"Number of evolution steps in a minute (recommended 20...60)",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":20,
+                "maximumValue":40,
+                "step":2,
                 "selectionValues":[20, 30, 99],
                 "valueType":"int",
                 "lineNumber":2
