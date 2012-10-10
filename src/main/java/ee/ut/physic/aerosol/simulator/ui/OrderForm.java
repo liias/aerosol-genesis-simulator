@@ -45,6 +45,7 @@ public class OrderForm extends JPanel {
         constraints.weighty = 0.5;
         constraints2.weightx = 0.5;
         constraints2.weighty = 0.5;
+        constraints2.anchor = GridBagConstraints.NORTHWEST;
         constraints.fill = GridBagConstraints.HORIZONTAL;
 
         constraints.anchor = GridBagConstraints.NORTHWEST;

@@ -12,6 +12,7 @@ public class Launcher {
             public void run() {
                 try {
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                    //UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

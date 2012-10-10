@@ -1,17 +1,16 @@
 package ee.ut.physic.aerosol.simulator.ui;
 
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParameterDefinition;
-import org.jdesktop.swingx.JXCollapsiblePane;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class ParametersGroupPane extends JXCollapsiblePane {
+public class ParametersGroupPane extends JPanel {
     Collection<ParameterDefinition> parameterDefinitions;
     Collection<ParameterLine> parameterLines = new ArrayList<ParameterLine>();
     GridBagConstraints constraints;
-
 
     public ParametersGroupPane(Collection<ParameterDefinition> parameterDefinitions) {
         this.parameterDefinitions = parameterDefinitions;
@@ -34,7 +33,6 @@ public class ParametersGroupPane extends JXCollapsiblePane {
             constraints.gridy = i;
             add(parameterLine, constraints);
             i++;
-
         }
     }
 

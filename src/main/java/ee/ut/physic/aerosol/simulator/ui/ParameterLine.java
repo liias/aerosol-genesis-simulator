@@ -4,6 +4,7 @@ import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrderParameter
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParameterDefinition;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class ParameterLine extends JPanel {
     private ParameterDefinition parameterDefinition;
@@ -16,6 +17,7 @@ public class ParameterLine extends JPanel {
     private JSpinner forestMaxSpinner;
 
     public ParameterLine(ParameterDefinition parameterDefinition) {
+        setLayout(new FlowLayout(FlowLayout.LEADING, 2, 2));
         this.parameterDefinition = parameterDefinition;
         init();
     }
@@ -58,12 +60,15 @@ public class ParameterLine extends JPanel {
         for (String value : values) {
             comboBox.addItem(value);
         }
+        //comboBox.putClientProperty("sizeVariant", "mini");
         return comboBox;
     }
 
     private JSpinner createSpinner() {
         SpinnerModel model = new SpinnerNumberModel(0, parameterDefinition.getMinimumValue(), parameterDefinition.getMaximumValue(), parameterDefinition.getStep());
-        return new JSpinner(model);
+        JSpinner spinner = new JSpinner(model);
+        //spinner.putClientProperty("JComponent.sizeVariant", "mini");
+        return spinner;
     }
 
     public JComboBox getFreeAirComboBox() {
