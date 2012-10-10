@@ -87,8 +87,15 @@ public class SimulationOrderParameter extends AbstractParameter {
             if (isIntegerValue()) {
                 Integer minInteger = min.intValue();
                 Integer maxInteger = max.intValue();
+                Integer intValue;
+                if (minInteger.equals(maxInteger)) {
+                    intValue = minInteger;
+                } else if (minInteger > maxInteger) {
+                    intValue = random.nextInt(minInteger - maxInteger) + maxInteger;
+                } else {
+                    intValue = random.nextInt(maxInteger - minInteger) + minInteger;
+                }
                 //The lower limit is inclusive, but the upper limit is exclusive.
-                Integer intValue = random.nextInt(maxInteger - minInteger) + minInteger;
                 value = intValue.floatValue();
             } else {
                 value = random.nextFloat() * (max - min) + min;
