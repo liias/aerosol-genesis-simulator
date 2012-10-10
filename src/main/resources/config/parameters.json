@@ -18,33 +18,32 @@
                 "minimumValue":20,
                 "maximumValue":40,
                 "step":2,
-                "selectionValues":[20, 30, 99],
                 "valueType":"int",
                 "lineNumber":2
             },
             {
                 "name":"acc",
                 "label":"Acceleration coefficient dd/dd_min, normal value is 1",
-                "minimumValue":0,
-                "maximumValue":10,
+                "minimumValue":1,
+                "maximumValue":2,
                 "step":1,
                 "lineNumber":3
             } ,
             {
                 "name":"t",
                 "label":"Air temperature",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":-40,
+                "maximumValue":40,
+                "step":2,
                 "unit":"Celsius",
                 "lineNumber":4
             },
             {
                 "name":"p",
                 "label":"Air pressure",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":900,
+                "maximumValue":1100,
+                "step":10,
                 "unit":"millibar",
                 "lineNumber":5
             }
@@ -56,8 +55,8 @@
             {
                 "name":"P0",
                 "label":"Particle distribution argument is 1) diameter or 2) mobility",
-                "minimumValue":0,
-                "maximumValue":10,
+                "minimumValue":1,
+                "maximumValue":2,
                 "step":1,
                 "unit":"",
                 "hasForest":false,
@@ -67,7 +66,7 @@
                 "name":"P1",
                 "label":"Delimiter in the signature file 0) gap 1) tab 2) comma,",
                 "minimumValue":0,
-                "maximumValue":10,
+                "maximumValue":2,
                 "step":1,
                 "unit":"",
                 "hasForest":false,
@@ -81,9 +80,9 @@
             {
                 "name":"S0",
                 "label":"Diameter of a growth unit",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":0.30,
+                "maximumValue":2.50,
+                "step":0.05,
                 "unit":"nm",
                 "hasForest":false,
                 "lineNumber":33
@@ -91,9 +90,9 @@
             {
                 "name":"S1",
                 "label":"Polarizability",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":100,
+                "maximumValue":200,
+                "step":10,
                 "unit":"?^3",
                 "hasForest":false,
                 "lineNumber":34
@@ -101,9 +100,9 @@
             {
                 "name":"S2",
                 "label":"Initial plain Knudsen growth rate of neutral particles",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":0.0,
+                "maximumValue":10.0,
+                "step":0.5,
                 "unit":"*nm/h",
                 "hasForest":true,
                 "lineNumber":35
@@ -111,9 +110,9 @@
             {
                 "name":"S3",
                 "label":"Halftime plain Knudsen growth rate of neutral particles",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":0.0,
+                "maximumValue":10.0,
+                "step":0.5,
                 "unit":"*nm/h",
                 "hasForest":true,
                 "lineNumber":36
@@ -121,9 +120,9 @@
             {
                 "name":"S4",
                 "label":"Final plain Knudsen growth rate of neutral particles",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":0.0,
+                "maximumValue":10.0,
+                "step":0.5,
                 "unit":"*nm/h",
                 "hasForest":true,
                 "lineNumber":37
@@ -131,9 +130,9 @@
             {
                 "name":"S5",
                 "label":"Critical diameter when the condensation starts",
-                "minimumValue":0,
-                "maximumValue":2,
-                "step":1,
+                "minimumValue":1.0,
+                "maximumValue":5.0,
+                "step":0.5,
                 "unit":"nm",
                 "hasForest":false,
                 "lineNumber":38
@@ -141,9 +140,9 @@
             {
                 "name":"S6",
                 "label":"Power of nano-Koehler approximation",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":-0.1,
+                "maximumValue":4.0,
+                "step":0.1,
                 "unit":"",
                 "hasForest":false,
                 "lineNumber":39
@@ -156,9 +155,9 @@
             {
                 "name":"I0",
                 "label":"Initial ionization rate",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":2.0,
+                "maximumValue":20.0,
+                "step":0.4,
                 "unit":"cm-3 s-1",
                 "hasForest":true,
                 "lineNumber":6
@@ -166,9 +165,9 @@
             {
                 "name":"I1",
                 "label":"Halftime ionization rate",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":2.0,
+                "maximumValue":20.0,
+                "step":0.4,
                 "unit":"cm-3 s-1",
                 "hasForest":true,
                 "lineNumber":7
@@ -176,9 +175,9 @@
             {
                 "name":"I2",
                 "label":"Final ionization rate",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":0.3,
+                "maximumValue":2.0,
+                "step":0.1,
                 "unit":"cm-3 s-1",
                 "hasForest":true,
                 "lineNumber":8
@@ -186,9 +185,9 @@
             {
                 "name":"I3",
                 "label":"Electric mobility of positive cluster ions",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":0.3,
+                "maximumValue":2.0,
+                "step":0.1,
                 "unit":"cm2 V-1 s-1",
                 "hasForest":false,
                 "lineNumber":9
@@ -196,9 +195,9 @@
             {
                 "name":"I4",
                 "label":"Electric mobility of negative cluster ions",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":0.3,
+                "maximumValue":2.0,
+                "step":0.1,
                 "unit":"cm2 V-1 s-1",
                 "hasForest":false,
                 "lineNumber":10
@@ -206,9 +205,9 @@
             {
                 "name":"I5",
                 "label":"Cluster ion mutual recombination coefficient",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":0.0000010,
+                "maximumValue":0.0000020,
+                "step":0.0000001,
                 "unit":"cm3 s-1",
                 "hasForest":false,
                 "lineNumber":11
@@ -216,9 +215,9 @@
             {
                 "name":"I6",
                 "label":"Density of ions (standard value is 2.08)",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":1.0,
+                "maximumValue":3.0,
+                "step":0.2,
                 "unit":"cm-3",
                 "hasForest":false,
                 "lineNumber":12
@@ -231,9 +230,9 @@
             {
                 "name":"N0",
                 "label":"Birth size of particles",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":0.30,
+                "maximumValue":2.50,
+                "step":0.05,
                 "unit":"nm",
                 "hasForest":false,
                 "lineNumber":13
@@ -241,9 +240,9 @@
             {
                 "name":"N1",
                 "label":"Maximum nucleation rate for positive ion nucleation",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":0.0,
+                "maximumValue":2.0,
+                "step":0.1,
                 "unit":"cm-3 s-1",
                 "hasForest":false,
                 "lineNumber":14
@@ -251,9 +250,9 @@
             {
                 "name":"N2",
                 "label":"Maximum nucleation rate for negative ion nucleation",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":0.0,
+                "maximumValue":2.0,
+                "step":0.1,
                 "unit":"cm-3 s-1",
                 "hasForest":true,
                 "lineNumber":15
@@ -261,9 +260,9 @@
             {
                 "name":"N3",
                 "label":"Maximum nucleation rate for neutral nucleation",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":0.0,
+                "maximumValue":10.0,
+                "step":0.5,
                 "unit":"cm-3 s-1",
                 "hasForest":true,
                 "lineNumber":16
@@ -272,8 +271,8 @@
                 "name":"N4",
                 "label":"Rise time of the nucleation activity",
                 "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "maximumValue":30,
+                "step":2,
                 "unit":"min",
                 "hasForest":false,
                 "lineNumber":17
@@ -281,8 +280,8 @@
             {
                 "name":"N5",
                 "label":"Shape code of rise",
-                "minimumValue":0,
-                "maximumValue":2,
+                "minimumValue":1,
+                "maximumValue":3,
                 "step":1,
                 "unit":"#",
                 "hasForest":false,
@@ -291,19 +290,19 @@
             {
                 "name":"N6",
                 "label":"Time of steady nucleation activity",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":5,
+                "maximumValue":600,
+                "step":20,
                 "unit":"min",
-                "hasForest":false,
+                "selectionValues":[5, 25, 55, 75, 95, 115, 135, 155, 175, 195, 215, 235, 255, 275, 295, 315, 335, 355, 375, 395, 415, 435, 455, 475, 495, 515, 535, 555, 575, 595, 600],
                 "lineNumber":19
             },
             {
                 "name":"N7",
                 "label":"Time of dropping nucleation activity",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":5,
+                "maximumValue":300,
+                "step":10,
                 "unit":"min",
                 "hasForest":false,
                 "lineNumber":20
@@ -311,8 +310,8 @@
             {
                 "name":"N8",
                 "label":"Shape of dropping",
-                "minimumValue":0,
-                "maximumValue":10,
+                "minimumValue":1,
+                "maximumValue":3,
                 "step":1,
                 "unit":"#",
                 "hasForest":false,
@@ -326,9 +325,9 @@
             {
                 "name":"F0",
                 "label":"Density of growth units",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":1.0,
+                "maximumValue":3.0,
+                "step":0.1,
                 "unit":"g cm-3",
                 "hasForest":false,
                 "lineNumber":22
@@ -336,9 +335,9 @@
             {
                 "name":"F1",
                 "label":"Extra distance of the Van der Waals capture",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":0.03,
+                "maximumValue":0.20,
+                "step":0.01,
                 "unit":"nm",
                 "hasForest":false,
                 "lineNumber":23
@@ -346,9 +345,9 @@
             {
                 "name":"F2",
                 "label":"Diameter of a growth unit",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":0.3,
+                "maximumValue":2.0,
+                "step":0.1,
                 "unit":"nm",
                 "hasForest":false,
                 "lineNumber":24
@@ -357,18 +356,19 @@
                 "name":"F3",
                 "label":"Polarizability",
                 "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "maximumValue":200,
+                "step":10,
                 "unit":"?^3",
+                "selectionValues":[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200],
                 "hasForest":false,
                 "lineNumber":25
             },
             {
                 "name":"F4",
                 "label":"Nadykto-Yu dipole enhanchement factor for d = 1 nm",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":1.0,
+                "maximumValue":3.0,
+                "step":0.1,
                 "unit":"",
                 "hasForest":false,
                 "lineNumber":26
@@ -376,9 +376,9 @@
             {
                 "name":"F5",
                 "label":"Nadykto-Yu dipole enhanchement coefficient for d = 2 nm",
-                "minimumValue":0,
-                "maximumValue":2,
-                "step":1,
+                "minimumValue":1.0,
+                "maximumValue":3.0,
+                "step":0.1,
                 "unit":"",
                 "hasForest":false,
                 "lineNumber":27
@@ -386,9 +386,9 @@
             {
                 "name":"F6",
                 "label":"Initial plain Knudsen growth rate of neutral particles",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":0.0,
+                "maximumValue":10.0,
+                "step":0.5,
                 "unit":"*nm/h",
                 "hasForest":false,
                 "lineNumber":28
@@ -396,9 +396,9 @@
             {
                 "name":"F7",
                 "label":"Halftime plain Knudsen growth rate of neutral particles",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":0.0,
+                "maximumValue":10.0,
+                "step":0.5,
                 "unit":"*nm/h",
                 "hasForest":false,
                 "lineNumber":29
@@ -406,9 +406,9 @@
             {
                 "name":"F8",
                 "label":"Final plain Knudsen growth rate of neutral particles",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":0.0,
+                "maximumValue":10.0,
+                "step":0.5,
                 "unit":"*nm/h",
                 "hasForest":false,
                 "lineNumber":30
@@ -416,9 +416,9 @@
             {
                 "name":"F9",
                 "label":"Critical size of quantum rebound",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":1.0,
+                "maximumValue":5.0,
+                "step":0.2,
                 "unit":"nm",
                 "hasForest":false,
                 "lineNumber":31
@@ -426,9 +426,9 @@
             {
                 "name":"F10",
                 "label":"Extra temperature of quantum rebound",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":200,
+                "maximumValue":1000,
+                "step":50,
                 "unit":"K",
                 "hasForest":false,
                 "lineNumber":32
@@ -441,9 +441,9 @@
             {
                 "name":"B0",
                 "label":"Initial average diameter of background aerosol particles",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":30,
+                "maximumValue":200,
+                "step":10,
                 "unit":"nm",
                 "hasForest":false,
                 "lineNumber":40
@@ -451,9 +451,9 @@
             {
                 "name":"B1",
                 "label":"Halftime average diameter of background aerosol particles",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":30,
+                "maximumValue":200,
+                "step":10,
                 "unit":"nm",
                 "hasForest":false,
                 "lineNumber":41
@@ -461,9 +461,9 @@
             {
                 "name":"B2",
                 "label":"Final average diameter of background aerosol particles",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":30,
+                "maximumValue":200,
+                "step":10,
                 "unit":"nm",
                 "hasForest":false,
                 "lineNumber":42
@@ -471,9 +471,9 @@
             {
                 "name":"B3",
                 "label":"Initial concentration of background aerosol particles",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":500,
+                "maximumValue":500000,
+                "step":500,
                 "unit":"cm-3",
                 "hasForest":false,
                 "lineNumber":43
@@ -481,9 +481,9 @@
             {
                 "name":"B4",
                 "label":"Halftime concentration of background aerosol particles",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":500,
+                "maximumValue":500000,
+                "step":500,
                 "unit":"cm-3",
                 "hasForest":false,
                 "lineNumber":44
@@ -491,9 +491,9 @@
             {
                 "name":"B5",
                 "label":"Final concentration of background aerosol particles",
-                "minimumValue":0,
-                "maximumValue":2,
-                "step":1,
+                "minimumValue":500,
+                "maximumValue":500000,
+                "step":500,
                 "unit":"cm-3",
                 "hasForest":false,
                 "lineNumber":45
@@ -506,9 +506,9 @@
             {
                 "name":"C0",
                 "label":"Air residence distance (time * wind) in forest",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":10,
+                "maximumValue":500,
+                "step":20,
                 "unit":"m",
                 "hasForest":false,
                 "lineNumber":46
@@ -546,9 +546,9 @@
             {
                 "name":"C4",
                 "label":"Conifer needle diameter",
-                "minimumValue":0,
-                "maximumValue":10,
-                "step":1,
+                "minimumValue":0.1,
+                "maximumValue":1.5,
+                "step":0.1,
                 "unit":"mm",
                 "hasForest":false,
                 "lineNumber":50
@@ -556,9 +556,9 @@
             {
                 "name":"C5",
                 "label":"Conifer needle length in a unit volume m/m3",
-                "minimumValue":0,
-                "maximumValue":2,
-                "step":1,
+                "minimumValue":10,
+                "maximumValue":1000,
+                "step":30,
                 "unit":"m-2",
                 "hasForest":false,
                 "lineNumber":51
