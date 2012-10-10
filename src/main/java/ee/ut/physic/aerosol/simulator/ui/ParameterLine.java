@@ -65,7 +65,7 @@ public class ParameterLine extends JPanel {
     }
 
     private JSpinner createSpinner() {
-        SpinnerModel model = new SpinnerNumberModel(0, parameterDefinition.getMinimumValue(), parameterDefinition.getMaximumValue(), parameterDefinition.getStep());
+        SpinnerModel model = new SpinnerNumberModel(parameterDefinition.getMinimumValue(), parameterDefinition.getMinimumValue(), parameterDefinition.getMaximumValue(), parameterDefinition.getStep());
         JSpinner spinner = new JSpinner(model);
         //spinner.putClientProperty("JComponent.sizeVariant", "mini");
         return spinner;
