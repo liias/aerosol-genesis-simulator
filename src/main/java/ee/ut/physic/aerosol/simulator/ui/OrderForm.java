@@ -2,6 +2,7 @@ package ee.ut.physic.aerosol.simulator.ui;
 
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrder;
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrderParameter;
+import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParametersConfiguration;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParametersGroup;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationOrderService;
 import org.slf4j.Logger;
@@ -14,7 +15,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
 
 public class OrderForm extends JPanel {
     final Logger logger = LoggerFactory.getLogger(OrderForm.class);
@@ -24,11 +24,13 @@ public class OrderForm extends JPanel {
     private JTextField commentField;
     private JSpinner numberOfProcessesSpinner;
     private JButton simulateButton;
+    private ParametersConfiguration parametersConfiguration;
 
     @Autowired
     private SimulationOrderService simulationOrderService;
 
-    public OrderForm(Set<ParametersGroup> parametersGroups) {
+    public OrderForm(ParametersConfiguration parametersConfiguration) {
+        this.parametersConfiguration = parametersConfiguration;
         //LayoutManager layout = new BorderLayout();
         LayoutManager layout = new GridBagLayout();
         LayoutManager layout2 = new GridBagLayout();
@@ -50,23 +52,22 @@ public class OrderForm extends JPanel {
         constraints.fill = GridBagConstraints.HORIZONTAL;
 
         constraints.anchor = GridBagConstraints.NORTHWEST;
-        int i = 0;
-        int j = 0;
-        for (ParametersGroup parametersGroup : parametersGroups) {
-            constraints.gridy = i;
-            ParametersGroupPaneWithTitle parametersGroupPaneWithTitle = new ParametersGroupPaneWithTitle(parametersGroup);
-            parametersGroupPanesWithTitle.add(parametersGroupPaneWithTitle);
 
-            if (j == 1) {
-                rightPanel.add(parametersGroupPaneWithTitle, constraints);
-                j = 0;
-                i++;
-            } else {
-                leftPanel.add(parametersGroupPaneWithTitle, constraints);
-                j = 1;
-            }
-        }
-        constraints.gridx = 1;
+        constraints.gridy = 0;
+        addParametersGroup("general", leftPanel, constraints);
+        addParametersGroup("nucleation", rightPanel, constraints);
+        constraints.gridy = 1;
+        addParametersGroup("background", leftPanel, constraints);
+        addParametersGroup("first_condensing", rightPanel, constraints);
+        constraints.gridy = 2;
+        addParametersGroup("conifer_forest", leftPanel, constraints);
+        addParametersGroup("second_condensing", rightPanel, constraints);
+        constraints.gridy = 3;
+        addParametersGroup("presentation", leftPanel, constraints);
+        constraints.gridy = 4;
+        addParametersGroup("ionization", leftPanel, constraints);
+
+        constraints.gridx = 0;
         JLabel commentLabel = new JLabel("Comment (Max 50 char.):");
         commentField = createCommentField();
         JLabel numberOfProcessesLabel = new JLabel("Number of simulations:");
@@ -149,6 +150,14 @@ public class OrderForm extends JPanel {
         main.add(buttonsPanel, constraints2);
         add(main);
     }
+
+    private void addParametersGroup(String groupId, JPanel panel, GridBagConstraints constraints) {
+        ParametersGroup parametersGroup = parametersConfiguration.getGroupById(groupId);
+        ParametersGroupPaneWithTitle parametersGroupPaneWithTitle = new ParametersGroupPaneWithTitle(parametersGroup);
+        parametersGroupPanesWithTitle.add(parametersGroupPaneWithTitle);
+        panel.add(parametersGroupPaneWithTitle, constraints);
+    }
+
 
     private JTextField createCommentField() {
         JTextField commentField = new JTextField();

@@ -26,6 +26,15 @@ public class ParametersConfiguration {
         }
     }
 
+    public ParametersGroup getGroupById(String id) {
+        for (ParametersGroup parametersGroup : getParametersGroups()) {
+            if (id.equals(parametersGroup.getId())) {
+                return parametersGroup;
+            }
+        }
+        throw new IllegalArgumentException("No such group with id: " + id);
+    }
+
     public ParameterDefinition getDefinitionByName(String name) {
         return definitionsByName.get(name);
     }

@@ -3,8 +3,16 @@ package ee.ut.physic.aerosol.simulator.domain.simulation.parameter;
 import java.util.Collection;
 
 public class ParametersGroup {
-    private String name;
+    private String id, name;
     private Collection<ParameterDefinition> definitions;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

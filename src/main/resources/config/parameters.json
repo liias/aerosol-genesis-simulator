@@ -1,5 +1,6 @@
 {"parametersGroups":[
     {
+        "id":"general",
         "name":"General",
         "definitions":[
             {
@@ -50,6 +51,7 @@
         ]
     },
     {
+        "id":"presentation",
         "name":"Presentation control",
         "definitions":[
             {
@@ -73,6 +75,7 @@
         ]
     },
     {
+        "id":"second_condensing",
         "name":"Parameters of the second condensing substance",
         "definitions":[
             {
@@ -144,6 +147,7 @@
         ]
     },
     {
+        "id":"ionization",
         "name":"Ionization Parameters",
         "definitions":[
             {
@@ -215,6 +219,7 @@
         ]
     },
     {
+        "id":"nucleation",
         "name":"Nucleation Parameters",
         "definitions":[
             {
@@ -305,6 +310,7 @@
         ]
     },
     {
+        "id":"first_condensing",
         "name":"Parameters of the first condensing substance",
         "definitions":[
             {
@@ -412,6 +418,7 @@
         ]
     },
     {
+        "id":"background",
         "name":"Parameters of the pre-existing background aerosol",
         "definitions":[
             {
@@ -471,6 +478,7 @@
         ]
     },
     {
+        "id":"conifer_forest",
         "name":"Parameters of the conifer forest",
         "definitions":[
             {
@@ -529,6 +537,4 @@
             }
         ]
     }
-
-
 ]}

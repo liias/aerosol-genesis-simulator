@@ -2,7 +2,6 @@ package ee.ut.physic.aerosol.simulator.ui;
 
 import ee.ut.physic.aerosol.simulator.Configuration;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParametersConfiguration;
-import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParametersGroup;
 import ee.ut.physic.aerosol.simulator.util.ApplicationContextLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
-import java.util.Set;
 
 public class MainFrame extends JFrame {
     final Logger logger = LoggerFactory.getLogger(MainFrame.class);
@@ -29,8 +27,7 @@ public class MainFrame extends JFrame {
 
     public void createForm() {
         ParametersConfiguration parametersConfiguration = Configuration.getInstance().getParametersConfiguration();
-        Set<ParametersGroup> parametersGroups = parametersConfiguration.getParametersGroups();
-        OrderForm orderForm = new OrderForm(parametersGroups);
+        OrderForm orderForm = new OrderForm(parametersConfiguration);
         JScrollPane scrollPane = new JScrollPane(orderForm);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         setContentPane(scrollPane);
