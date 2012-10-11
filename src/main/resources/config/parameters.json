@@ -51,102 +51,6 @@
         ]
     },
     {
-        "id":"presentation",
-        "name":"Presentation control",
-        "definitions":[
-            {
-                "name":"P0",
-                "label":"Particle distribution argument is 1) diameter or 2) mobility",
-                "minimumValue":1,
-                "maximumValue":2,
-                "step":1,
-                "unit":"",
-                "lineNumber":52
-            },
-            {
-                "name":"P1",
-                "label":"Delimiter in the signature file 0) gap 1) tab 2) comma,",
-                "minimumValue":0,
-                "maximumValue":2,
-                "step":1,
-                "unit":"",
-                "lineNumber":53
-            }
-        ]
-    },
-    {
-        "id":"second_condensing",
-        "name":"Parameters of the second condensing substance",
-        "definitions":[
-            {
-                "name":"S0",
-                "label":"Diameter of a growth unit",
-                "minimumValue":0.30,
-                "maximumValue":2.50,
-                "step":0.05,
-                "unit":"nm",
-                "lineNumber":33
-            },
-            {
-                "name":"S1",
-                "label":"Polarizability",
-                "minimumValue":100,
-                "maximumValue":200,
-                "step":10,
-                "unit":"?^3",
-                "lineNumber":34
-            },
-            {
-                "name":"S2",
-                "label":"Initial plain Knudsen growth rate of neutral particles",
-                "minimumValue":0.0,
-                "maximumValue":10.0,
-                "step":0.5,
-                "unit":"*nm/h",
-                "hasForest":true,
-                "lineNumber":35
-            },
-            {
-                "name":"S3",
-                "label":"Halftime plain Knudsen growth rate of neutral particles",
-                "minimumValue":0.0,
-                "maximumValue":10.0,
-                "step":0.5,
-                "unit":"*nm/h",
-                "hasForest":true,
-                "lineNumber":36
-            },
-            {
-                "name":"S4",
-                "label":"Final plain Knudsen growth rate of neutral particles",
-                "minimumValue":0.0,
-                "maximumValue":10.0,
-                "step":0.5,
-                "unit":"*nm/h",
-                "hasForest":true,
-                "lineNumber":37
-            },
-            {
-                "name":"S5",
-                "label":"Critical diameter when the condensation starts",
-                "minimumValue":1.0,
-                "maximumValue":5.0,
-                "step":0.5,
-                "unit":"nm",
-                "lineNumber":38
-            },
-            {
-                "name":"S6",
-                "label":"Power of nano-Koehler approximation",
-                "minimumValue":-0.1,
-                "maximumValue":4.0,
-                "step":0.1,
-                "unit":"",
-                "lineNumber":39
-            }
-        ]
-    },
-    {
         "id":"ionization",
         "name":"Ionization Parameters",
         "definitions":[
@@ -418,6 +322,78 @@
         ]
     },
     {
+        "id":"second_condensing",
+        "name":"Parameters of the second condensing substance",
+        "definitions":[
+            {
+                "name":"S0",
+                "label":"Diameter of a growth unit",
+                "minimumValue":0.30,
+                "maximumValue":2.50,
+                "step":0.05,
+                "unit":"nm",
+                "lineNumber":33
+            },
+            {
+                "name":"S1",
+                "label":"Polarizability",
+                "minimumValue":100,
+                "maximumValue":200,
+                "step":10,
+                "unit":"?^3",
+                "lineNumber":34
+            },
+            {
+                "name":"S2",
+                "label":"Initial plain Knudsen growth rate of neutral particles",
+                "minimumValue":0.0,
+                "maximumValue":10.0,
+                "step":0.5,
+                "unit":"*nm/h",
+                "hasForest":true,
+                "lineNumber":35
+            },
+            {
+                "name":"S3",
+                "label":"Halftime plain Knudsen growth rate of neutral particles",
+                "minimumValue":0.0,
+                "maximumValue":10.0,
+                "step":0.5,
+                "unit":"*nm/h",
+                "hasForest":true,
+                "lineNumber":36
+            },
+            {
+                "name":"S4",
+                "label":"Final plain Knudsen growth rate of neutral particles",
+                "minimumValue":0.0,
+                "maximumValue":10.0,
+                "step":0.5,
+                "unit":"*nm/h",
+                "hasForest":true,
+                "lineNumber":37
+            },
+            {
+                "name":"S5",
+                "label":"Critical diameter when the condensation starts",
+                "minimumValue":1.0,
+                "maximumValue":5.0,
+                "step":0.5,
+                "unit":"nm",
+                "lineNumber":38
+            },
+            {
+                "name":"S6",
+                "label":"Power of nano-Koehler approximation",
+                "minimumValue":-0.1,
+                "maximumValue":4.0,
+                "step":0.1,
+                "unit":"",
+                "lineNumber":39
+            }
+        ]
+    },
+    {
         "id":"background",
         "name":"Parameters of the pre-existing background aerosol",
         "definitions":[
@@ -534,6 +510,30 @@
                 "step":30,
                 "unit":"m-2",
                 "lineNumber":51
+            }
+        ]
+    },
+    {
+        "id":"presentation",
+        "name":"Presentation control",
+        "definitions":[
+            {
+                "name":"P0",
+                "label":"Particle distribution argument is 1) diameter or 2) mobility",
+                "minimumValue":1,
+                "maximumValue":2,
+                "step":1,
+                "unit":"",
+                "lineNumber":52
+            },
+            {
+                "name":"P1",
+                "label":"Delimiter in the signature file 0) gap 1) tab 2) comma,",
+                "minimumValue":0,
+                "maximumValue":2,
+                "step":1,
+                "unit":"",
+                "lineNumber":53
             }
         ]
     }
