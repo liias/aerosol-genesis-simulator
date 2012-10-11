@@ -92,7 +92,7 @@ public class Configuration {
         String path = getFullPath();
         if (isRunFromJar()) {
             path = path.substring(0, path.lastIndexOf("/") + 1);
-            logger.info("Running form JAR");
+            logger.info("Running from JAR");
         } else {
             path += "../../";
             logger.info("Running outside of JAR");
