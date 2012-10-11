@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 
 public class OrderForm extends JPanel {
     final Logger logger = LoggerFactory.getLogger(OrderForm.class);
@@ -27,18 +28,18 @@ public class OrderForm extends JPanel {
     @Autowired
     private SimulationOrderService simulationOrderService;
 
-    public OrderForm(Collection<ParametersGroup> parametersGroups) {
+    public OrderForm(Set<ParametersGroup> parametersGroups) {
         //LayoutManager layout = new BorderLayout();
         LayoutManager layout = new GridBagLayout();
         LayoutManager layout2 = new GridBagLayout();
         JPanel main = new JPanel();
-        JPanel paneel = new JPanel();
-        JPanel paneel2 = new JPanel();
-        JPanel paneel3 = new JPanel();
+        JPanel leftPanel = new JPanel();
+        JPanel rightPanel = new JPanel();
+        JPanel buttonsPanel = new JPanel();
         main.setLayout(layout2);
-        paneel.setLayout(layout);
-        paneel2.setLayout(layout);
-        paneel3.setLayout(layout);
+        leftPanel.setLayout(layout);
+        rightPanel.setLayout(layout);
+        buttonsPanel.setLayout(layout);
         GridBagConstraints constraints = new GridBagConstraints();
         GridBagConstraints constraints2 = new GridBagConstraints();
         constraints.weightx = 0.5;
@@ -57,11 +58,11 @@ public class OrderForm extends JPanel {
             parametersGroupPanesWithTitle.add(parametersGroupPaneWithTitle);
 
             if (j == 1) {
-                paneel2.add(parametersGroupPaneWithTitle, constraints);
+                rightPanel.add(parametersGroupPaneWithTitle, constraints);
                 j = 0;
                 i++;
             } else {
-                paneel.add(parametersGroupPaneWithTitle, constraints);
+                leftPanel.add(parametersGroupPaneWithTitle, constraints);
                 j = 1;
             }
         }
@@ -91,61 +92,61 @@ public class OrderForm extends JPanel {
 
         constraints.gridx = 0;
         constraints.gridy = 0;
-        paneel3.add(commentLabel, constraints);
+        buttonsPanel.add(commentLabel, constraints);
         constraints.gridx = 1;
         constraints.gridwidth = 4;
-        paneel3.add(commentField, constraints);
+        buttonsPanel.add(commentField, constraints);
 
         constraints.gridwidth = 1;
         constraints.gridy = 1;
         constraints.gridx = 0;
-        paneel3.add(numberOfProcessesLabel, constraints);
+        buttonsPanel.add(numberOfProcessesLabel, constraints);
         constraints.gridx = 1;
-        paneel3.add(numberOfProcessesSpinner, constraints);
+        buttonsPanel.add(numberOfProcessesSpinner, constraints);
 
         constraints.gridy = 2;
         constraints.gridx = 0;
-        paneel3.add(minmax, constraints);
+        buttonsPanel.add(minmax, constraints);
         constraints.gridx = 1;
-        paneel3.add(openM, constraints);
+        buttonsPanel.add(openM, constraints);
         constraints.gridx = 2;
-        paneel3.add(saveM, constraints);
+        buttonsPanel.add(saveM, constraints);
         constraints.gridx = 3;
-        paneel3.add(defaultM, constraints);
+        buttonsPanel.add(defaultM, constraints);
         constraints.gridx = 4;
-        paneel3.add(clearM, constraints);
+        buttonsPanel.add(clearM, constraints);
 
         constraints.gridy = 3;
         constraints.gridx = 0;
-        paneel3.add(combo, constraints);
+        buttonsPanel.add(combo, constraints);
         constraints.gridx = 1;
-        paneel3.add(openC, constraints);
+        buttonsPanel.add(openC, constraints);
         constraints.gridx = 2;
-        paneel3.add(saveC, constraints);
+        buttonsPanel.add(saveC, constraints);
         constraints.gridx = 3;
-        paneel3.add(defaultC, constraints);
+        buttonsPanel.add(defaultC, constraints);
         constraints.gridx = 4;
-        paneel3.add(clearC, constraints);
+        buttonsPanel.add(clearC, constraints);
 
         constraints.gridx = 1;
         constraints.gridy = 6;
-        paneel3.add(compare, constraints);
+        buttonsPanel.add(compare, constraints);
         constraints.gridx = 2;
-        paneel3.add(best, constraints);
+        buttonsPanel.add(best, constraints);
         constraints.gridx = 3;
-        paneel3.add(impexp, constraints);
+        buttonsPanel.add(impexp, constraints);
         constraints.gridx = 4;
-        paneel3.add(simulateButton, constraints);
+        buttonsPanel.add(simulateButton, constraints);
 
         constraints2.gridx = 0;
         constraints2.gridy = 0;
-        main.add(paneel, constraints2);
+        main.add(leftPanel, constraints2);
         constraints2.gridx = 1;
-        main.add(paneel2, constraints2);
+        main.add(rightPanel, constraints2);
         constraints2.gridx = 0;
         constraints2.gridy = 1;
         constraints2.gridwidth = 2;
-        main.add(paneel3, constraints2);
+        main.add(buttonsPanel, constraints2);
         add(main);
     }
 

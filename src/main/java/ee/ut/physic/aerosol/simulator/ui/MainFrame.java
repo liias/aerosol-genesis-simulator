@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
-import java.util.Collection;
+import java.util.Set;
 
 public class MainFrame extends JFrame {
     final Logger logger = LoggerFactory.getLogger(MainFrame.class);
@@ -29,7 +29,7 @@ public class MainFrame extends JFrame {
 
     public void createForm() {
         ParametersConfiguration parametersConfiguration = Configuration.getInstance().getParametersConfiguration();
-        Collection<ParametersGroup> parametersGroups = parametersConfiguration.getParametersGroups();
+        Set<ParametersGroup> parametersGroups = parametersConfiguration.getParametersGroups();
         OrderForm orderForm = new OrderForm(parametersGroups);
         JScrollPane scrollPane = new JScrollPane(orderForm);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);

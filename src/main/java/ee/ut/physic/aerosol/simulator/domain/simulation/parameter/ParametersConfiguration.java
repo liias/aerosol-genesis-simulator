@@ -1,29 +1,19 @@
 package ee.ut.physic.aerosol.simulator.domain.simulation.parameter;
 
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.Set;
 
 public class ParametersConfiguration {
-    private Collection<ParametersGroup> parametersGroups;
+    private Set<ParametersGroup> parametersGroups;
 
     private HashMap<String, ParameterDefinition> definitionsByName;
 
-    public Collection<ParametersGroup> getParametersGroups() {
+    public Set<ParametersGroup> getParametersGroups() {
         return parametersGroups;
     }
 
-    public void setParametersGroups(Collection<ParametersGroup> parametersGroups) {
+    public void setParametersGroups(Set<ParametersGroup> parametersGroups) {
         this.parametersGroups = parametersGroups;
-    }
-
-    public ParameterDefinition getParameterByName(String name) {
-        for (ParametersGroup parametersGroup : getParametersGroups()) {
-            ParameterDefinition parameterDefinition = parametersGroup.getParameterByName(name);
-            if (parameterDefinition != null) {
-                return parameterDefinition;
-            }
-        }
-        return null;
     }
 
     // For quick lookup

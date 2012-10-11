@@ -59,7 +59,6 @@
                 "maximumValue":2,
                 "step":1,
                 "unit":"",
-                "hasForest":false,
                 "lineNumber":52
             },
             {
@@ -69,7 +68,6 @@
                 "maximumValue":2,
                 "step":1,
                 "unit":"",
-                "hasForest":false,
                 "lineNumber":53
             }
         ]
@@ -84,7 +82,6 @@
                 "maximumValue":2.50,
                 "step":0.05,
                 "unit":"nm",
-                "hasForest":false,
                 "lineNumber":33
             },
             {
@@ -94,7 +91,6 @@
                 "maximumValue":200,
                 "step":10,
                 "unit":"?^3",
-                "hasForest":false,
                 "lineNumber":34
             },
             {
@@ -134,7 +130,6 @@
                 "maximumValue":5.0,
                 "step":0.5,
                 "unit":"nm",
-                "hasForest":false,
                 "lineNumber":38
             },
             {
@@ -144,7 +139,6 @@
                 "maximumValue":4.0,
                 "step":0.1,
                 "unit":"",
-                "hasForest":false,
                 "lineNumber":39
             }
         ]
@@ -189,7 +183,6 @@
                 "maximumValue":2.0,
                 "step":0.1,
                 "unit":"cm2 V-1 s-1",
-                "hasForest":false,
                 "lineNumber":9
             },
             {
@@ -199,7 +192,6 @@
                 "maximumValue":2.0,
                 "step":0.1,
                 "unit":"cm2 V-1 s-1",
-                "hasForest":false,
                 "lineNumber":10
             },
             {
@@ -209,7 +201,6 @@
                 "maximumValue":0.0000020,
                 "step":0.0000001,
                 "unit":"cm3 s-1",
-                "hasForest":false,
                 "lineNumber":11
             },
             {
@@ -219,7 +210,6 @@
                 "maximumValue":3.0,
                 "step":0.2,
                 "unit":"cm-3",
-                "hasForest":false,
                 "lineNumber":12
             }
         ]
@@ -234,7 +224,6 @@
                 "maximumValue":2.50,
                 "step":0.05,
                 "unit":"nm",
-                "hasForest":false,
                 "lineNumber":13
             },
             {
@@ -244,7 +233,6 @@
                 "maximumValue":2.0,
                 "step":0.1,
                 "unit":"cm-3 s-1",
-                "hasForest":false,
                 "lineNumber":14
             },
             {
@@ -274,7 +262,6 @@
                 "maximumValue":30,
                 "step":2,
                 "unit":"min",
-                "hasForest":false,
                 "lineNumber":17
             },
             {
@@ -284,7 +271,6 @@
                 "maximumValue":3,
                 "step":1,
                 "unit":"#",
-                "hasForest":false,
                 "lineNumber":18
             },
             {
@@ -304,7 +290,6 @@
                 "maximumValue":300,
                 "step":10,
                 "unit":"min",
-                "hasForest":false,
                 "lineNumber":20
             },
             {
@@ -314,7 +299,6 @@
                 "maximumValue":3,
                 "step":1,
                 "unit":"#",
-                "hasForest":false,
                 "lineNumber":21
             }
         ]
@@ -329,7 +313,6 @@
                 "maximumValue":3.0,
                 "step":0.1,
                 "unit":"g cm-3",
-                "hasForest":false,
                 "lineNumber":22
             },
             {
@@ -339,7 +322,6 @@
                 "maximumValue":0.20,
                 "step":0.01,
                 "unit":"nm",
-                "hasForest":false,
                 "lineNumber":23
             },
             {
@@ -349,7 +331,6 @@
                 "maximumValue":2.0,
                 "step":0.1,
                 "unit":"nm",
-                "hasForest":false,
                 "lineNumber":24
             },
             {
@@ -359,8 +340,6 @@
                 "maximumValue":200,
                 "step":10,
                 "unit":"?^3",
-                "selectionValues":[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200],
-                "hasForest":false,
                 "lineNumber":25
             },
             {
@@ -370,7 +349,6 @@
                 "maximumValue":3.0,
                 "step":0.1,
                 "unit":"",
-                "hasForest":false,
                 "lineNumber":26
             },
             {
@@ -380,7 +358,6 @@
                 "maximumValue":3.0,
                 "step":0.1,
                 "unit":"",
-                "hasForest":false,
                 "lineNumber":27
             },
             {
@@ -390,7 +367,7 @@
                 "maximumValue":10.0,
                 "step":0.5,
                 "unit":"*nm/h",
-                "hasForest":false,
+                "hasForest":true,
                 "lineNumber":28
             },
             {
@@ -400,7 +377,7 @@
                 "maximumValue":10.0,
                 "step":0.5,
                 "unit":"*nm/h",
-                "hasForest":false,
+                "hasForest":true,
                 "lineNumber":29
             },
             {
@@ -410,7 +387,7 @@
                 "maximumValue":10.0,
                 "step":0.5,
                 "unit":"*nm/h",
-                "hasForest":false,
+                "hasForest":true,
                 "lineNumber":30
             },
             {
@@ -420,7 +397,6 @@
                 "maximumValue":5.0,
                 "step":0.2,
                 "unit":"nm",
-                "hasForest":false,
                 "lineNumber":31
             },
             {
@@ -430,7 +406,6 @@
                 "maximumValue":1000,
                 "step":50,
                 "unit":"K",
-                "hasForest":false,
                 "lineNumber":32
             }
         ]
@@ -445,7 +420,6 @@
                 "maximumValue":200,
                 "step":10,
                 "unit":"nm",
-                "hasForest":false,
                 "lineNumber":40
             },
             {
@@ -455,7 +429,6 @@
                 "maximumValue":200,
                 "step":10,
                 "unit":"nm",
-                "hasForest":false,
                 "lineNumber":41
             },
             {
@@ -465,7 +438,6 @@
                 "maximumValue":200,
                 "step":10,
                 "unit":"nm",
-                "hasForest":false,
                 "lineNumber":42
             },
             {
@@ -475,7 +447,6 @@
                 "maximumValue":500000,
                 "step":500,
                 "unit":"cm-3",
-                "hasForest":false,
                 "lineNumber":43
             },
             {
@@ -485,7 +456,6 @@
                 "maximumValue":500000,
                 "step":500,
                 "unit":"cm-3",
-                "hasForest":false,
                 "lineNumber":44
             },
             {
@@ -495,7 +465,6 @@
                 "maximumValue":500000,
                 "step":500,
                 "unit":"cm-3",
-                "hasForest":false,
                 "lineNumber":45
             }
         ]
@@ -510,7 +479,6 @@
                 "maximumValue":500,
                 "step":20,
                 "unit":"m",
-                "hasForest":false,
                 "lineNumber":46
             },
             {
@@ -520,7 +488,6 @@
                 "maximumValue":10,
                 "step":1,
                 "unit":"m s-1",
-                "hasForest":false,
                 "lineNumber":47
             },
             {
@@ -530,7 +497,6 @@
                 "maximumValue":10,
                 "step":1,
                 "unit":"m s-1",
-                "hasForest":false,
                 "lineNumber":48
             },
             {
@@ -540,7 +506,6 @@
                 "maximumValue":10,
                 "step":1,
                 "unit":"m s-1",
-                "hasForest":false,
                 "lineNumber":49
             },
             {
@@ -550,7 +515,6 @@
                 "maximumValue":1.5,
                 "step":0.1,
                 "unit":"mm",
-                "hasForest":false,
                 "lineNumber":50
             },
             {
@@ -560,7 +524,6 @@
                 "maximumValue":1000,
                 "step":30,
                 "unit":"m-2",
-                "hasForest":false,
                 "lineNumber":51
             }
         ]

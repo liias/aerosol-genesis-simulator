@@ -69,7 +69,7 @@ public class Configuration {
     }
 
     public ParameterDefinition getDefinitionByName(String name) {
-        return getParametersConfiguration().getParameterByName(name);
+        return getParametersConfiguration().getDefinitionByName(name);
     }
 
     public String getFullPath() {
