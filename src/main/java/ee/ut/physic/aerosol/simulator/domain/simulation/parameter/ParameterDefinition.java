@@ -142,7 +142,7 @@ public class ParameterDefinition {
             float max = getMaximumValue();
             float step = getStep();
 
-            for (Float value = min; value < max; value += step) {        
+            for (Float value = min; value <= max; value += step) {        
             	// little fix for adding floats, they can't be just added to eachother without overflowing
             	Float savedValue = (float)(Math.round(value * 100))/100;
                 values.add(savedValue.toString());
