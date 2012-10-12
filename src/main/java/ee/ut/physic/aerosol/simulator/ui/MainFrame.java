@@ -31,8 +31,16 @@ public class MainFrame extends JFrame {
         OrderForm orderForm = new OrderForm(parametersConfiguration);
         JScrollPane scrollPane = new JScrollPane(orderForm);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        setContentPane(scrollPane);
-        loadSpringApplicationContext(orderForm);
+        //setContentPane(scrollPane);
+
+        JPanel orderPanel = new JPanel(new BorderLayout());
+        OrderToolBar orderToolBar = new OrderToolBar(orderForm);
+        orderPanel.add(orderToolBar, BorderLayout.PAGE_START);
+        orderPanel.add(scrollPane, BorderLayout.CENTER);
+        setContentPane(orderPanel);
+
+
+        loadSpringApplicationContext(orderToolBar);
         System.out.println("Aerosol Genesis Simulator started");
     }
 
