@@ -4,6 +4,7 @@ import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParametersGrou
 import org.jdesktop.swingx.JXCollapsiblePane;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.Collection;
 
@@ -17,6 +18,7 @@ public class ParametersGroupPaneWithTitle extends JPanel {
         LayoutManager layout = new GridBagLayout();
         setLayout(layout);
         createTitle();
+
     }
 
     private void createParametersGroupPane() {
@@ -43,12 +45,20 @@ public class ParametersGroupPaneWithTitle extends JPanel {
         constraints.anchor = GridBagConstraints.NORTHWEST;
         constraints.gridy = 0;
         add(title, constraints);
+//        JLabel label = new JLabel(getParametersGroup().getName());
+//        add(label, constraints);
         constraints.gridy = 1;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
         createParametersGroupPane();
         add(parametersGroupPane, constraints);
         Action toggleAction = parametersGroupPane.getActionMap().get(JXCollapsiblePane.TOGGLE_ACTION);
 
+        title.setBorder(new EmptyBorder(0,0,0,0));
         title.addActionListener(toggleAction);
+
+
+
+
         //title.setIcon((Icon) toggleAction.getValue("collapseIcon"));
         // use the collapse/expand icons from the JTree UI
         //toggleAction.putValue(JXCollapsiblePane.COLLAPSE_ICON, UIManager.getIcon("Tree.expandedIcon"));

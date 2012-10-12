@@ -86,7 +86,14 @@ public abstract class AbstractParameter implements Comparable<AbstractParameter>
         return getDefinition().getDescription();
     }
 
-    //TODO: Maybe should get it from definition, as forest value being null might be error instead and it really should need forest value.
+    //Indicates if this parameter CAN (MUST???) have forest value
+    //TODO: When forest-enabled parameter, is it a must to have forest value?
+    @Transient
+    public boolean hasForest() {
+        return getDefinition().isHasForest();
+    }
+
+    //Indicates if this parameter has some forest value set
     @Transient
     public boolean hasForestValue() {
         return forestValue != null;

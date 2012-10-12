@@ -4,80 +4,92 @@ import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrderParameter
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParameterDefinition;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class ParameterLine {
     private ParameterDefinition parameterDefinition;
     private JLabel label;
-    private JComboBox freeAirComboBox;
-    private JComboBox forestComboBox;
-    private JSpinner freeAirMinSpinner;
-    private JSpinner freeAirMaxSpinner;
-    private JSpinner forestMinSpinner;
-    private JSpinner forestMaxSpinner;
+    private JComboBox freeAirMin;
+    private JComboBox freeAirMax;
+    private JComboBox forestMin;
+    private JComboBox forestMax;
+    String[] parameterValues;
 
     public ParameterLine(ParameterDefinition parameterDefinition) {
         this.parameterDefinition = parameterDefinition;
-        init();
-    }
-
-    public void init() {
+        parameterValues = parameterDefinition.getAllValues();
         createWidgets();
     }
 
     private void createWidgets() {
         label = new JLabel();
         label.setText(parameterDefinition.getLabel());
-        String[] values = parameterDefinition.getAllValues();
-        freeAirComboBox = createComboBoxForValues(values);
-        freeAirMinSpinner = createSpinner();
-        freeAirMaxSpinner = createSpinner();
+        freeAirMin = createComboBox(true, false);
+        freeAirMax = createComboBox(false, false);
         if (parameterDefinition.isHasForest()) {
-            forestComboBox = createComboBoxForValues(values);
-            forestMinSpinner = createSpinner();
-            forestMaxSpinner = createSpinner();
+            forestMin = createComboBox(true, true);
+            forestMax = createComboBox(false, true);
         }
     }
 
     @SuppressWarnings("unchecked")
-    private JComboBox createComboBoxForValues(String[] values) {
+    private JComboBox createComboBox(boolean isMin, boolean inForest) {
         JComboBox comboBox = new JComboBox();
         comboBox.addItem("");
-        for (String value : values) {
+        for (String value : parameterValues) {
             comboBox.addItem(value);
         }
+        comboBox.setEditable(true);
+        //set the minimum value as default on start
+        if (isMin) {
+            comboBox.setSelectedIndex(1);
+        }
+        comboBox.setBorder(new EmptyBorder(0, 0, 0, 0));
         //comboBox.putClientProperty("sizeVariant", "mini");
         return comboBox;
     }
 
-    private JSpinner createSpinner() {
+    /*
+    private JSpinner createSpinner(boolean inForest) {
         SpinnerModel model = new SpinnerNumberModel(parameterDefinition.getMinimumValue(), parameterDefinition.getMinimumValue(), parameterDefinition.getMaximumValue(), parameterDefinition.getStep());
         JSpinner spinner = new JSpinner(model);
         //spinner.putClientProperty("JComponent.sizeVariant", "mini");
+        spinner.setBorder(new EmptyBorder(2,3,2,3));
+
+        Dimension d = spinner.getPreferredSize();
+        d.width = 100;
+        spinner.setPreferredSize(d);
+
+        // Set the margin (add two spaces to the left and right side of the value)
+        int top = 0;
+        int left = 2;
+        int bottom = 0;
+        int right = 2;
+        Insets insets = new Insets(top, left, bottom, right);
+        JFormattedTextField tf = ((JSpinner.DefaultEditor) spinner.getEditor()).getTextField();
+        tf.setMargin(insets);
+
+        if (inForest) {
+            tf.setBackground(Color.green);
+//            spinner.setBackground(Color.green);
+        }
         return spinner;
+    }*/
+
+    public JComboBox getFreeAirMin() {
+        return freeAirMin;
     }
 
-    public JComboBox getFreeAirComboBox() {
-        return freeAirComboBox;
+    public JComboBox getFreeAirMax() {
+        return freeAirMax;
     }
 
-    public JComboBox getForestComboBox() {
-        return forestComboBox;
+    public JComboBox getForestMin() {
+        return forestMin;
     }
 
-    public JSpinner getFreeAirMinSpinner() {
-        return freeAirMinSpinner;
-    }
-
-    public JSpinner getFreeAirMaxSpinner() {
-        return freeAirMaxSpinner;
-    }
-
-    public JSpinner getForestMinSpinner() {
-        return forestMinSpinner;
-    }
-
-    public JSpinner getForestMaxSpinner() {
-        return forestMaxSpinner;
+    public JComboBox getForestMax() {
+        return forestMax;
     }
 
     public ParameterDefinition getParameterDefinition() {
@@ -98,24 +110,21 @@ public class ParameterLine {
         return value;
     }
 
+    /*
     private Float getSpinnerValue(JSpinner spinner) {
         return new Float((Double) spinner.getValue());
-    }
+    } */
 
     public SimulationOrderParameter getOrderParameter() {
         SimulationOrderParameter simulationOrderParameter = new SimulationOrderParameter(getParameterDefinition());
-        Float freeAirValue = getSelectedValue(getFreeAirComboBox());
-        simulationOrderParameter.setFreeAirValue(freeAirValue);
-        Float freeAirMin = getSpinnerValue(getFreeAirMinSpinner());
+        Float freeAirMin = getSelectedValue(getFreeAirMin());
         simulationOrderParameter.setFreeAirMin(freeAirMin);
-        Float freeAirMax = getSpinnerValue(getFreeAirMaxSpinner());
+        Float freeAirMax = getSelectedValue(getFreeAirMax());
         simulationOrderParameter.setFreeAirMax(freeAirMax);
         if (parameterDefinition.isHasForest()) {
-            Float forestValue = getSelectedValue(getForestComboBox());
-            simulationOrderParameter.setFreeAirValue(forestValue);
-            Float forestMin = getSpinnerValue(getForestMinSpinner());
+            Float forestMin = getSelectedValue(getForestMin());
             simulationOrderParameter.setForestMin(forestMin);
-            Float forestMax = getSpinnerValue(getForestMaxSpinner());
+            Float forestMax = getSelectedValue(getForestMax());
             simulationOrderParameter.setForestMax(forestMax);
         }
         return simulationOrderParameter;

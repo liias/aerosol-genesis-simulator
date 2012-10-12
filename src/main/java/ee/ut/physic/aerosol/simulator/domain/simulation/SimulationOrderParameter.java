@@ -3,7 +3,6 @@ package ee.ut.physic.aerosol.simulator.domain.simulation;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParameterDefinition;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 import java.util.Random;
@@ -24,7 +23,6 @@ public class SimulationOrderParameter extends AbstractParameter {
     }
 
     @ManyToOne
-    @JoinColumn(name = "simulationOrderId")
     public SimulationOrder getSimulationOrder() {
         return simulationOrder;
     }
@@ -39,6 +37,7 @@ public class SimulationOrderParameter extends AbstractParameter {
 
     public void setFreeAirMin(Float freeAirMin) {
         this.freeAirMin = freeAirMin;
+        this.setFreeAirValue(freeAirMin);
     }
 
     public Float getFreeAirMax() {
@@ -55,6 +54,7 @@ public class SimulationOrderParameter extends AbstractParameter {
 
     public void setForestMin(Float forestMin) {
         this.forestMin = forestMin;
+        this.setForestValue(forestMin);
     }
 
     public Float getForestMax() {
@@ -67,41 +67,56 @@ public class SimulationOrderParameter extends AbstractParameter {
 
     @Transient
     public Float getFreeAirExactValueOrRandomBetweenMinMax() {
-        return getExactValueOrRandomBetweenMinMax(getFreeAirValue(), getFreeAirMin(), getFreeAirMax());
+        return getExactValueOrRandomBetweenMinMax(getFreeAirMin(), getFreeAirMax());
     }
 
     @Transient
     public Float getForestExactValueOrRandomBetweenMinMax() {
-        return getExactValueOrRandomBetweenMinMax(getForestValue(), getForestMin(), getForestMax());
-    }
-
-    @Transient
-    public boolean isOnlyMinAndMaxSet(Float value, Float min, Float max) {
-        return value == null && min != null && max != null;
-    }
-
-    @Transient
-    public Float getExactValueOrRandomBetweenMinMax(Float value, Float min, Float max) {
-        if (isOnlyMinAndMaxSet(value, min, max)) {
-            Random random = new Random();
-            if (isIntegerValue()) {
-                Integer minInteger = min.intValue();
-                Integer maxInteger = max.intValue();
-                Integer intValue;
-                if (minInteger.equals(maxInteger)) {
-                    intValue = minInteger;
-                } else if (minInteger > maxInteger) {
-                    intValue = random.nextInt(minInteger - maxInteger) + maxInteger;
-                } else {
-                    intValue = random.nextInt(maxInteger - minInteger) + minInteger;
-                }
-                //The lower limit is inclusive, but the upper limit is exclusive.
-                value = intValue.floatValue();
-            } else {
-                value = random.nextFloat() * (max - min) + min;
+        if (hasForest()) {
+            //Forest value is not required, but maybe it should
+            if (getForestMin() != null) {
+                return getExactValueOrRandomBetweenMinMax(getForestMin(), getForestMax());
             }
         }
-        return value;
+        return null;
+    }
+
+    @Transient
+    private Float getRandomIntegerBetweenMinMax(Float min, Float max) {
+        Random random = new Random();
+        Integer minInteger = min.intValue();
+        Integer maxInteger = max.intValue();
+        Integer intValue;
+        if (minInteger.equals(maxInteger)) {
+            intValue = minInteger;
+        } else if (minInteger > maxInteger) {
+            intValue = random.nextInt(minInteger - maxInteger) + maxInteger;
+        } else {
+            intValue = random.nextInt(maxInteger - minInteger) + minInteger;
+        }
+        //The lower limit is inclusive, but the upper limit is exclusive.
+        return intValue.floatValue();
+    }
+
+    @Transient
+    private Float getRandomFloatValueBetweenMinAndMax(Float min, Float max) {
+        Random random = new Random();
+        return random.nextFloat() * (max - min) + min;
+    }
+
+    //TODO: Unit test it
+    @Transient
+    public Float getExactValueOrRandomBetweenMinMax(Float min, Float max) {
+        if (min == null) {
+            throw new IllegalArgumentException("Minimum value MUST be set");
+        }
+        if (max != null) {
+            if (isIntegerValue()) {
+                return getRandomIntegerBetweenMinMax(min, max);
+            }
+            return getRandomFloatValueBetweenMinAndMax(min, max);
+        }
+        return min;
     }
 
     public SimulationProcessParameter generateProcessParameter() {

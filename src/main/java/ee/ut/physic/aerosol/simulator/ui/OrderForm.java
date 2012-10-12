@@ -31,6 +31,10 @@ public class OrderForm extends JPanel {
 
     public OrderForm(ParametersConfiguration parametersConfiguration) {
         this.parametersConfiguration = parametersConfiguration;
+
+//        setBackground(Color.ORANGE);
+//        setBorder(new EmptyBorder(0,0,0,0));
+
         //LayoutManager layout = new BorderLayout();
         LayoutManager layout = new GridBagLayout();
         LayoutManager layout2 = new GridBagLayout();
@@ -55,7 +59,7 @@ public class OrderForm extends JPanel {
 
         constraints.gridy = 0;
         addParametersGroup("general", leftPanel, constraints);
-        addParametersGroup("nucleation", rightPanel, constraints);
+        addParametersGroup("ionization", rightPanel, constraints);
         constraints.gridy = 1;
         addParametersGroup("background", leftPanel, constraints);
         addParametersGroup("first_condensing", rightPanel, constraints);
@@ -65,7 +69,7 @@ public class OrderForm extends JPanel {
         constraints.gridy = 3;
         addParametersGroup("presentation", leftPanel, constraints);
         constraints.gridy = 4;
-        addParametersGroup("ionization", leftPanel, constraints);
+        addParametersGroup("nucleation", leftPanel, constraints);
 
         constraints.gridx = 0;
         JLabel commentLabel = new JLabel("Comment (Max 50 char.):");
