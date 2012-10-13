@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,13 +19,15 @@ public class ParameterDefinition {
     //Long description
     private String description = "";
 
-    private float minimumValue;
-    private float maximumValue;
-    private Float defaultValue;
+    private BigDecimal minimumValue;
+    private BigDecimal maximumValue;
+    private BigDecimal defaultValue;
+
+    //Step MUST NOT be 0
     //The step for combobox
-    private float step;
+    private BigDecimal step;
     //If set, use these values instead of step-based
-    private List<Float> selectionValues;
+    private List<BigDecimal> selectionValues;
     private String unit = "";
     private boolean hasForest = false;
     // If not specified, then default is float
@@ -65,38 +68,38 @@ public class ParameterDefinition {
         this.description = description;
     }
 
-    public float getMinimumValue() {
+    public BigDecimal getMinimumValue() {
         return minimumValue;
     }
 
-    public void setMinimumValue(float minimumValue) {
+    public void setMinimumValue(BigDecimal minimumValue) {
         this.minimumValue = minimumValue;
     }
 
-    public float getMaximumValue() {
+    public BigDecimal getMaximumValue() {
         return maximumValue;
     }
 
-    public void setMaximumValue(float maximumValue) {
+    public void setMaximumValue(BigDecimal maximumValue) {
         this.maximumValue = maximumValue;
     }
 
-    public Float getDefaultValue() {
+    public BigDecimal getDefaultValue() {
         if (defaultValue == null) {
             return getMinimumValue();
         }
         return defaultValue;
     }
 
-    public void setDefaultValue(Float defaultValue) {
+    public void setDefaultValue(BigDecimal defaultValue) {
         this.defaultValue = defaultValue;
     }
 
-    public float getStep() {
+    public BigDecimal getStep() {
         return step;
     }
 
-    public void setStep(float step) {
+    public void setStep(BigDecimal step) {
         this.step = step;
     }
 
@@ -125,11 +128,11 @@ public class ParameterDefinition {
     }
 
     @Transient
-    public List<Float> getSelectionValues() {
+    public List<BigDecimal> getSelectionValues() {
         return selectionValues;
     }
 
-    public void setSelectionValues(List<Float> selectionValues) {
+    public void setSelectionValues(List<BigDecimal> selectionValues) {
         this.selectionValues = selectionValues;
     }
 
@@ -144,20 +147,18 @@ public class ParameterDefinition {
     @Transient
     public String[] getAllValues() {
         List<String> values = new ArrayList<String>();
-        List<Float> selectionValues = getSelectionValues();
+        List<BigDecimal> selectionValues = getSelectionValues();
         if (selectionValues != null && !selectionValues.isEmpty()) {
-            for (Float value : selectionValues) {
+            for (BigDecimal value : selectionValues) {
                 values.add(value.toString());
             }
         } else {
-            float min = getMinimumValue();
-            float max = getMaximumValue();
-            float step = getStep();
-
-            for (Float value = min; value <= max; value += step) {
-                // little fix for adding floats, they can't be just added to eachother without overflowing
-                Float savedValue = (float) (Math.round(value * 100)) / 100;
-                values.add(savedValue.toString());
+            BigDecimal min = getMinimumValue();
+            BigDecimal max = getMaximumValue();
+            BigDecimal step = getStep();
+            for (BigDecimal value = min; value.compareTo(max) != 1; value = value.add(step)) {
+                String stringValue = value.toString();
+                values.add(stringValue);
             }
         }
         return values.toArray(new String[values.size()]);

@@ -52,6 +52,8 @@ public class ParameterLine {
     }
 
     private void setDefaultValues() {
+        //NumberFormat formatter = new DecimalFormat("####.#########");
+        //String defaultValue = formatter.format(getParameterDefinition().getDefaultValue());
         String defaultValue = getParameterDefinition().getDefaultValue().toString();
         freeAirMin.setSelectedItem(defaultValue);
         freeAirMax.setSelectedIndex(0);
