@@ -23,6 +23,7 @@ public class ParameterLine {
 
     private void createWidgets() {
         label = new JLabel();
+        label.setBorder(BorderFactory.createEmptyBorder(0,2,0,2));
         label.setText(parameterDefinition.getLabel());
         freeAirMin = createComboBox(true, false);
         freeAirMax = createComboBox(false, false);

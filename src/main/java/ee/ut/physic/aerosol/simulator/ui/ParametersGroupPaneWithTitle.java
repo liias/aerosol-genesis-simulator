@@ -53,7 +53,7 @@ public class ParametersGroupPaneWithTitle extends JPanel {
         add(parametersGroupPane, constraints);
         Action toggleAction = parametersGroupPane.getActionMap().get(JXCollapsiblePane.TOGGLE_ACTION);
 
-        title.setBorder(new EmptyBorder(0,0,0,0));
+        title.setBorder(new EmptyBorder(2,2,2,2));
         title.addActionListener(toggleAction);
 
 

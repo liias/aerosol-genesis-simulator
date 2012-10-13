@@ -18,7 +18,7 @@ public class MainFrame extends JFrame {
         setIconImage(Toolkit.getDefaultToolkit().getImage(iconUrl));
         setTitle("Aerosol Burst Simulator");
         setSize(1024, 748);
-        setMinimumSize(new Dimension(400, 400));
+        setMinimumSize(new Dimension(600, 500));
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         LayoutManager layout = new BorderLayout();

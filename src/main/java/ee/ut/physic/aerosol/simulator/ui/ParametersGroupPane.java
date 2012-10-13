@@ -12,8 +12,11 @@ public class ParametersGroupPane extends JPanel {
     Collection<ParameterLine> parameterLines = new ArrayList<ParameterLine>();
     GridBagConstraints constraints;
 
+    private Color stripeColor = Color.CYAN;
+
     public ParametersGroupPane(Collection<ParameterDefinition> parameterDefinitions) {
         this.parameterDefinitions = parameterDefinitions;
+        stripeColor = getBackground().brighter();
         LayoutManager layout = new GridBagLayout();
         setLayout(layout);
         constraints = new GridBagConstraints();
@@ -25,67 +28,57 @@ public class ParametersGroupPane extends JPanel {
         createParameterLines();
     }
 
-    public int addParameterLine(int y, ParameterLine parameterLine) {
+    public void addParameterLine(ParameterLine parameterLine, int y, boolean hasBackground) {
         constraints.gridy = y;
         constraints.gridx = 0;
         constraints.fill = GridBagConstraints.BOTH;
         constraints.weightx = 1;
         JLabel label = parameterLine.getLabel();
         label.setOpaque(true);
+        if (hasBackground) {
 
-        if (y % 2 == 1) {
-            label.setBackground(Color.GRAY);
-        } else {
-            label.setBackground(Color.LIGHT_GRAY);
+            label.setBackground(stripeColor);
         }
-
         add(label, constraints);
-//        constraints.fill = GridBagConstraints.NONE;
         constraints.weightx = 0;
         constraints.gridx = 1;
         constraints.anchor = GridBagConstraints.EAST;
-
         add(parameterLine.getFreeAirMin(), constraints);
-//        add(parameterLine.getFreeAirComboBox(), constraints);
         constraints.gridx = 2;
         add(parameterLine.getFreeAirMax(), constraints);
-//        add(parameterLine.getFreeAirMin(), constraints);
-//        constraints.gridx = 3;
-//        add(parameterLine.getFreeAirMax(), constraints);
         if (parameterLine.getParameterDefinition().isHasForest()) {
             y++;
             constraints.gridy = y;
             constraints.gridx = 0;
             JLabel forestLabel = new JLabel("  in forest:");
             forestLabel.setOpaque(true);
-            forestLabel.setBackground(Color.GREEN);
-          /*  if (y % 2 == 1) {
-                forestLabel.setBackground(Color.GRAY);
-            } else {
-                forestLabel.setBackground(Color.LIGHT_GRAY);
-            }*/
+            if (hasBackground) {
+                forestLabel.setBackground(stripeColor);
+            }
             add(forestLabel, constraints);
             constraints.gridx = 1;
             add(parameterLine.getForestMin(), constraints);
-//            add(parameterLine.getForestComboBox(), constraints);
             constraints.gridx = 2;
             add(parameterLine.getForestMax(), constraints);
-//            add(parameterLine.getForestMin(), constraints);
-//            constraints.gridx = 6;
-//            add(parameterLine.getForestMax(), constraints);
         }
-        return y;
     }
 
     public void createParameterLines() {
-        int i = 0;
+
+
+
+        int rowIndex = 0;
+        boolean hasBackground = true;
         for (ParameterDefinition parameterDefinition : parameterDefinitions) {
             ParameterLine parameterLine = new ParameterLine(parameterDefinition);
             parameterLines.add(parameterLine);
-//            constraints.gridy = i;
-            int y = addParameterLine(i, parameterLine);
-            i = y + 1;
-//            i++;
+            addParameterLine(parameterLine, rowIndex, hasBackground);
+            if (parameterLine.getParameterDefinition().isHasForest()) {
+                rowIndex += 2;
+            } else {
+                rowIndex++;
+            }
+            hasBackground = !hasBackground;
         }
     }
 
