@@ -20,6 +20,7 @@ public class ParameterDefinition {
 
     private float minimumValue;
     private float maximumValue;
+    private Float defaultValue;
     //The step for combobox
     private float step;
     //If set, use these values instead of step-based
@@ -78,6 +79,17 @@ public class ParameterDefinition {
 
     public void setMaximumValue(float maximumValue) {
         this.maximumValue = maximumValue;
+    }
+
+    public Float getDefaultValue() {
+        if (defaultValue == null) {
+            return getMinimumValue();
+        }
+        return defaultValue;
+    }
+
+    public void setDefaultValue(Float defaultValue) {
+        this.defaultValue = defaultValue;
     }
 
     public float getStep() {
@@ -142,9 +154,9 @@ public class ParameterDefinition {
             float max = getMaximumValue();
             float step = getStep();
 
-            for (Float value = min; value <= max; value += step) {        
-            	// little fix for adding floats, they can't be just added to eachother without overflowing
-            	Float savedValue = (float)(Math.round(value * 100))/100;
+            for (Float value = min; value <= max; value += step) {
+                // little fix for adding floats, they can't be just added to eachother without overflowing
+                Float savedValue = (float) (Math.round(value * 100)) / 100;
                 values.add(savedValue.toString());
             }
         }

@@ -29,8 +29,8 @@ public class OrderToolBar extends JToolBar {
 
         JButton openButton = new JButton("Open");
         JButton saveButton = new JButton("Save");
-        JButton defaultsButton = new JButton("Reset");
-        JButton clearButton = new JButton("Clear");
+        JButton resetButton = createResetButton();
+        JButton clearButton = createClearButton();
 
         JButton compareButton = new JButton("Compare");
         JButton setBestButton = new JButton("Set Best");
@@ -45,7 +45,7 @@ public class OrderToolBar extends JToolBar {
 
         add(openButton);
         add(saveButton);
-        add(defaultsButton);
+        add(resetButton);
         add(clearButton);
         addSeparator();
         add(compareButton);
@@ -60,7 +60,7 @@ public class OrderToolBar extends JToolBar {
         add(simulateButton);
     }
 
-          /*
+    /*
     protected JButton makeNavigationButton(String actionCommand,
                                            String toolTipText,
                                            String altText) {
@@ -75,6 +75,25 @@ public class OrderToolBar extends JToolBar {
     }
     */
 
+    private JButton createClearButton() {
+        JButton clearButton = new JButton("Clear");
+        clearButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                clear();
+            }
+        });
+        return clearButton;
+    }
+
+    private JButton createResetButton() {
+        JButton resetButton = new JButton("Reset");
+        resetButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                reset();
+            }
+        });
+        return resetButton;
+    }
 
     private JTextField createCommentField() {
         JTextField commentField = new JTextField();
@@ -105,6 +124,16 @@ public class OrderToolBar extends JToolBar {
 
     private int getNumberOfProcesses() {
         return (Integer) numberOfProcessesSpinner.getValue();
+    }
+
+    public void clear() {
+        logger.debug("Clear button pressed");
+        orderForm.clear();
+    }
+
+    public void reset() {
+        logger.debug("Reset button pressed");
+        orderForm.reset();
     }
 
     //When simulate button is pressed

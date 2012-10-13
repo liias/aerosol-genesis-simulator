@@ -8,6 +8,7 @@
                 "label":"Time period under consideration (<= 1440)",
                 "minimumValue":0,
                 "maximumValue":1440,
+                "defaultValue":5,
                 "step":25,
                 "unit":"min",
                 "valueType":"int",
@@ -255,7 +256,7 @@
             },
             {
                 "name":"F4",
-                "label":"Nadykto-Yu dipole enhanchement factor for d = 1 nm",
+                "label":"Nadykto-Yu dipole enhancement factor for d = 1 nm",
                 "minimumValue":1.0,
                 "maximumValue":3.0,
                 "step":0.1,
@@ -264,7 +265,7 @@
             },
             {
                 "name":"F5",
-                "label":"Nadykto-Yu dipole enhanchement coefficient for d = 2 nm",
+                "label":"Nadykto-Yu dipole enhancement coefficient for d = 2 nm",
                 "minimumValue":1.0,
                 "maximumValue":3.0,
                 "step":0.1,

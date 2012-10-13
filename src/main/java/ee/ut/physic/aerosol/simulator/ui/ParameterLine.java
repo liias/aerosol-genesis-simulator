@@ -13,69 +13,66 @@ public class ParameterLine {
     private JComboBox freeAirMax;
     private JComboBox forestMin;
     private JComboBox forestMax;
-    String[] parameterValues;
+    private String[] parameterValues;
+    private boolean hasForest = false;
 
     public ParameterLine(ParameterDefinition parameterDefinition) {
         this.parameterDefinition = parameterDefinition;
+        if (parameterDefinition.isHasForest()) {
+            hasForest = true;
+        }
         parameterValues = parameterDefinition.getAllValues();
         createWidgets();
     }
 
     private void createWidgets() {
         label = new JLabel();
-        label.setBorder(BorderFactory.createEmptyBorder(0,2,0,2));
+        label.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
         label.setText(parameterDefinition.getLabel());
-        freeAirMin = createComboBox(true, false);
-        freeAirMax = createComboBox(false, false);
-        if (parameterDefinition.isHasForest()) {
-            forestMin = createComboBox(true, true);
-            forestMax = createComboBox(false, true);
+        freeAirMin = createComboBox();
+        freeAirMax = createComboBox();
+        if (hasForest) {
+            forestMin = createComboBox();
+            forestMax = createComboBox();
         }
+        setDefaultValues();
     }
 
     @SuppressWarnings("unchecked")
-    private JComboBox createComboBox(boolean isMin, boolean inForest) {
+    private JComboBox createComboBox() {
         JComboBox comboBox = new JComboBox();
         comboBox.addItem("");
         for (String value : parameterValues) {
             comboBox.addItem(value);
         }
         comboBox.setEditable(true);
-        //set the minimum value as default on start
-        if (isMin) {
-            comboBox.setSelectedIndex(1);
-        }
         comboBox.setBorder(new EmptyBorder(0, 0, 0, 0));
         //comboBox.putClientProperty("sizeVariant", "mini");
         return comboBox;
     }
 
-    /*
-    private JSpinner createSpinner(boolean inForest) {
-        SpinnerModel model = new SpinnerNumberModel(parameterDefinition.getMinimumValue(), parameterDefinition.getMinimumValue(), parameterDefinition.getMaximumValue(), parameterDefinition.getStep());
-        JSpinner spinner = new JSpinner(model);
-        //spinner.putClientProperty("JComponent.sizeVariant", "mini");
-        spinner.setBorder(new EmptyBorder(2,3,2,3));
-
-        Dimension d = spinner.getPreferredSize();
-        d.width = 100;
-        spinner.setPreferredSize(d);
-
-        // Set the margin (add two spaces to the left and right side of the value)
-        int top = 0;
-        int left = 2;
-        int bottom = 0;
-        int right = 2;
-        Insets insets = new Insets(top, left, bottom, right);
-        JFormattedTextField tf = ((JSpinner.DefaultEditor) spinner.getEditor()).getTextField();
-        tf.setMargin(insets);
-
-        if (inForest) {
-            tf.setBackground(Color.green);
-//            spinner.setBackground(Color.green);
+    private void setDefaultValues() {
+        String defaultValue = getParameterDefinition().getDefaultValue().toString();
+        freeAirMin.setSelectedItem(defaultValue);
+        freeAirMax.setSelectedIndex(0);
+        if (hasForest) {
+            forestMin.setSelectedItem(defaultValue);
+            forestMax.setSelectedIndex(0);
         }
-        return spinner;
-    }*/
+    }
+
+    public void reset() {
+        setDefaultValues();
+    }
+
+    public void clear() {
+        freeAirMin.setSelectedIndex(0);
+        freeAirMax.setSelectedIndex(0);
+        if (hasForest) {
+            forestMin.setSelectedIndex(0);
+            forestMax.setSelectedIndex(0);
+        }
+    }
 
     public JComboBox getFreeAirMin() {
         return freeAirMin;
@@ -110,11 +107,6 @@ public class ParameterLine {
         }
         return value;
     }
-
-    /*
-    private Float getSpinnerValue(JSpinner spinner) {
-        return new Float((Double) spinner.getValue());
-    } */
 
     public SimulationOrderParameter getOrderParameter() {
         SimulationOrderParameter simulationOrderParameter = new SimulationOrderParameter(getParameterDefinition());

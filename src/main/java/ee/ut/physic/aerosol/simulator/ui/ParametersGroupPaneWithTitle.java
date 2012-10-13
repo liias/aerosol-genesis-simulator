@@ -9,8 +9,8 @@ import java.awt.*;
 import java.util.Collection;
 
 public class ParametersGroupPaneWithTitle extends JPanel {
-    ParametersGroup parametersGroup;
-    ParametersGroupCollapsiblePane parametersGroupPane;
+    private ParametersGroup parametersGroup;
+    private ParametersGroupCollapsiblePane parametersGroupPane;
     private JButton title;
 
     public ParametersGroupPaneWithTitle(ParametersGroup parametersGroup) {

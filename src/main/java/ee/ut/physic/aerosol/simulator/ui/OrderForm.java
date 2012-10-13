@@ -24,7 +24,7 @@ public class OrderForm extends JPanel {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.NORTHWEST;
 
-        constraints.insets = new Insets(0,3,0,3);
+        constraints.insets = new Insets(0, 3, 0, 3);
 
         constraints.gridy = 0;
         addParametersGroup("general", leftPanel, constraints);
@@ -72,5 +72,21 @@ public class OrderForm extends JPanel {
         }
         simulationOrder.setSimulationOrderParameters(simulationOrderParameters);
         return simulationOrder;
+    }
+
+    public void reset() {
+        for (ParametersGroupPaneWithTitle groupPaneWithTitle : parametersGroupPanesWithTitle) {
+            for (ParameterLine parameterLine : groupPaneWithTitle.getParameterLines()) {
+                parameterLine.reset();
+            }
+        }
+    }
+
+    public void clear() {
+        for (ParametersGroupPaneWithTitle groupPaneWithTitle : parametersGroupPanesWithTitle) {
+            for (ParameterLine parameterLine : groupPaneWithTitle.getParameterLines()) {
+                parameterLine.clear();
+            }
+        }
     }
 }
