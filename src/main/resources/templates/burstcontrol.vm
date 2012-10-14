@@ -46,8 +46,8 @@ $time #min : Time period under consideration (<= 1440), 1
 0.115 nm: Extra distance of the Van der Waals capture, 23:h
 0.55 nm: Diameter of a growth unit, 24:u1d
 149 Å^3 : Polarizability, 25:pol1
-0 : Nadykto-Yu dipole enhanchement factor for d = 1 nm, 26:Yu1
-0 : Nadykto-Yu dipole enhanchement coefficient for d = 2 nm, 27:Yu2
+0 : Nadykto-Yu dipole enhancement factor for d = 1 nm, 26:Yu1
+0 : Nadykto-Yu dipole enhancement coefficient for d = 2 nm, 27:Yu2
 1 *nm/h: Initial plain Knudsen growth rate of neutral particles, 28:G10
 2/3 *nm/h: Halftime plain Knudsen growth rate of neutral particles, 29:G11
 1 *nm/h: Final plain Knudsen growth rate of neutral particles, 30:G12

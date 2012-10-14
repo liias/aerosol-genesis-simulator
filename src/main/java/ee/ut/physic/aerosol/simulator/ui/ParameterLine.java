@@ -28,7 +28,9 @@ public class ParameterLine {
     private void createWidgets() {
         label = new JLabel();
         label.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
-        label.setText(parameterDefinition.getLabel());
+        String labelText = parameterDefinition.getLabel();
+        labelText += " " + parameterDefinition.getUnit();
+        label.setText(labelText);
         freeAirMin = createComboBox();
         freeAirMax = createComboBox();
         if (hasForest) {

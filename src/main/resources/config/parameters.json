@@ -278,7 +278,7 @@
                 "maximumValue":200,
                 "defaultValue":150,
                 "step":10,
-                "unit":"Å^3",
+                "unit":"Å³",
                 "selectionValues":[0, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200],
                 "lineNumber":25
             },
@@ -295,11 +295,11 @@
             {
                 "name":"F5",
                 "label":"Nadykto-Yu dipole enhancement coefficient for d = 2 nm",
+                //The value must be less than parameter with name "F4"
                 "minimumValue":1.0,
                 "maximumValue":3.0,
                 "defaultValue":1.0,
                 "step":0.1,
-                "unit":"(must be less than previous parameter)",
                 "lineNumber":27
             },
             {
@@ -382,7 +382,7 @@
                 "maximumValue":200,
                 "defaultValue":100,
                 "step":10,
-                "unit":"Å^3",
+                "unit":"Å³",
                 "selectionValues":[0, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200],
                 "lineNumber":34
             },
