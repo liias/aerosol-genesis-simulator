@@ -13,6 +13,7 @@ public class ParametersGroupCollapsiblePane extends JXCollapsiblePane {
         parametersGroupPane = new ParametersGroupPane(parameterDefinitions);
         setLayout(new BorderLayout());
         setContentPane(parametersGroupPane);
+        setAnimated(false);
     }
 
     public Collection<ParameterLine> getParameterLines() {
