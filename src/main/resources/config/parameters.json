@@ -175,7 +175,8 @@
                 "label":"Maximum nucleation rate for neutral nucleation",
                 "minimumValue":0.0,
                 "maximumValue":10.0,
-                "defaultValue":0.5, //FOREST: 1.5
+                "defaultValue":0.5,
+                "defaultForestValue":1.5,
                 "step":0.5,
                 "unit":"cm-3 s-1",
                 "hasForest":true,
@@ -272,7 +273,8 @@
             {
                 "name":"F3",
                 "label":"Polarizability",
-                "minimumValue":100, //Actually it should be either 0 or 100. Randomly can be generater values between 100-200 or 0.
+                "minimumValue":100,
+                //Actually it should be either 0 or 100. Randomly can be generater values between 100-200 or 0.
                 "maximumValue":200,
                 "defaultValue":150,
                 "step":10,
@@ -305,7 +307,8 @@
                 "label":"Initial plain Knudsen growth rate of neutral particles",
                 "minimumValue":0.0,
                 "maximumValue":10.0,
-                "defaultValue":2.5, //FOREST: 1.5
+                "defaultValue":2.5,
+                //FOREST: 1.5
                 "step":0.5,
                 "unit":"*nm/h",
                 "hasForest":true,
@@ -316,7 +319,8 @@
                 "label":"Halftime plain Knudsen growth rate of neutral particles",
                 "minimumValue":0.0,
                 "maximumValue":10.0,
-                "defaultValue":3.0, //FOREST 3.5
+                "defaultValue":3.0,
+                //FOREST 3.5
                 "step":0.5,
                 "unit":"*nm/h",
                 "hasForest":true,
@@ -327,7 +331,8 @@
                 "label":"Final plain Knudsen growth rate of neutral particles",
                 "minimumValue":0.0,
                 "maximumValue":10.0,
-                "defaultValue":2.0, //FOREST 2.0
+                "defaultValue":2.0,
+                //FOREST 2.0
                 "step":0.5,
                 "unit":"*nm/h",
                 "hasForest":true,
@@ -372,7 +377,8 @@
             {
                 "name":"S1",
                 "label":"Polarizability",
-                "minimumValue":100, //Actually it should be either 0 or 100. Randomly can be generater values between 100-200 or 0.
+                "minimumValue":100,
+                //Actually it should be either 0 or 100. Randomly can be generater values between 100-200 or 0.
                 "maximumValue":200,
                 "defaultValue":100,
                 "step":10,
@@ -385,7 +391,8 @@
                 "label":"Initial plain Knudsen growth rate of neutral particles",
                 "minimumValue":0.0,
                 "maximumValue":10.0,
-                "defaultValue":2.5, //FOREST: 2.0
+                "defaultValue":2.5,
+                //FOREST: 2.0
                 "step":0.5,
                 "unit":"*nm/h",
                 "hasForest":true,
@@ -396,7 +403,8 @@
                 "label":"Halftime plain Knudsen growth rate of neutral particles",
                 "minimumValue":0.0,
                 "maximumValue":10.0,
-                "defaultValue":2.5, //FOREST 3.0
+                "defaultValue":2.5,
+                //FOREST 3.0
                 "step":0.5,
                 "unit":"*nm/h",
                 "hasForest":true,
@@ -407,7 +415,8 @@
                 "label":"Final plain Knudsen growth rate of neutral particles",
                 "minimumValue":0.0,
                 "maximumValue":10.0,
-                "defaultValue":3.5, //FOREST: 3.0
+                "defaultValue":3.5,
+                //FOREST: 3.0
                 "step":0.5,
                 "unit":"*nm/h",
                 "hasForest":true,
@@ -550,7 +559,7 @@
                 "label":"Conifer needle diameter",
                 "minimumValue":0.1,
                 "maximumValue":1.5,
-                 "defaultValue":0.9,
+                "defaultValue":0.9,
                 "step":0.1,
                 "unit":"mm",
                 "lineNumber":50

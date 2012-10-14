@@ -22,6 +22,7 @@ public class ParameterDefinition {
     private BigDecimal minimumValue;
     private BigDecimal maximumValue;
     private BigDecimal defaultValue;
+    private BigDecimal defaultForestValue;
 
     //Step MUST NOT be 0
     //The step for combobox
@@ -95,6 +96,17 @@ public class ParameterDefinition {
         this.defaultValue = defaultValue;
     }
 
+    public BigDecimal getDefaultForestValue() {
+        if (defaultForestValue == null) {
+            return getDefaultValue();
+        }
+        return defaultForestValue;
+    }
+
+    public void setDefaultForestValue(BigDecimal defaultForestValue) {
+        this.defaultForestValue = defaultForestValue;
+    }
+
     public BigDecimal getStep() {
         return step;
     }
@@ -160,8 +172,8 @@ public class ParameterDefinition {
                 String stringValue = value.toString();
                 values.add(stringValue);
             }
-            if(step.intValue() != 0 && max.intValue() % step.intValue() != 0) {
-            	values.add(max.toString());
+            if (step.intValue() != 0 && max.intValue() % step.intValue() != 0) {
+                values.add(max.toString());
             }
         }
         return values.toArray(new String[values.size()]);
