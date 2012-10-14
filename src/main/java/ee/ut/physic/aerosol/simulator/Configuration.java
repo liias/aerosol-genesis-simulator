@@ -1,6 +1,7 @@
 package ee.ut.physic.aerosol.simulator;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParameterDefinition;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParametersConfiguration;
 import org.apache.commons.lang.SystemUtils;
@@ -48,7 +49,7 @@ public class Configuration {
         this.burstAppProperties = burstAppProperties;
     }
 
-    public void loadParametersConfiguration() {
+    public void loadParametersConfiguration() throws JsonSyntaxException {
         InputStream stream = getClass().getClassLoader().getResourceAsStream("config/parameters.json");
         Reader json = new InputStreamReader(stream);
         ParametersConfiguration parametersConfiguration = new Gson().fromJson(json, ParametersConfiguration.class);
