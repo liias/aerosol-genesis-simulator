@@ -297,7 +297,7 @@
                 "maximumValue":3.0,
                 "defaultValue":1.0,
                 "step":0.1,
-                "unit"(must be less than previous parameter)",
+                "unit":"(must be less than previous parameter)",
                 "lineNumber":27
             },
             {

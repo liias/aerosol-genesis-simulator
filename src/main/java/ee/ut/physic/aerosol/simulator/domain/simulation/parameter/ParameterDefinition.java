@@ -160,6 +160,9 @@ public class ParameterDefinition {
                 String stringValue = value.toString();
                 values.add(stringValue);
             }
+            if(step.intValue() != 0 && max.intValue() % step.intValue() != 0) {
+            	values.add(max.toString());
+            }
         }
         return values.toArray(new String[values.size()]);
     }
