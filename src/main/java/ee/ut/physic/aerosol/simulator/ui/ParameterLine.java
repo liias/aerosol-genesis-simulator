@@ -4,7 +4,7 @@ import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrderParameter
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParameterDefinition;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+import java.awt.*;
 
 public class ParameterLine {
     private ParameterDefinition parameterDefinition;
@@ -46,8 +46,10 @@ public class ParameterLine {
             comboBox.addItem(value);
         }
         comboBox.setEditable(true);
-        comboBox.setBorder(new EmptyBorder(0, 0, 0, 0));
-        //comboBox.putClientProperty("sizeVariant", "mini");
+        comboBox.setBorder(BorderFactory.createEmptyBorder());
+        comboBox.setPrototypeDisplayValue("00000000");
+        int height = (int) comboBox.getPreferredSize().getHeight();
+        comboBox.setPreferredSize(new Dimension(80, height));
         return comboBox;
     }
 

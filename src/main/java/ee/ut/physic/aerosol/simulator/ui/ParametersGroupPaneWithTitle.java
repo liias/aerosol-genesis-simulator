@@ -18,7 +18,6 @@ public class ParametersGroupPaneWithTitle extends JPanel {
         setLayout(layout);
         createParametersGroupPane();
         createTitle();
-
     }
 
     private void createParametersGroupPane() {
@@ -41,15 +40,12 @@ public class ParametersGroupPaneWithTitle extends JPanel {
         titleLabel.setForeground(Color.WHITE);
         Font f = titleLabel.getFont();
         titleLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
-        // use the collapse/expand icons from the JTree UI
         Action toggleAction = parametersGroupPane.getActionMap().get(JXCollapsiblePane.TOGGLE_ACTION);
+        // use the collapse/expand icons from the JTree UI
         toggleAction.putValue(JXCollapsiblePane.COLLAPSE_ICON, UIManager.getIcon("Tree.expandedIcon"));
         toggleAction.putValue(JXCollapsiblePane.EXPAND_ICON, UIManager.getIcon("Tree.collapsedIcon"));
-
         toggleButton = new JButton(toggleAction);
         toggleButton.setText("");
-
-        //toggleButton.putClientProperty("JComponent.sizeVariant", "mini");
         toggleButton.setBorder(BorderFactory.createEmptyBorder(3,3,3,3));
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.NORTHWEST;
@@ -67,23 +63,9 @@ public class ParametersGroupPaneWithTitle extends JPanel {
         constraints.gridy = 0;
         constraints.weightx = 1.0;
         constraints.weighty = 1.0;
-
         add(titlePanel, constraints);
-
-//        JLabel label = new JLabel(getParametersGroup().getName());
-//        add(label, constraints);
         constraints.gridy = 1;
-
-
-        //Action toggleAction = parametersGroupPane.getActionMap().get(JXCollapsiblePane.TOGGLE_ACTION);
-        //toggleButton.addActionListener(toggleAction);
         add(parametersGroupPane, constraints);
-
-
-
-
-
-        //toggleButton.setIcon((Icon) toggleAction.getValue("collapseIcon"));
     }
 
     public Collection<ParameterLine> getParameterLines() {

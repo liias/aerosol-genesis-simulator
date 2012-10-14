@@ -36,7 +36,6 @@ public class ParametersGroupPane extends JPanel {
         JLabel label = parameterLine.getLabel();
         label.setOpaque(true);
         if (hasBackground) {
-
             label.setBackground(stripeColor);
         }
         add(label, constraints);
@@ -64,9 +63,6 @@ public class ParametersGroupPane extends JPanel {
     }
 
     public void createParameterLines() {
-
-
-
         int rowIndex = 0;
         boolean hasBackground = true;
         for (ParameterDefinition parameterDefinition : parameterDefinitions) {
