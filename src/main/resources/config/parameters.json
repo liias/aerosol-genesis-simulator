@@ -194,12 +194,12 @@
             },
             {
                 "name":"N5",
-                "label":"Shape code of rise",
+                "label":"Shape code of rise (1=linear, 2=sinus, 3=square_of_sinus)",
                 "minimumValue":1,
                 "maximumValue":3,
                 "defaultValue":2,
                 "step":1,
-                "unit":"1=linear, 2=sinus, 3=square_of_sinus",
+                //"unit":"1=linear, 2=sinus, 3=square_of_sinus",
                 "lineNumber":18
             },
             {
@@ -226,12 +226,12 @@
             },
             {
                 "name":"N8",
-                "label":"Shape of dropping",
+                "label":"Shape of dropping (1=linear, 2=sinus, 3=square_of_sinus)",
                 "minimumValue":1,
                 "maximumValue":3,
                 "defaultValue":3,
                 "step":1,
-                "unit":"1=linear, 2=sinus, 3=square_of_sinus",
+                //"unit":"1=linear, 2=sinus, 3=square_of_sinus",
                 "lineNumber":21
             }
         ]

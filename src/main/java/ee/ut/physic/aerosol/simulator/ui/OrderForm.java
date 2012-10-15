@@ -24,8 +24,6 @@ public class OrderForm extends JPanel {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.NORTHWEST;
 
-        constraints.insets = new Insets(0, 3, 0, 3);
-
         constraints.gridy = 0;
         addParametersGroup("general", leftPanel, constraints);
         addParametersGroup("ionization", rightPanel, constraints);
