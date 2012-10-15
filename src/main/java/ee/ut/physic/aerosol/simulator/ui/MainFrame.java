@@ -12,6 +12,8 @@ import java.net.URL;
 
 public class MainFrame extends JFrame {
     final Logger logger = LoggerFactory.getLogger(MainFrame.class);
+    private OrderForm orderForm;
+    private SaveAndWrite saveAndWrite;
 
     public MainFrame() {
         URL iconUrl = getClass().getResource("/images/icon.png");
@@ -28,11 +30,12 @@ public class MainFrame extends JFrame {
 
     public void createForm() {
         ParametersConfiguration parametersConfiguration = Configuration.getInstance().getParametersConfiguration();
-        OrderForm orderForm = new OrderForm(parametersConfiguration);
+        orderForm = new OrderForm(parametersConfiguration);
+        saveAndWrite = new SaveAndWrite(orderForm);
         JScrollPane scrollPane = new JScrollPane(orderForm);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         JPanel orderPanel = new JPanel(new BorderLayout());
-        OrderToolBar orderToolBar = new OrderToolBar(orderForm);
+        OrderToolBar orderToolBar = new OrderToolBar(orderForm, saveAndWrite);
         orderPanel.add(orderToolBar, BorderLayout.PAGE_START);
         orderPanel.add(scrollPane, BorderLayout.CENTER);
         setContentPane(orderPanel);

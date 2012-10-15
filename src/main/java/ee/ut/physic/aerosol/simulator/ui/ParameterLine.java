@@ -2,11 +2,16 @@ package ee.ut.physic.aerosol.simulator.ui;
 
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrderParameter;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParameterDefinition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 
 public class ParameterLine {
+    final Logger logger = LoggerFactory.getLogger(ParameterLine.class);
+
     private ParameterDefinition parameterDefinition;
     private JLabel label;
     private JComboBox freeAirMin;
@@ -15,9 +20,11 @@ public class ParameterLine {
     private JComboBox forestMax;
     private String[] parameterValues;
     private boolean hasForest = false;
+    private String name;
 
     public ParameterLine(ParameterDefinition parameterDefinition) {
         this.parameterDefinition = parameterDefinition;
+        this.name = parameterDefinition.getName();
         if (parameterDefinition.isHasForest()) {
             hasForest = true;
         }
@@ -119,12 +126,47 @@ public class ParameterLine {
         simulationOrderParameter.setFreeAirMin(freeAirMin);
         Float freeAirMax = getSelectedValue(getFreeAirMax());
         simulationOrderParameter.setFreeAirMax(freeAirMax);
-        if (parameterDefinition.isHasForest()) {
+        if (hasForest) {
             Float forestMin = getSelectedValue(getForestMin());
             simulationOrderParameter.setForestMin(forestMin);
             Float forestMax = getSelectedValue(getForestMax());
             simulationOrderParameter.setForestMax(forestMax);
         }
         return simulationOrderParameter;
+    }
+
+    public HashMap<String, String> getAllValues() {
+        HashMap<String, String> allValues = new HashMap<String, String>();
+        allValues.put("freeAirMin", (String) getFreeAirMin().getSelectedItem());
+        allValues.put("freeAirMax", (String) getFreeAirMax().getSelectedItem());
+        if (hasForest) {
+            allValues.put("forestMin", (String) getForestMin().getSelectedItem());
+            allValues.put("forestMax", (String) getForestMax().getSelectedItem());
+        }
+        return allValues;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isHasForest() {
+        return hasForest;
+    }
+
+    public void setFieldValue(String fieldName, String fieldValue) {
+        if (fieldName.equals("freeAirMin")) {
+            getFreeAirMin().setSelectedItem(fieldValue);
+        } else if (fieldName.equals("freeAirMax")) {
+            getFreeAirMax().setSelectedItem(fieldValue);
+
+        } else if (fieldName.equals("forestMin")) {
+            getForestMin().setSelectedItem(fieldValue);
+
+        } else if (fieldName.equals("forestMax")) {
+            getForestMax().setSelectedItem(fieldValue);
+        } else {
+            logger.warn("Unknown field name: " + fieldName);
+        }
     }
 }

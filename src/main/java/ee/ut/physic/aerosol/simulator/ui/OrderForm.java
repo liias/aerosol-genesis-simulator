@@ -9,6 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class OrderForm extends JPanel {
     private Collection<ParametersGroupPaneWithTitle> parametersGroupPanesWithTitle = new ArrayList<ParametersGroupPaneWithTitle>();
@@ -84,6 +86,35 @@ public class OrderForm extends JPanel {
         for (ParametersGroupPaneWithTitle groupPaneWithTitle : parametersGroupPanesWithTitle) {
             for (ParameterLine parameterLine : groupPaneWithTitle.getParameterLines()) {
                 parameterLine.clear();
+            }
+        }
+    }
+
+    protected Map<String, Map<String, String>> getAllParameterValues() {
+        Map<String, Map<String, String>> allValues = new HashMap<String, Map<String, String>>();
+        for (ParametersGroupPaneWithTitle parametersGroupPaneWithTitle : parametersGroupPanesWithTitle) {
+            for (ParameterLine parameterLine : parametersGroupPaneWithTitle.getParameterLines()) {
+                allValues.put(parameterLine.getName(), parameterLine.getAllValues());
+            }
+        }
+        return allValues;
+    }
+
+    protected void setAllParameterValues(Map<String, Map<String, String>> allValues) {
+        for (ParametersGroupPaneWithTitle parametersGroupPaneWithTitle : parametersGroupPanesWithTitle) {
+            for (ParameterLine parameterLine : parametersGroupPaneWithTitle.getParameterLines()) {
+                String name = parameterLine.getName();
+                Map<String, String> parameterValues = allValues.get(name);
+                String freeAirMin = parameterValues.get("freeAirMin");
+                parameterLine.setFieldValue("freeAirMin", freeAirMin);
+                String freeAirMax = parameterValues.get("freeAirMax");
+                parameterLine.setFieldValue("freeAirMax", freeAirMax);
+                if (parameterLine.isHasForest()) {
+                    String forestMin = parameterValues.get("forestMin");
+                    parameterLine.setFieldValue("forestMin", forestMin);
+                    String forestMax = parameterValues.get("forestMax");
+                    parameterLine.setFieldValue("forestMax", forestMax);
+                }
             }
         }
     }

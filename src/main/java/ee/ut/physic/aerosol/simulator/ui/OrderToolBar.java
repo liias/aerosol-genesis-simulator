@@ -18,17 +18,19 @@ public class OrderToolBar extends JToolBar {
     private SimulationOrderService simulationOrderService;
 
     private OrderForm orderForm;
+    private SaveAndWrite saveAndWrite;
 
     private JTextField commentField;
     private JSpinner numberOfProcessesSpinner;
 
-    public OrderToolBar(OrderForm orderForm) {
+    public OrderToolBar(OrderForm orderForm, SaveAndWrite saveAndWrite) {
         this.orderForm = orderForm;
+        this.saveAndWrite = saveAndWrite;
         setFloatable(false);
         setRollover(true);
 
-        JButton openButton = new JButton("Open");
-        JButton saveButton = new JButton("Save");
+        JButton openButton = createOpenButton();
+        JButton saveButton = createSaveButton();
         JButton resetButton = createResetButton();
         JButton clearButton = createClearButton();
 
@@ -58,6 +60,26 @@ public class OrderToolBar extends JToolBar {
         add(numberOfProcessesLabel);
         add(numberOfProcessesSpinner);
         add(simulateButton);
+    }
+
+    private JButton createOpenButton() {
+        JButton openButton = new JButton("Open");
+        openButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                open();
+            }
+        });
+        return openButton;
+    }
+
+    private JButton createSaveButton() {
+        JButton saveButton = new JButton("Save");
+        saveButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                save();
+            }
+        });
+        return saveButton;
     }
 
     /*
@@ -124,6 +146,16 @@ public class OrderToolBar extends JToolBar {
 
     private int getNumberOfProcesses() {
         return (Integer) numberOfProcessesSpinner.getValue();
+    }
+
+    private void open() {
+        logger.debug("Open button pressed");
+        saveAndWrite.openFile();
+    }
+
+    public void save() {
+        logger.debug("Save button pressed");
+        saveAndWrite.saveFile();
     }
 
     public void clear() {
