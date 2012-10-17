@@ -1,4 +1,3 @@
-#* @vtlvariable name="parameters" type="java.util.Set<ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcessParameter>" *#
 ======= BURSTCONTROL_DEMO.TXT for BURSTSIMULATOR version HT20110306 =======
 == process id is $id ==
 = The lines beginning with a symbol "=" in the first position and all lines
@@ -13,70 +12,10 @@
 === Symbol * allows to present slash-separated dual values e.g. 4.5/6.7
 === where the first is valid in the free air and the second in the forest.
 = Full instruction is available as a separate document.
-== Generated values would look like that:
-#foreach($parameter in $parameters)
-== $parameter.controlLine
-#end
 ===========================================================================
-$time #min : Time period under consideration (<= 1440), 1
-40 #: Number of evolution steps in a minute (recommended 20...60), 2:nst
-1 : Acceleration coefficient dd/dd_min, normal value is 1, 3:acc
-0 Celsius: Air temperature, 4:t
-1013 millibar: Air pressure, 5:p
-=== IONIZATION PARAMETERS ===
-4/5 *cm-3 s-1: Initial ionization rate, 6:I0
-4.5/5 *cm-3 s-1: Halftime ionization rate, 7:I1
-5 *cm-3 s-1: Final ionization rate, 8:I2
-1.4 cm2 V-1 s-1: Electric mobility of positive cluster ions, 9:Z+
-1.6 cm2 V-1 s-1: Electric mobility of negative cluster ions, 10:Z-
-1.5e-6 cm3 s-1: Cluster ion mutual recombination coefficient, 11:rec
-2 g cm-3: Density of ions (standard value is 2.08), 12:idn
-=== NUCLEATION PARAMETERS ===
-1.5 nm: Birth size of particles, 13:d0
-0 *cm-3 s-1: Maximum nucleation rate for positive ion nucleation, 14:J+
-0.1 *cm-3 s-1: Maximum nucleation rate for negative ion nucleation, 15:J-
-1/2 *cm-3 s-1: Maximum nucleation rate for neutral nucleation, 16:J0
-10 min: Rise time of the nucleation activity, 17:rt
-3 #: Shape code of rise: 1=linear, 2=sinus, 3=square_of_sinus, 18:shr
-60 min: Time of steady nucleation activity, 19:st
-30 min: Time of dropping nucleation activity, 20:dt
-3 #: Shape of dropping: 1=linear, 2=sinus, 3=square_of_sinus, 21:shd
-=== PARAMETERS OF THE FIRST CONDENSING SUBSTANCE ===
-2 g cm-3: Density of growth units, 22:u1r
-0.115 nm: Extra distance of the Van der Waals capture, 23:h
-0.55 nm: Diameter of a growth unit, 24:u1d
-149 Å^3 : Polarizability, 25:pol1
-0 : Nadykto-Yu dipole enhancement factor for d = 1 nm, 26:Yu1
-0 : Nadykto-Yu dipole enhancement coefficient for d = 2 nm, 27:Yu2
-1 *nm/h: Initial plain Knudsen growth rate of neutral particles, 28:G10
-2/3 *nm/h: Halftime plain Knudsen growth rate of neutral particles, 29:G11
-1 *nm/h: Final plain Knudsen growth rate of neutral particles, 30:G12
-2.5 nm: Critical size of quantum rebound, 31:dq0
-600 K: Extra temperature of quantum rebound, 32:Tq0
-=== PARAMETERS OF THE SECOND CONDENSING SUBSTANCE ===
-0.8 nm: Diameter of a growth unit, 33:u2d
-32 Å^3: Polarizability, 34:pol2
-2 *nm/h: Initial plain Knudsen growth rate of neutral particles, 35:G20
-3/7 *nm/h: Halftime plain Knudsen growth rate of neutral particles, 36:G21
-3 *nm/h: Final plain Knudsen growth rate of neutral particles, 37:G22
-3 nm: Critical diameter when the condensation starts, 38:nKd
-2 : Power of nano-Koehler approximation, 39:nKp
-=== PARAMETERS OF THE PRE-EXISTING BACKGROUND AEROSOL ===
-50 nm: Initial average diameter of background aerosol particles, 40:bd0
-60 nm: Halftime average diameter of background aerosol particles, 41:bd1
-60 nm: Final average diameter of background aerosol particles, 42:bd2
-1500 cm-3: Initial concentration of background aerosol particles, 43:bn0
-2000 cm-3: Halftime concentration of background aerosol particles, 44:bn1
-3000 cm-3: Final concentration of background aerosol particles, 45:bn2
-=== PARAMETERS OF THE CONIFER FOREST ===
-180 m: Air residence distance (time * wind) in forest, 46:rd
-1 m s-1: Initial wind in the forest, 47:w0
-1 m s-1: Halftime wind in the forest, 48:w1
-1 m s-1: Final wind in the forest, 49:w2
-0.9 mm: Conifer needle diameter, 50:dn
-150 m-2: Conifer needle length in a unit volume m/m3, 51:L
-=== PRESENTATION CONTROL ===
-1 #: Particle distribution argument is 1) diameter or 2) mobility, 52:d/Z
+#foreach($parameter in $parameters)
+$parameter.controlLine
+#end
 1.333 nm or cm2 V-1 s-1: Low end of the particle presentation range, 53:dmn
 40 nm or cm2 V-1 s-1: High end of the particle presentation range, 54:dmx
 28 #: Number of size fractions in distribution tables (<= 99), 55:nfr

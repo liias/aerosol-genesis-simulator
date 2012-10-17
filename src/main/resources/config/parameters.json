@@ -93,7 +93,7 @@
                 "lineNumber":8
             },
             {
-                "name":"I3",
+                "name":"Z+",
                 "label":"Electric mobility of positive cluster ions",
                 "minimumValue":0.3,
                 "maximumValue":2.0,
@@ -103,7 +103,7 @@
                 "lineNumber":9
             },
             {
-                "name":"I4",
+                "name":"Z-",
                 "label":"Electric mobility of negative cluster ions",
                 "minimumValue":0.3,
                 "maximumValue":2.0,
@@ -113,7 +113,7 @@
                 "lineNumber":10
             },
             {
-                "name":"I5",
+                "name":"rec",
                 "label":"Cluster ion mutual recombination coefficient",
                 "minimumValue":0.0000010,
                 "maximumValue":0.0000020,
@@ -123,7 +123,7 @@
                 "lineNumber":11
             },
             {
-                "name":"I6",
+                "name":"idn",
                 "label":"Density of ions (standard value is 2.08)",
                 "minimumValue":1.0,
                 "maximumValue":3.0,
@@ -139,7 +139,7 @@
         "name":"Nucleation Parameters",
         "definitions":[
             {
-                "name":"N0",
+                "name":"d0",
                 "label":"Birth size of particles",
                 "minimumValue":0.30,
                 "maximumValue":2.50,
@@ -149,7 +149,7 @@
                 "lineNumber":13
             },
             {
-                "name":"N1",
+                "name":"J+",
                 "label":"Maximum nucleation rate for positive ion nucleation",
                 "minimumValue":0.0,
                 "maximumValue":2.0,
@@ -160,7 +160,7 @@
                 "lineNumber":14
             },
             {
-                "name":"N2",
+                "name":"J-",
                 "label":"Maximum nucleation rate for negative ion nucleation",
                 "minimumValue":0.0,
                 "maximumValue":2.0,
@@ -171,7 +171,7 @@
                 "lineNumber":15
             },
             {
-                "name":"N3",
+                "name":"J0",
                 "label":"Maximum nucleation rate for neutral nucleation",
                 "minimumValue":0.0,
                 "maximumValue":10.0,
@@ -183,7 +183,7 @@
                 "lineNumber":16
             },
             {
-                "name":"N4",
+                "name":"rt",
                 "label":"Rise time of the nucleation activity",
                 "minimumValue":0,
                 "maximumValue":30,
@@ -193,17 +193,17 @@
                 "lineNumber":17
             },
             {
-                "name":"N5",
-                "label":"Shape code of rise (1=linear, 2=sinus, 3=square_of_sinus)",
+                "name":"shr",
+                "label":"Shape code of rise: 1=linear, 2=sinus, 3=square_of_sinus",
+                "valueType":"int",
                 "minimumValue":1,
                 "maximumValue":3,
                 "defaultValue":2,
                 "step":1,
-                //"unit":"1=linear, 2=sinus, 3=square_of_sinus",
                 "lineNumber":18
             },
             {
-                "name":"N6",
+                "name":"st",
                 "label":"Time of steady nucleation activity",
                 "minimumValue":5,
                 "maximumValue":600,
@@ -214,7 +214,7 @@
                 "lineNumber":19
             },
             {
-                "name":"N7",
+                "name":"dt",
                 "label":"Time of dropping nucleation activity",
                 "minimumValue":5,
                 "maximumValue":300,
@@ -225,13 +225,13 @@
                 "lineNumber":20
             },
             {
-                "name":"N8",
-                "label":"Shape of dropping (1=linear, 2=sinus, 3=square_of_sinus)",
+                "name":"shd",
+                "label":"Shape of dropping: 1=linear, 2=sinus, 3=square_of_sinus",
+                "valueType":"int",
                 "minimumValue":1,
                 "maximumValue":3,
                 "defaultValue":3,
                 "step":1,
-                //"unit":"1=linear, 2=sinus, 3=square_of_sinus",
                 "lineNumber":21
             }
         ]
@@ -241,7 +241,7 @@
         "name":"Parameters of the first condensing substance",
         "definitions":[
             {
-                "name":"F0",
+                "name":"u1r",
                 "label":"Density of growth units",
                 "minimumValue":1.0,
                 "maximumValue":3.0,
@@ -251,7 +251,7 @@
                 "lineNumber":22
             },
             {
-                "name":"F1",
+                "name":"h",
                 "label":"Extra distance of the Van der Waals capture",
                 "minimumValue":0.03,
                 "maximumValue":0.20,
@@ -261,7 +261,7 @@
                 "lineNumber":23
             },
             {
-                "name":"F2",
+                "name":"u1d",
                 "label":"Diameter of a growth unit",
                 "minimumValue":0.3,
                 "maximumValue":2.0,
@@ -271,7 +271,7 @@
                 "lineNumber":24
             },
             {
-                "name":"F3",
+                "name":"pol1",
                 "label":"Polarizability",
                 "minimumValue":100,
                 //Actually it should be either 0 or 100. Randomly can be generater values between 100-200 or 0.
@@ -283,7 +283,7 @@
                 "lineNumber":25
             },
             {
-                "name":"F4",
+                "name":"Yu1",
                 "label":"Nadykto-Yu dipole enhancement factor for d = 1 nm",
                 "minimumValue":1.0,
                 "maximumValue":3.0,
@@ -293,7 +293,7 @@
                 "lineNumber":26
             },
             {
-                "name":"F5",
+                "name":"Yu2",
                 "label":"Nadykto-Yu dipole enhancement coefficient for d = 2 nm",
                 //The value must be less than parameter with name "F4"
                 "minimumValue":1.0,
@@ -303,43 +303,42 @@
                 "lineNumber":27
             },
             {
-                "name":"F6",
+                "name":"G10",
                 "label":"Initial plain Knudsen growth rate of neutral particles",
                 "minimumValue":0.0,
                 "maximumValue":10.0,
                 "defaultValue":2.5,
-                //FOREST: 1.5
+                "defaultForestValue":1.5,
                 "step":0.5,
-                "unit":"*nm/h",
+                "unit":"nm/h",
                 "hasForest":true,
                 "lineNumber":28
             },
             {
-                "name":"F7",
+                "name":"G11",
                 "label":"Halftime plain Knudsen growth rate of neutral particles",
                 "minimumValue":0.0,
                 "maximumValue":10.0,
                 "defaultValue":3.0,
-                //FOREST 3.5
+                "defaultForestValue":3.5,
                 "step":0.5,
-                "unit":"*nm/h",
+                "unit":"nm/h",
                 "hasForest":true,
                 "lineNumber":29
             },
             {
-                "name":"F8",
+                "name":"G12",
                 "label":"Final plain Knudsen growth rate of neutral particles",
                 "minimumValue":0.0,
                 "maximumValue":10.0,
                 "defaultValue":2.0,
-                //FOREST 2.0
                 "step":0.5,
-                "unit":"*nm/h",
+                "unit":"nm/h",
                 "hasForest":true,
                 "lineNumber":30
             },
             {
-                "name":"F9",
+                "name":"dq0",
                 "label":"Critical size of quantum rebound",
                 "minimumValue":1.0,
                 "maximumValue":5.0,
@@ -349,7 +348,7 @@
                 "lineNumber":31
             },
             {
-                "name":"F10",
+                "name":"Tq0",
                 "label":"Extra temperature of quantum rebound",
                 "minimumValue":200,
                 "maximumValue":1000,
@@ -365,7 +364,7 @@
         "name":"Parameters of the second condensing substance",
         "definitions":[
             {
-                "name":"S0",
+                "name":"u2d",
                 "label":"Diameter of a growth unit",
                 "minimumValue":0.30,
                 "maximumValue":2.50,
@@ -375,7 +374,7 @@
                 "lineNumber":33
             },
             {
-                "name":"S1",
+                "name":"pol2",
                 "label":"Polarizability",
                 "minimumValue":100,
                 //Actually it should be either 0 or 100. Randomly can be generater values between 100-200 or 0.
@@ -387,43 +386,43 @@
                 "lineNumber":34
             },
             {
-                "name":"S2",
+                "name":"G20",
                 "label":"Initial plain Knudsen growth rate of neutral particles",
                 "minimumValue":0.0,
                 "maximumValue":10.0,
                 "defaultValue":2.5,
-                //FOREST: 2.0
+                "defaultForestValue":2.0,
                 "step":0.5,
-                "unit":"*nm/h",
+                "unit":"nm/h",
                 "hasForest":true,
                 "lineNumber":35
             },
             {
-                "name":"S3",
+                "name":"G21",
                 "label":"Halftime plain Knudsen growth rate of neutral particles",
                 "minimumValue":0.0,
                 "maximumValue":10.0,
                 "defaultValue":2.5,
-                //FOREST 3.0
+                "defaultForestValue":3.0,
                 "step":0.5,
-                "unit":"*nm/h",
+                "unit":"nm/h",
                 "hasForest":true,
                 "lineNumber":36
             },
             {
-                "name":"S4",
+                "name":"G22",
                 "label":"Final plain Knudsen growth rate of neutral particles",
                 "minimumValue":0.0,
                 "maximumValue":10.0,
                 "defaultValue":3.5,
-                //FOREST: 3.0
+                "defaultForestValue":3.0,
                 "step":0.5,
-                "unit":"*nm/h",
+                "unit":"nm/h",
                 "hasForest":true,
                 "lineNumber":37
             },
             {
-                "name":"S5",
+                "name":"nKd",
                 "label":"Critical diameter when the condensation starts",
                 "minimumValue":1.0,
                 "maximumValue":5.0,
@@ -433,7 +432,7 @@
                 "lineNumber":38
             },
             {
-                "name":"S6",
+                "name":"nKp",
                 "label":"Power of nano-Koehler approximation",
                 "minimumValue":-0.1,
                 "maximumValue":4.0,
@@ -449,7 +448,7 @@
         "name":"Parameters of the pre-existing background aerosol",
         "definitions":[
             {
-                "name":"B0",
+                "name":"bd0",
                 "label":"Initial average diameter of background aerosol particles",
                 "minimumValue":30,
                 "maximumValue":200,
@@ -459,7 +458,7 @@
                 "lineNumber":40
             },
             {
-                "name":"B1",
+                "name":"bd1",
                 "label":"Halftime average diameter of background aerosol particles",
                 "minimumValue":30,
                 "maximumValue":200,
@@ -469,7 +468,7 @@
                 "lineNumber":41
             },
             {
-                "name":"B2",
+                "name":"bd2",
                 "label":"Final average diameter of background aerosol particles",
                 "minimumValue":30,
                 "maximumValue":200,
@@ -479,7 +478,7 @@
                 "lineNumber":42
             },
             {
-                "name":"B3",
+                "name":"bn0",
                 "label":"Initial concentration of background aerosol particles",
                 "minimumValue":500,
                 "maximumValue":500000,
@@ -489,7 +488,7 @@
                 "lineNumber":43
             },
             {
-                "name":"B4",
+                "name":"bn1",
                 "label":"Halftime concentration of background aerosol particles",
                 "minimumValue":500,
                 "maximumValue":500000,
@@ -499,7 +498,7 @@
                 "lineNumber":44
             },
             {
-                "name":"B5",
+                "name":"bn2",
                 "label":"Final concentration of background aerosol particles",
                 "minimumValue":500,
                 "maximumValue":500000,
@@ -515,7 +514,7 @@
         "name":"Parameters of the conifer forest",
         "definitions":[
             {
-                "name":"C0",
+                "name":"rd",
                 "label":"Air residence distance (time * wind) in forest",
                 "minimumValue":10,
                 "maximumValue":500,
@@ -525,7 +524,7 @@
                 "lineNumber":46
             },
             {
-                "name":"C1",
+                "name":"w0",
                 "label":"Initial wind in the forest",
                 "minimumValue":0,
                 "maximumValue":10,
@@ -535,7 +534,7 @@
                 "lineNumber":47
             },
             {
-                "name":"C2",
+                "name":"w1",
                 "label":"Halftime wind in the forest",
                 "minimumValue":0,
                 "maximumValue":10,
@@ -545,7 +544,7 @@
                 "lineNumber":48
             },
             {
-                "name":"C3",
+                "name":"w2",
                 "label":"Final wind in the forest",
                 "minimumValue":0,
                 "maximumValue":10,
@@ -555,7 +554,7 @@
                 "lineNumber":49
             },
             {
-                "name":"C4",
+                "name":"dn",
                 "label":"Conifer needle diameter",
                 "minimumValue":0.1,
                 "maximumValue":1.5,
@@ -565,7 +564,7 @@
                 "lineNumber":50
             },
             {
-                "name":"C5",
+                "name":"L",
                 "label":"Conifer needle length in a unit volume m/m3",
                 "minimumValue":10,
                 "maximumValue":1000,
@@ -581,24 +580,15 @@
         "name":"Presentation control",
         "definitions":[
             {
-                "name":"P0",
+                "name":"d/Z",
                 "label":"Particle distribution argument is 1) diameter or 2) mobility",
+                "valueType":"int",
                 "minimumValue":1,
                 "maximumValue":2,
                 "defaultValue":1,
                 "step":1,
                 "unit":"",
                 "lineNumber":52
-            },
-            {
-                "name":"P1",
-                "label":"Delimiter in the signature file 0) gap 1) tab 2) comma,",
-                "minimumValue":0,
-                "maximumValue":2,
-                "defaultValue":1,
-                "step":1,
-                "unit":"",
-                "lineNumber":53
             }
         ]
     }
