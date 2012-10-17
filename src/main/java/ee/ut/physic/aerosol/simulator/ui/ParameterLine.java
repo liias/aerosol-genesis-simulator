@@ -38,6 +38,8 @@ public class ParameterLine {
         String labelText = parameterDefinition.getLabel();
         labelText += " " + parameterDefinition.getUnit();
         label.setText(labelText);
+        String tooltip = "<html><b>" + parameterDefinition.getLabel() + "</b><br>Unit: " + parameterDefinition.getUnit() + "<br>" + parameterDefinition.getDescription() + "</html>";
+        label.setToolTipText(tooltip);
         freeAirMin = createComboBox();
         freeAirMax = createComboBox();
         if (hasForest) {

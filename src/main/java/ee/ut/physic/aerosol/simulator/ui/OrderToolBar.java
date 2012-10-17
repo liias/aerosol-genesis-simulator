@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 
 public class OrderToolBar extends JToolBar {
     final Logger logger = LoggerFactory.getLogger(OrderToolBar.class);
@@ -82,20 +83,22 @@ public class OrderToolBar extends JToolBar {
         return saveButton;
     }
 
-    /*
-    protected JButton makeNavigationButton(String actionCommand,
-                                           String toolTipText,
-                                           String altText) {
-
+    private JButton createButtonWithIcon(String imageName, String altText) {
+        //Look for the image.
+        String imgLocation = "/images/toolbar/" + imageName + ".png";
+        URL imageURL = OrderToolBar.class.getResource(imgLocation);
         //Create and initialize the button.
         JButton button = new JButton();
-        button.setActionCommand(actionCommand);
-        button.setToolTipText(toolTipText);
-        //button.addActionListener(this);
-        button.setText(altText);
+        if (imageURL != null) {                      //image found
+            Image resizedImage = new ImageIcon(imageURL, altText).getImage().getScaledInstance(22, 22, java.awt.Image.SCALE_SMOOTH);
+            Icon icon = new ImageIcon(resizedImage);
+            button.setIcon(icon);
+        } else {                                     //no image found
+            button.setText(altText);
+            logger.warn("Resource not found: " + imgLocation);
+        }
         return button;
     }
-    */
 
     private JButton createClearButton() {
         JButton clearButton = new JButton("Clear");
@@ -130,7 +133,8 @@ public class OrderToolBar extends JToolBar {
     }
 
     private JButton createSimulateButton() {
-        JButton simulateButton = new JButton("Simulate");
+        JButton simulateButton = createButtonWithIcon("simulate", "Simulate");
+        simulateButton.setToolTipText("Start Simulation");
         simulateButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 simulate();

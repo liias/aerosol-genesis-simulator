@@ -10,10 +10,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 
 @Service
@@ -30,6 +27,8 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
     private ControlFileGenerationService controlFileGenerationService;
 
     private SimulationProcess simulationProcess;
+
+    private Process burstAppProcess;
 
     @Override
     public SimulationProcess getSimulationProcess() {
@@ -92,7 +91,7 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
         createControlFile(configFilePath);
         // I think it is currently singleton, so we could set Process process as a class field only when we wont run processes
         // simultaneously
-        Process process;
+        //Process process;
         try {
             log.debug("Path for app is {}", path);
             String[] command = {fullPath};
@@ -100,30 +99,41 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
             builder.redirectErrorStream();
             File dir = new File(path);
             builder.directory(dir);
-            process = builder.start();
+            burstAppProcess = builder.start();
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
         //input of java, output of exe file
-        BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        BufferedReader input;
+        InputStream inputStream = burstAppProcess.getInputStream();
+        InputStreamReader inputStreamReader;
+        try {
+            inputStreamReader = new InputStreamReader(inputStream, "IBM775");
+        } catch (UnsupportedEncodingException e) {
+            log.debug("unsupported encoding");
+            inputStreamReader = new InputStreamReader(inputStream);
+        }
+        input = new BufferedReader(inputStreamReader);
         String line;
         boolean is_success = false;
         try {
-            preFillBurstAppInput(process, resultFileNumber);
+            preFillBurstAppInput(burstAppProcess, resultFileNumber);
             while ((line = input.readLine()) != null) {
                 System.out.println(line);
                 if ((line.startsWith(uniqueSuccessLineStart))) {
                     is_success = true;
                 }
             }
-            process.waitFor();
-            int exitCode = process.exitValue();
+            burstAppProcess.waitFor();
+            int exitCode = burstAppProcess.exitValue();
             log.debug("Burst Simulator exit code: {}", exitCode);
         } catch (IOException e) {
             log.debug(e.getMessage());
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.warn("Thread was interrupted");
+            log.warn(e.getMessage());
+            killBurstAppProcess();
         }
         try {
             input.close();
@@ -135,5 +145,13 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
         } else {
             simulationProcessService.setFailed(simulationProcess);
         }
+    }
+
+    public Process getBurstAppProcess() {
+        return burstAppProcess;
+    }
+
+    public void killBurstAppProcess() {
+        burstAppProcess.destroy();
     }
 }
