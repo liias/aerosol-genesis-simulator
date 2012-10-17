@@ -63,7 +63,7 @@ $time #min : Time period under consideration (<= 1440), 1
 2 : Power of nano-Koehler approximation, 39:nKp
 === PARAMETERS OF THE PRE-EXISTING BACKGROUND AEROSOL ===
 50 nm: Initial average diameter of background aerosol particles, 40:bd0
-60 nm: Halftime average diameter of background aerosol particles, 39:bd1
+60 nm: Halftime average diameter of background aerosol particles, 41:bd1
 60 nm: Final average diameter of background aerosol particles, 42:bd2
 1500 cm-3: Initial concentration of background aerosol particles, 43:bn0
 2000 cm-3: Halftime concentration of background aerosol particles, 44:bn1
@@ -78,8 +78,8 @@ $time #min : Time period under consideration (<= 1440), 1
 === PRESENTATION CONTROL ===
 1 #: Particle distribution argument is 1) diameter or 2) mobility, 52:d/Z
 1.333 nm or cm2 V-1 s-1: Low end of the particle presentation range, 53:dmn
-7.5 nm or cm2 V-1 s-1: High end of the particle presentation range, 54:dmx
-6 #: Number of size fractions in distribution tables (<= 99), 55:nfr
+40 nm or cm2 V-1 s-1: High end of the particle presentation range, 54:dmx
+28 #: Number of size fractions in distribution tables (<= 99), 55:nfr
 2 #: Scale of size or mobility 1) linear 2) logarithmic, 56:scl
 3 #: Distr. 1) fraction concentrations 2) dN/dd 3) dN/d(log(d)), 57:dst
 5 #min: Duration of a time interval in the output table, 58
@@ -96,11 +96,11 @@ TL : Output: T = st-table, L = par-list, D = distr, P = plot-table 61
 1 #: Concentration of positive ions, 68:n+
 1 #: Concentration of negative ions, 69:n-
 0 #: Average diameter of positive particles, 70:d+
-1 #: Concentration of positive particles, 71:N+
+2 #: Concentration of positive particles, 71:N+
 0 #: Average diameter of negative particles, 72:d-
-1 #: Concentration of negative particles, 73:N-
+2 #: Concentration of negative particles, 73:N-
 1 #: Average diameter of neutral particles, 74:do
-0 #: Concentration of neutral particles, 75:No
+1 #: Concentration of neutral particles, 75:No
 0 #: Polarity balance index of charged particles, 76:balance5
 0 #: Average diameter of positive particles between dmn&dmx, 77:d<+
 0 #: Concentration of positive particles between dmn&dmx, 78:N<+
@@ -109,15 +109,15 @@ TL : Output: T = st-table, L = par-list, D = distr, P = plot-table 61
 0 #: Average diameter of neutral particles between dmn&dmx, 81:d<o
 0 #: Concentration of neutral particles between dmn&dmx, 82:N<o
 0 #: Polarity balance index between dmn&dmx, 83:balance<
-0 #: Charge of background aerosol particles multiplied by 100, 84:100q
+2 #: Charge of background aerosol particles multiplied by 100, 84:100q
 0 #: Charge concentration of background aerosol, 85:Nq
 0 #: Effective diameter concentration of background aerosol, 86:Nd
 1 #: Distribution subtable of positive particles, 87:p
-1 #: Distribution subtable of negative particles, 88:n
+0 #: Distribution subtable of negative particles, 88:n
 0 #: Distribution subtable of neutral particles, 89:z
 === SCALE DENOMINATORS FOR DIAGRAMS ===
 100 #: Concentration of ions cm-3, 90
-50 #: Concentration of charged nanoparticles cm-3, 91
+5 #: Concentration of charged nanoparticles cm-3, 91
 500 #: Concentration of neutral nanoparticles cm-3, 92
 -10 #: Concentration of background aerosol charge m-3, 93
 100 #: Effective diameter concentration of background aerosol m-2, 94
