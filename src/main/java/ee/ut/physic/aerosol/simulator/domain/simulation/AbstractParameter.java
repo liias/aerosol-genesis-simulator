@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
+import java.math.BigDecimal;
 
 @MappedSuperclass
 public abstract class AbstractParameter implements Comparable<AbstractParameter> {
@@ -104,7 +105,8 @@ public abstract class AbstractParameter implements Comparable<AbstractParameter>
             int intVal = floatValue.intValue();
             return Integer.toString(intVal);
         }
-        return floatValue.toString();
+        //When float is e.g 0.0000016, toString will show e.g 1.6E-6, so converting to BigDecimal to get 0.0000016
+        return new BigDecimal(floatValue.toString()).toPlainString();
     }
 
     @Transient
