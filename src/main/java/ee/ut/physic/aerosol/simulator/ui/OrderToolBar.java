@@ -45,6 +45,7 @@ public class OrderToolBar extends JToolBar {
         JLabel numberOfProcessesLabel = new JLabel("Number of simulations: ");
         numberOfProcessesSpinner = createNumberOfProcessesSpinner();
         JButton simulateButton = createSimulateButton();
+        JButton cancelButton = createCancelButton();
 
         add(openButton);
         add(saveButton);
@@ -61,10 +62,12 @@ public class OrderToolBar extends JToolBar {
         add(numberOfProcessesLabel);
         add(numberOfProcessesSpinner);
         add(simulateButton);
+        add(cancelButton);
     }
 
     private JButton createOpenButton() {
-        JButton openButton = new JButton("Open");
+        JButton openButton = createButtonWithIcon("import_form_fields", "Open");
+        openButton.setToolTipText("Import Form Fields");
         openButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 open();
@@ -74,7 +77,8 @@ public class OrderToolBar extends JToolBar {
     }
 
     private JButton createSaveButton() {
-        JButton saveButton = new JButton("Save");
+        JButton saveButton = createButtonWithIcon("export_form_fields", "Save");
+        saveButton.setToolTipText("Export Form Fields");
         saveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 save();
@@ -101,7 +105,8 @@ public class OrderToolBar extends JToolBar {
     }
 
     private JButton createClearButton() {
-        JButton clearButton = new JButton("Clear");
+        JButton clearButton = createButtonWithIcon("clear", "Clear");
+        clearButton.setToolTipText("Clear");
         clearButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 clear();
@@ -111,7 +116,8 @@ public class OrderToolBar extends JToolBar {
     }
 
     private JButton createResetButton() {
-        JButton resetButton = new JButton("Reset");
+        JButton resetButton = createButtonWithIcon("reset", "Reset");
+        resetButton.setToolTipText("Reset");
         resetButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 reset();
@@ -143,6 +149,16 @@ public class OrderToolBar extends JToolBar {
         return simulateButton;
     }
 
+    private JButton createCancelButton() {
+        JButton simulateButton = createButtonWithIcon("stop", "Stop");
+        simulateButton.setToolTipText("Stop Simulation");
+        simulateButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                stopSimulation();
+            }
+        });
+        return simulateButton;
+    }
 
     private String getComment() {
         return commentField.getText();
@@ -178,5 +194,13 @@ public class OrderToolBar extends JToolBar {
         logger.debug("Simulate button pressed");
         SimulationOrder simulationOrder = orderForm.createSimulationOrderWithData(getComment(), getNumberOfProcesses());
         simulationOrderService.simulate(simulationOrder);
+    }
+
+    public void stopSimulation() {
+        logger.debug("Stop Simulate button pressed");
+        SimulationOrder simulationOrder = orderForm.getSimulationOrder();
+        if (simulationOrder != null) {
+            simulationOrderService.stopSimulation(simulationOrder);
+        }
     }
 }

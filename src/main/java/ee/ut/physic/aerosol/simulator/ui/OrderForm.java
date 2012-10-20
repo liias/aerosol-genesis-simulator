@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OrderForm extends JPanel {
+    private SimulationOrder simulationOrder;
     private Collection<ParametersGroupPaneWithTitle> parametersGroupPanesWithTitle = new ArrayList<ParametersGroupPaneWithTitle>();
     private ParametersConfiguration parametersConfiguration;
 
@@ -59,7 +60,7 @@ public class OrderForm extends JPanel {
     }
 
     public SimulationOrder createSimulationOrderWithData(String comment, int numberOfProcesses) {
-        SimulationOrder simulationOrder = new SimulationOrder();
+        simulationOrder = new SimulationOrder();
         simulationOrder.setComment(comment);
         simulationOrder.setNumberOfProcesses(numberOfProcesses);
         Collection<SimulationOrderParameter> simulationOrderParameters = new ArrayList<SimulationOrderParameter>();
@@ -71,6 +72,10 @@ public class OrderForm extends JPanel {
             }
         }
         simulationOrder.setSimulationOrderParameters(simulationOrderParameters);
+        return simulationOrder;
+    }
+
+    public SimulationOrder getSimulationOrder() {
         return simulationOrder;
     }
 

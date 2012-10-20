@@ -119,13 +119,15 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
         boolean is_success = false;
         try {
             preFillBurstAppInput(burstAppProcess, resultFileNumber);
+            //We must allow InterruptedException, waitFor allows that
+            burstAppProcess.waitFor();
+            //TODO: But make sure that the buffer doesn't get full with time 1440 (in which case it would be stuck in waitFor())
             while ((line = input.readLine()) != null) {
                 System.out.println(line);
                 if ((line.startsWith(uniqueSuccessLineStart))) {
                     is_success = true;
                 }
             }
-            burstAppProcess.waitFor();
             int exitCode = burstAppProcess.exitValue();
             log.debug("Burst Simulator exit code: {}", exitCode);
         } catch (IOException e) {

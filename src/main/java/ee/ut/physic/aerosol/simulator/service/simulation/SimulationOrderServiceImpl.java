@@ -26,4 +26,9 @@ public class SimulationOrderServiceImpl implements SimulationOrderService {
         simulationOrderDao.add(simulationOrder);
         simulationProcessService.startInNewThread(simulationOrder.getNextNotStartedProcess());
     }
+
+    @Override
+    public void stopSimulation(SimulationOrder simulationOrder) {
+        simulationProcessService.stop();
+    }
 }

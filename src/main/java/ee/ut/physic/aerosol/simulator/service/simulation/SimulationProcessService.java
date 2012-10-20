@@ -8,4 +8,6 @@ public interface SimulationProcessService {
     public void setFailed(SimulationProcess process);
 
     public void setCompleted(SimulationProcess process);
+
+    public void stop();
 }

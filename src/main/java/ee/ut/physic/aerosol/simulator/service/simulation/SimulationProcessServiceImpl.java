@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class SimulationProcessServiceImpl implements SimulationProcessService {
     final Logger logger = LoggerFactory.getLogger(SimulationProcessServiceImpl.class);
@@ -29,13 +32,16 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
     @Autowired
     private SimulationOrderDao simulationOrderDao;
 
+    private List<Thread> simulationThreads = new ArrayList<Thread>();
+
     //Starts the task asynchronously, meaning return value has no real use
     public void startInNewThread(final SimulationProcess process) {
         logger.info("Process start called");
         process.setResultFileNumber(1);
         simulationProcessExecutionService.setSimulationProcess(process);
-        Thread thread = new Thread(simulationProcessExecutionService);
-        thread.start();
+        Thread simulationThread = new Thread(simulationProcessExecutionService);
+        simulationThreads.add(simulationThread);
+        simulationThread.start();
         logger.debug("new thread started");
         // I think now the old thread stops
     }
@@ -68,6 +74,20 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
         SimulationProcess nextProcess = order.getNextNotStartedProcess();
         if (nextProcess != null) {
             startInNewThread(nextProcess);
+        }
+    }
+
+    private Thread getNewestSimulationThread() throws IndexOutOfBoundsException {
+        return simulationThreads.get(simulationThreads.size() - 1);
+    }
+
+    @Override
+    public void stop() {
+        try {
+            Thread newestSimulationThread = getNewestSimulationThread();
+            newestSimulationThread.interrupt();
+        } catch (IndexOutOfBoundsException e) {
+            logger.warn(e.getMessage());
         }
     }
 }
