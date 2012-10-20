@@ -32,6 +32,9 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
     @Autowired
     private SimulationOrderDao simulationOrderDao;
 
+    @Autowired
+    private SimulationOrderService simulationOrderService;
+
     private List<Thread> simulationThreads = new ArrayList<Thread>();
 
     //Starts the task asynchronously, meaning return value has no real use
@@ -57,6 +60,8 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
         SimulationProcess nextProcess = order.getNextNotStartedProcess();
         if (nextProcess != null) {
             startInNewThread(nextProcess);
+        } else {
+            simulationOrderService.setCompleted();
         }
     }
 
@@ -74,6 +79,8 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
         SimulationProcess nextProcess = order.getNextNotStartedProcess();
         if (nextProcess != null) {
             startInNewThread(nextProcess);
+        } else {
+            simulationOrderService.setCompleted();
         }
     }
 

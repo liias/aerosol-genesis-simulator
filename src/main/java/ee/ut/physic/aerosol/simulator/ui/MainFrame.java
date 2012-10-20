@@ -37,6 +37,7 @@ public class MainFrame extends JFrame {
         scrollPane.setBorder(BorderFactory.createEmptyBorder(1,0,0,0));
         JPanel orderPanel = new JPanel(new BorderLayout());
         OrderToolBar orderToolBar = new OrderToolBar(orderForm, saveAndWrite);
+        orderForm.setToolbar(orderToolBar);
         orderPanel.add(orderToolBar, BorderLayout.PAGE_START);
         orderPanel.add(scrollPane, BorderLayout.CENTER);
         setContentPane(orderPanel);

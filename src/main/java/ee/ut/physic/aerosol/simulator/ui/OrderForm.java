@@ -4,6 +4,8 @@ import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrder;
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrderParameter;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParametersConfiguration;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParametersGroup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,9 +15,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OrderForm extends JPanel {
+    final Logger logger = LoggerFactory.getLogger(OrderForm.class);
+
     private SimulationOrder simulationOrder;
     private Collection<ParametersGroupPaneWithTitle> parametersGroupPanesWithTitle = new ArrayList<ParametersGroupPaneWithTitle>();
     private ParametersConfiguration parametersConfiguration;
+    private OrderToolBar orderToolbar;
 
     public OrderForm(ParametersConfiguration parametersConfiguration) {
         this.parametersConfiguration = parametersConfiguration;
@@ -121,6 +126,20 @@ public class OrderForm extends JPanel {
                     parameterLine.setFieldValue("forestMax", forestMax);
                 }
             }
+        }
+    }
+
+    public void setToolbar(OrderToolBar orderToolBar) {
+        this.orderToolbar = orderToolBar;
+    }
+
+    public void setSimulationInProcess(boolean inProcess) {
+        if (inProcess) {
+            logger.debug("In process");
+            orderToolbar.cancelButton.setEnabled(true);
+        } else {
+            logger.debug("Not in process");
+            orderToolbar.cancelButton.setEnabled(false);
         }
     }
 }

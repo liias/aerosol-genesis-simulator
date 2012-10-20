@@ -23,6 +23,7 @@ public class OrderToolBar extends JToolBar {
 
     private JTextField commentField;
     private JSpinner numberOfProcessesSpinner;
+    public JButton cancelButton;
 
     public OrderToolBar(OrderForm orderForm, SaveAndWrite saveAndWrite) {
         this.orderForm = orderForm;
@@ -45,7 +46,7 @@ public class OrderToolBar extends JToolBar {
         JLabel numberOfProcessesLabel = new JLabel("Number of simulations: ");
         numberOfProcessesSpinner = createNumberOfProcessesSpinner();
         JButton simulateButton = createSimulateButton();
-        JButton cancelButton = createCancelButton();
+        cancelButton = createCancelButton();
 
         add(openButton);
         add(saveButton);
@@ -150,14 +151,15 @@ public class OrderToolBar extends JToolBar {
     }
 
     private JButton createCancelButton() {
-        JButton simulateButton = createButtonWithIcon("stop", "Stop");
-        simulateButton.setToolTipText("Stop Simulation");
-        simulateButton.addActionListener(new ActionListener() {
+        JButton cancelButton = createButtonWithIcon("stop", "Stop");
+        cancelButton.setEnabled(false);
+        cancelButton.setToolTipText("Stop Simulation");
+        cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 stopSimulation();
             }
         });
-        return simulateButton;
+        return cancelButton;
     }
 
     private String getComment() {
@@ -193,6 +195,7 @@ public class OrderToolBar extends JToolBar {
         //Execute when button is pressed
         logger.debug("Simulate button pressed");
         SimulationOrder simulationOrder = orderForm.createSimulationOrderWithData(getComment(), getNumberOfProcesses());
+        simulationOrderService.setOrderForm(orderForm);
         simulationOrderService.simulate(simulationOrder);
     }
 
