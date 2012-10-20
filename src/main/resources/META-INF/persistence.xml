@@ -6,11 +6,13 @@
     <persistence-unit name="persistenceUnit">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <properties>
-            <!--<property name="hibernate.dialect" value="dialect.ImprovedSQLiteDialect"/>-->
-            <property name="hibernate.dialect" value="dialect.ImprovedH2Dialect"/>
-            <property name="hibernate.default_schema" value="ags" />
+            <property name="hibernate.dialect" value="dialect.ImprovedSQLiteDialect"/>
             <property name="hibernate.show_sql" value="true"/>
-            <!-- value="create" to build a new database on each run; value="update" to modify an existing database; value="create-drop" means the same as "create" but also drops tables when Hibernate closes; value="validate" makes no changes to the database -->
+            <!-- value="create" to build a new database on each run; value="update" to modify an existing database;
+             value="create-drop" means the same as "create" but also drops tables when Hibernate closes;
+             value="validate" makes no changes to the database -->
+            <!-- TODO: Remove hbm2ddl.auto parameter when releasing (as empty database file is given)
+            and manual SQL for migration (upgrading), because having hibernate to auto predict it is not fail-safe š-->
             <property name="hibernate.hbm2ddl.auto" value="create"/>
             <property name="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.ImprovedNamingStrategy"/>
             <property name="hibernate.connection.charSet" value="UTF-8"/>
