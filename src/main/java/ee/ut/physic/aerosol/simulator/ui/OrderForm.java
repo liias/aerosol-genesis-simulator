@@ -142,4 +142,9 @@ public class OrderForm extends JPanel {
             orderToolbar.cancelButton.setEnabled(false);
         }
     }
+
+    public void importBestValues() {
+        //TODO:Implement reading from file (or any better approach)
+        reset();
+    }
 }

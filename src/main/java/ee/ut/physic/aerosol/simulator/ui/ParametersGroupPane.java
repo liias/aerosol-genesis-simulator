@@ -45,11 +45,14 @@ public class ParametersGroupPane extends JPanel {
         add(parameterLine.getFreeAirMin(), constraints);
         constraints.gridx = 2;
         add(parameterLine.getFreeAirMax(), constraints);
-        if (parameterLine.getParameterDefinition().isHasForest()) {
+        ParameterDefinition definition = parameterLine.getParameterDefinition();
+        if (definition.isHasForest()) {
             y++;
             constraints.gridy = y;
             constraints.gridx = 0;
-            JLabel forestLabel = new JLabel("  in forest:");
+            JLabel forestLabel = new JLabel("<html><i>in forest</i></html>:");
+            String tooltip = "<html><b>" + definition.getLabel() + " in forest</b><br>Unit: " + definition.getUnit() + "</html>";
+            forestLabel.setToolTipText(tooltip);
             forestLabel.setOpaque(true);
             if (hasBackground) {
                 forestLabel.setBackground(stripeColor);

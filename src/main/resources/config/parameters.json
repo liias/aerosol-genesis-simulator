@@ -5,7 +5,7 @@
         "definitions":[
             {
                 "name":"time",
-                "label":"Time period under consideration (<= 1440)",
+                "label":"Time period under consideration",
                 "minimumValue":0,
                 "maximumValue":1440,
                 "defaultValue":1440,
@@ -57,7 +57,7 @@
     },
     {
         "id":"ionization",
-        "name":"Ionization Parameters",
+        "name":"Ionization",
         "definitions":[
             {
                 "name":"I0",
@@ -136,7 +136,7 @@
     },
     {
         "id":"nucleation",
-        "name":"Nucleation Parameters",
+        "name":"Nucleation",
         "definitions":[
             {
                 "name":"d0",
@@ -238,7 +238,7 @@
     },
     {
         "id":"first_condensing",
-        "name":"Parameters of the first condensing substance",
+        "name":"First condensing substance",
         "definitions":[
             {
                 "name":"u1r",
@@ -361,7 +361,7 @@
     },
     {
         "id":"second_condensing",
-        "name":"Parameters of the second condensing substance",
+        "name":"Second condensing substance",
         "definitions":[
             {
                 "name":"u2d",
@@ -445,7 +445,7 @@
     },
     {
         "id":"background",
-        "name":"Parameters of the pre-existing background aerosol",
+        "name":"Pre-existing background aerosol",
         "definitions":[
             {
                 "name":"bd0",
@@ -511,7 +511,7 @@
     },
     {
         "id":"conifer_forest",
-        "name":"Parameters of the conifer forest",
+        "name":"Conifer forest",
         "definitions":[
             {
                 "name":"rd",
