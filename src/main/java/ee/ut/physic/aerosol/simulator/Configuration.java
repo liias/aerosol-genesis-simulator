@@ -20,6 +20,7 @@ public class Configuration {
     private static Configuration instance = new Configuration();
     private ParametersConfiguration parametersConfiguration;
     private Properties burstAppProperties;
+    private String etcPath;
     private String burstSimulatorDirPath;
     private String burstSimulatorFileName;
 
@@ -30,6 +31,7 @@ public class Configuration {
     private Configuration() {
         loadParametersConfiguration();
         loadBurstAppProperties();
+        setEtcPath();
         setBurstSimulatorDirPathAndBinaryName();
     }
 
@@ -89,7 +91,7 @@ public class Configuration {
         return classJar.startsWith("jar:");
     }
 
-    public String getEtcPath() {
+    private void setEtcPath() {
         String path = getFullPath();
         if (isRunFromJar()) {
             path = path.substring(0, path.lastIndexOf("/") + 1);
@@ -100,9 +102,12 @@ public class Configuration {
         }
         path += "etc/";
         logger.info("Path to etc/ is: " + path);
-        return path;
+        this.etcPath = path;
     }
 
+    public String getEtcPath() {
+        return etcPath;
+    }
 
     public void setBurstSimulatorDirPathAndBinaryName() {
         String sep = "/";

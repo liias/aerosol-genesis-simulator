@@ -2,6 +2,7 @@ package ee.ut.physic.aerosol.simulator.ui;
 
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrder;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationOrderService;
+import ee.ut.physic.aerosol.simulator.service.simulation.SimulationResultService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,12 @@ import java.net.URL;
 public class OrderToolBar extends JToolBar {
     final Logger logger = LoggerFactory.getLogger(OrderToolBar.class);
 
-    final static Color ERROR_COLOR = Color.PINK;
+//    final static Color ERROR_COLOR = Color.PINK;
 
     @Autowired
     private SimulationOrderService simulationOrderService;
+    @Autowired
+    private SimulationResultService simulationResultService;
 
     private OrderForm orderForm;
     private SaveAndWrite saveAndWrite;
@@ -38,7 +41,7 @@ public class OrderToolBar extends JToolBar {
         JButton resetButton = createResetButton();
         JButton clearButton = createClearButton();
 
-        JButton compareButton = new JButton("Compare");
+        JButton compareButton = createCompareButton();
         JButton setBestButton = createOpenBestButton();
         JButton importButton = new JButton("Import");
         JButton exportButton = new JButton("Export");
@@ -130,6 +133,18 @@ public class OrderToolBar extends JToolBar {
         return resetButton;
     }
 
+    private JButton createCompareButton() {
+        JButton resetButton = createButtonWithIcon("find_best_value", "Find Best Values");
+        resetButton.setToolTipText("Searches database for results which are most close to the wanted reference results." +
+                "If it finds the result you can later open the parameters to achieve that result by using button Open Best (the thumbs up button).");
+        resetButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                findBestValues();
+            }
+        });
+        return resetButton;
+    }
+
     private JButton createOpenBestButton() {
         JButton resetButton = createButtonWithIcon("open_best", "Open Best");
         resetButton.setToolTipText("Set field values to values with best known simulation results");
@@ -205,6 +220,11 @@ public class OrderToolBar extends JToolBar {
     public void reset() {
         logger.debug("Reset button pressed");
         orderForm.reset();
+    }
+
+    private void findBestValues() {
+        logger.debug("Find Best Values button pressed");
+        simulationResultService.compareWithReference();
     }
 
     private void importBestValues() {

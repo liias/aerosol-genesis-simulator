@@ -1,21 +1,31 @@
 package ee.ut.physic.aerosol.simulator.service.simulation;
 
 import ee.ut.physic.aerosol.simulator.database.simulation.SimulationProcessDao;
+import ee.ut.physic.aerosol.simulator.database.simulation.SimulationResultDao;
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcess;
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationResult;
+import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationResultValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 @Service
 public class SimulationResultServiceImpl implements SimulationResultService {
+    final Logger logger = LoggerFactory.getLogger(SimulationResultServiceImpl.class);
     @Autowired
     private ResultFileParserService resultFileParserService;
-
     @Autowired
     private SimulationProcessDao simulationProcessDao;
+
+    @Autowired
+    private SimulationResultDao simulationResultDao;
 
     @Transactional
     @Override
@@ -23,5 +33,77 @@ public class SimulationResultServiceImpl implements SimulationResultService {
         Set<SimulationResult> simulationResults = resultFileParserService.parseResultFile(process);
         process.setSimulationResults(simulationResults);
         simulationProcessDao.update(process);
+    }
+
+    //TODO: process time must have at least the same time as reference (100)
+    @Transactional
+    private List<HashMap<String, Double>> findRatingForProcesses(List<SimulationResult> referenceResults, List<SimulationResult> allResultsInTimeRange) {
+        // When time is 100, then resultsAmountInProcess is 100/5 + 1 = 21
+        int resultsAmountInProcess = referenceResults.size();
+        int allResultsAmount = allResultsInTimeRange.size();
+        if (allResultsAmount % resultsAmountInProcess != 0) {
+            throw new IllegalArgumentException("Reference has different amount of results than Process has");
+        }
+        int numberOfProcesses = allResultsAmount / resultsAmountInProcess;
+        List<HashMap<String, Double>> processRatings = new ArrayList<HashMap<String, Double>>();
+        int globalResultIndex = 0;
+        // for each process
+        for (int processIndex = 0; processIndex < numberOfProcesses; processIndex++) {
+            double processRating = 0;
+            int resultIndex;
+            // for each result in process
+            for (resultIndex = 0; resultIndex < resultsAmountInProcess; resultIndex++, globalResultIndex++) {
+                List<SimulationResultValue> referenceValues = referenceResults.get(resultIndex).getSimulationResultValues();
+                List<SimulationResultValue> resultValues = allResultsInTimeRange.get(globalResultIndex).getSimulationResultValues();
+                int numberOfReferenceValues = referenceValues.size();
+                if (numberOfReferenceValues != resultValues.size()) {
+                    throw new IllegalStateException("reference matrix has different number of values than result matrix");
+                }
+                double resultRating = 0;
+                // for each value in result
+                for (int valueIndex = 0; valueIndex < numberOfReferenceValues; valueIndex++) {
+                    SimulationResultValue referenceValueObject = referenceValues.get(valueIndex);
+                    SimulationResultValue resultValueObject = resultValues.get(valueIndex);
+                    double referenceValue = referenceValueObject.getNumericValue();
+                    double resultValue = resultValueObject.getNumericValue();
+                    int weight = referenceValueObject.getWeight();
+                    double valueWithWeight = Math.pow(referenceValue - resultValue, 2) * weight;
+                    resultRating += valueWithWeight;
+                }
+                processRating += resultRating;
+            }
+            // ugly, get the last result process id
+            Double processId = (double) allResultsInTimeRange.get(resultIndex - 1).getSimulationProcess().getId();
+            HashMap<String, Double> pidAndRating = new HashMap<String, Double>();
+            pidAndRating.put("pid", processId);
+            pidAndRating.put("rating", processRating);
+            processRatings.add(pidAndRating);
+        }
+        return processRatings;
+    }
+
+    @Transactional
+    @Override
+    public void compareWithReference() {
+        //ordered by time
+        List<SimulationResult> referenceResults = resultFileParserService.parseReferenceResults("ref.xl");
+        // 5 * (21 -1) = 100
+        int maxTime = 5 * (referenceResults.size() - 1);
+        //also ordered by time
+        List<SimulationResult> allResultsInTimeRange = simulationResultDao.findResultsGroupedByProcess(0, maxTime);
+        List<HashMap<String, Double>> processRatings = findRatingForProcesses(referenceResults, allResultsInTimeRange);
+        //The smallest rating is the best one, find it
+        Long bestProcessId = null;
+        Double bestRating = null;
+        for (HashMap<String, Double> pidAndRating : processRatings) {
+            double pidDouble = pidAndRating.get("pid");
+            long processId = (long) pidDouble;
+            double rating = pidAndRating.get("rating");
+            if (bestRating == null || rating < bestRating) {
+                bestProcessId = processId;
+                bestRating = rating;
+            }
+        }
+        logger.info("Best rating is " + bestRating + " for process with id " + bestProcessId);
     }
 }

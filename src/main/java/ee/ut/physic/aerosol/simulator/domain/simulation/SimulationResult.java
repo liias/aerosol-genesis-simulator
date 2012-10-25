@@ -3,9 +3,9 @@ package ee.ut.physic.aerosol.simulator.domain.simulation;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 public class SimulationResult {
@@ -13,7 +13,7 @@ public class SimulationResult {
     private Date completionDate;
     private Integer time;
     private SimulationProcess simulationProcess;
-    private Set<SimulationResultValue> simulationResultValues = new HashSet<SimulationResultValue>();
+    private List<SimulationResultValue> simulationResultValues = new ArrayList<SimulationResultValue>();
 
     @Id
     @GeneratedValue
@@ -58,11 +58,11 @@ public class SimulationResult {
     }
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "simulationResult")
-    public Set<SimulationResultValue> getSimulationResultValues() {
+    public List<SimulationResultValue> getSimulationResultValues() {
         return simulationResultValues;
     }
 
-    public void setSimulationResultValues(Set<SimulationResultValue> simulationResultValues) {
+    public void setSimulationResultValues(List<SimulationResultValue> simulationResultValues) {
         this.simulationResultValues = simulationResultValues;
     }
 
