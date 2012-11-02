@@ -3,6 +3,7 @@ package ee.ut.physic.aerosol.simulator.ui;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParameterDefinition;
 
 import javax.swing.*;
+import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,11 +12,13 @@ public class ParametersGroupPane extends JPanel {
     Collection<ParameterDefinition> parameterDefinitions;
     Collection<ParameterLine> parameterLines = new ArrayList<ParameterLine>();
     GridBagConstraints constraints;
+    UndoManager undoManager;
 
     private Color stripeColor = Color.CYAN;
 
-    public ParametersGroupPane(Collection<ParameterDefinition> parameterDefinitions) {
+    public ParametersGroupPane(Collection<ParameterDefinition> parameterDefinitions, UndoManager undoManager) {
         this.parameterDefinitions = parameterDefinitions;
+        this.undoManager = undoManager;
         stripeColor = getBackground().brighter();
         LayoutManager layout = new GridBagLayout();
         setLayout(layout);
@@ -69,7 +72,7 @@ public class ParametersGroupPane extends JPanel {
         int rowIndex = 0;
         boolean hasBackground = true;
         for (ParameterDefinition parameterDefinition : parameterDefinitions) {
-            ParameterLine parameterLine = new ParameterLine(parameterDefinition);
+            ParameterLine parameterLine = new ParameterLine(parameterDefinition, undoManager);
             parameterLines.add(parameterLine);
             addParameterLine(parameterLine, rowIndex, hasBackground);
             if (parameterLine.getParameterDefinition().isHasForest()) {

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,9 +22,11 @@ public class OrderForm extends JPanel {
     private Collection<ParametersGroupPaneWithTitle> parametersGroupPanesWithTitle = new ArrayList<ParametersGroupPaneWithTitle>();
     private ParametersConfiguration parametersConfiguration;
     private OrderToolBar orderToolbar;
+    private UndoManager undoManager;
 
     public OrderForm(ParametersConfiguration parametersConfiguration) {
         this.parametersConfiguration = parametersConfiguration;
+        initUndoManager();
         GridBagLayout gridBagLayout = new GridBagLayout();
         JPanel allParametersPanel = new JPanel(gridBagLayout);
         JPanel leftPanel = new JPanel(gridBagLayout);
@@ -57,9 +60,13 @@ public class OrderForm extends JPanel {
         add(allParametersPanel);
     }
 
+    private void initUndoManager() {
+        undoManager = new OrderFormUndoManager(this);
+    }
+
     private void addParametersGroup(String groupId, JPanel panel, GridBagConstraints constraints) {
         ParametersGroup parametersGroup = parametersConfiguration.getGroupById(groupId);
-        ParametersGroupPaneWithTitle parametersGroupPaneWithTitle = new ParametersGroupPaneWithTitle(parametersGroup);
+        ParametersGroupPaneWithTitle parametersGroupPaneWithTitle = new ParametersGroupPaneWithTitle(parametersGroup, undoManager);
         parametersGroupPanesWithTitle.add(parametersGroupPaneWithTitle);
         panel.add(parametersGroupPaneWithTitle, constraints);
     }
@@ -131,6 +138,7 @@ public class OrderForm extends JPanel {
 
     public void setToolbar(OrderToolBar orderToolBar) {
         this.orderToolbar = orderToolBar;
+        undoManager.discardAllEdits();
     }
 
     public void setSimulationInProcess(boolean inProcess) {
@@ -146,5 +154,27 @@ public class OrderForm extends JPanel {
     public void importBestValues() {
         //TODO:Implement reading from file (or any better approach)
         reset();
+    }
+
+    private void enableOrDisableUndoAndRedoButtons() {
+        orderToolbar.enableUndoButton(undoManager.canUndo());
+        orderToolbar.enableRedoButton(undoManager.canRedo());
+    }
+
+    public void undo() {
+        undoManager.undo();
+        enableOrDisableUndoAndRedoButtons();
+    }
+
+    public void redo() {
+        undoManager.redo();
+        enableOrDisableUndoAndRedoButtons();
+    }
+
+    public void undoableEditHappened() {
+        if (orderToolbar == null) {
+            return;
+        }
+        orderToolbar.enableUndoButton(true);
     }
 }

@@ -32,12 +32,12 @@ public class MainFrame extends JFrame {
         ParametersConfiguration parametersConfiguration = Configuration.getInstance().getParametersConfiguration();
         orderForm = new OrderForm(parametersConfiguration);
         saveAndWrite = new SaveAndWrite(orderForm);
+        OrderToolBar orderToolBar = new OrderToolBar(orderForm, saveAndWrite);
+        orderForm.setToolbar(orderToolBar);
         JScrollPane scrollPane = new JScrollPane(orderForm);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.setBorder(BorderFactory.createEmptyBorder(1,0,0,0));
         JPanel orderPanel = new JPanel(new BorderLayout());
-        OrderToolBar orderToolBar = new OrderToolBar(orderForm, saveAndWrite);
-        orderForm.setToolbar(orderToolBar);
         orderPanel.add(orderToolBar, BorderLayout.PAGE_START);
         orderPanel.add(scrollPane, BorderLayout.CENTER);
         setContentPane(orderPanel);

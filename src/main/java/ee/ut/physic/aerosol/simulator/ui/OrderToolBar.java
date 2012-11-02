@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -30,11 +29,18 @@ public class OrderToolBar extends JToolBar {
     private JSpinner numberOfProcessesSpinner;
     public JButton cancelButton;
 
+    private JButton undoButton;
+    private JButton redoButton;
+
+
     public OrderToolBar(OrderForm orderForm, SaveAndWrite saveAndWrite) {
         this.orderForm = orderForm;
         this.saveAndWrite = saveAndWrite;
         setFloatable(false);
         setRollover(true);
+
+        undoButton = createUndoButton();
+        redoButton = createRedoButton();
 
         JButton openButton = createOpenButton();
         JButton saveButton = createSaveButton();
@@ -58,6 +64,8 @@ public class OrderToolBar extends JToolBar {
         add(importButton);
         add(exportButton);
         addSeparator();
+        add(undoButton);
+        add(redoButton);
         add(openButton);
         add(saveButton);
         add(resetButton);
@@ -72,9 +80,57 @@ public class OrderToolBar extends JToolBar {
         add(cancelButton);
     }
 
+    private JButton createButtonWithIcon(String imageName, String altText) {
+        //Look for the image.
+        String imgLocation = "/images/toolbar/16/" + imageName + ".png";
+        URL imageURL = OrderToolBar.class.getResource(imgLocation);
+        //Create and initialize the button.
+        JButton button = new JButton();
+        if (imageURL != null) {                      //image found
+            Icon icon = new ImageIcon(imageURL, altText);
+            button.setIcon(icon);
+        } else {                                     //no image found
+            button.setText(altText);
+            logger.warn("Resource not found: " + imgLocation);
+        }
+        return button;
+    }
+
+    private JButton createUndoButton() {
+        JButton button = createButtonWithIcon("undo", "Undo");
+        button.setEnabled(false);
+        button.setToolTipText("Undo");
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                undo();
+            }
+        });
+        return button;
+    }
+
+    public void enableUndoButton(boolean isEnabled) {
+        undoButton.setEnabled(isEnabled);
+    }
+
+    public void enableRedoButton(boolean isEnabled) {
+        redoButton.setEnabled(isEnabled);
+    }
+
+    private JButton createRedoButton() {
+        JButton button = createButtonWithIcon("redo", "Redo");
+        button.setEnabled(false);
+        button.setToolTipText("Redo");
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                redo();
+            }
+        });
+        return button;
+    }
+
     private JButton createOpenButton() {
-        JButton openButton = createButtonWithIcon("import_form_fields", "Open");
-        openButton.setToolTipText("Import Form Fields");
+        JButton openButton = createButtonWithIcon("open", "Open");
+        openButton.setToolTipText("Open Parameters");
         openButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 open();
@@ -84,31 +140,14 @@ public class OrderToolBar extends JToolBar {
     }
 
     private JButton createSaveButton() {
-        JButton saveButton = createButtonWithIcon("export_form_fields", "Save");
-        saveButton.setToolTipText("Export Form Fields");
+        JButton saveButton = createButtonWithIcon("save", "Save");
+        saveButton.setToolTipText("Save Parameters");
         saveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 save();
             }
         });
         return saveButton;
-    }
-
-    private JButton createButtonWithIcon(String imageName, String altText) {
-        //Look for the image.
-        String imgLocation = "/images/toolbar/" + imageName + ".png";
-        URL imageURL = OrderToolBar.class.getResource(imgLocation);
-        //Create and initialize the button.
-        JButton button = new JButton();
-        if (imageURL != null) {                      //image found
-            Image resizedImage = new ImageIcon(imageURL, altText).getImage().getScaledInstance(22, 22, java.awt.Image.SCALE_SMOOTH);
-            Icon icon = new ImageIcon(resizedImage);
-            button.setIcon(icon);
-        } else {                                     //no image found
-            button.setText(altText);
-            logger.warn("Resource not found: " + imgLocation);
-        }
-        return button;
     }
 
     private JButton createClearButton() {
@@ -124,7 +163,7 @@ public class OrderToolBar extends JToolBar {
 
     private JButton createResetButton() {
         JButton resetButton = createButtonWithIcon("reset", "Reset");
-        resetButton.setToolTipText("Reset");
+        resetButton.setToolTipText("Defaults");
         resetButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 reset();
@@ -172,7 +211,7 @@ public class OrderToolBar extends JToolBar {
     }
 
     private JButton createSimulateButton() {
-        JButton simulateButton = createButtonWithIcon("simulate", "Simulate");
+        JButton simulateButton = createButtonWithIcon("start", "Simulate");
         simulateButton.setToolTipText("Start Simulation");
         simulateButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -200,6 +239,16 @@ public class OrderToolBar extends JToolBar {
 
     private int getNumberOfProcesses() {
         return (Integer) numberOfProcessesSpinner.getValue();
+    }
+
+    private void undo() {
+        logger.debug("Undo button pressed");
+        orderForm.undo();
+    }
+
+    private void redo() {
+        logger.debug("Redo button pressed");
+        orderForm.redo();
     }
 
     private void open() {

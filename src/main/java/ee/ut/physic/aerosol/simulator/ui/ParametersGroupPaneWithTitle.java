@@ -4,6 +4,7 @@ import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParametersGrou
 import org.jdesktop.swingx.JXCollapsiblePane;
 
 import javax.swing.*;
+import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.util.Collection;
 
@@ -12,16 +13,16 @@ public class ParametersGroupPaneWithTitle extends JPanel {
     private ParametersGroupCollapsiblePane parametersGroupPane;
     private JButton toggleButton;
 
-    public ParametersGroupPaneWithTitle(ParametersGroup parametersGroup) {
+    public ParametersGroupPaneWithTitle(ParametersGroup parametersGroup, UndoManager undoManager) {
         this.parametersGroup = parametersGroup;
         LayoutManager layout = new GridBagLayout();
         setLayout(layout);
-        createParametersGroupPane();
+        createParametersGroupPane(undoManager);
         createTitle();
     }
 
-    private void createParametersGroupPane() {
-        parametersGroupPane = new ParametersGroupCollapsiblePane(getParametersGroup().getDefinitions());
+    private void createParametersGroupPane(UndoManager undoManager) {
+        parametersGroupPane = new ParametersGroupCollapsiblePane(getParametersGroup().getDefinitions(), undoManager);
     }
 
     public ParametersGroup getParametersGroup() {
@@ -89,4 +90,6 @@ public class ParametersGroupPaneWithTitle extends JPanel {
     public Collection<ParameterLine> getParameterLines() {
         return parametersGroupPane.getParameterLines();
     }
+
+
 }

@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
+import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.util.HashMap;
 
@@ -13,6 +15,7 @@ public class ParameterLine {
     final Logger logger = LoggerFactory.getLogger(ParameterLine.class);
 
     private ParameterDefinition parameterDefinition;
+    private UndoManager undoManager;
     private JLabel label;
     private JComboBox freeAirMin;
     private JComboBox freeAirMax;
@@ -22,8 +25,9 @@ public class ParameterLine {
     private boolean hasForest = false;
     private String name;
 
-    public ParameterLine(ParameterDefinition parameterDefinition) {
+    public ParameterLine(ParameterDefinition parameterDefinition, UndoManager undoManager) {
         this.parameterDefinition = parameterDefinition;
+        this.undoManager = undoManager;
         this.name = parameterDefinition.getName();
         if (parameterDefinition.isHasForest()) {
             hasForest = true;
@@ -52,6 +56,7 @@ public class ParameterLine {
     @SuppressWarnings("unchecked")
     private JComboBox createComboBox() {
         JComboBox comboBox = new JComboBox();
+        final JTextComponent textComponent = (JTextComponent) comboBox.getEditor().getEditorComponent();
         comboBox.addItem("");
         for (String value : parameterValues) {
             comboBox.addItem(value);
@@ -61,6 +66,7 @@ public class ParameterLine {
         comboBox.setPrototypeDisplayValue("00000000");
         int height = (int) comboBox.getPreferredSize().getHeight();
         comboBox.setPreferredSize(new Dimension(80, height));
+        textComponent.getDocument().addUndoableEditListener(undoManager);
         return comboBox;
     }
 
