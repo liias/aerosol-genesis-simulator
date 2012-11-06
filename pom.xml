@@ -117,9 +117,27 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <execution>
+                        <id>full-zip</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/resources/assembly/assembly.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
-
-
     </build>
     <dependencies>
         <dependency>
@@ -259,7 +277,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <distributionManagement>
+   <distributionManagement>
         <repository>
             <id>nexus</id>
             <name>Internal Releases</name>
