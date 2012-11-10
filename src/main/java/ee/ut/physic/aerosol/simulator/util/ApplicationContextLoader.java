@@ -43,7 +43,7 @@ public class ApplicationContextLoader {
      *
      * @param configLocations configuration file locations
      */
-    protected void loadApplicationContext(String... configLocations) {
+    public void loadApplicationContext(String... configLocations) {
         applicationContext = new ClassPathXmlApplicationContext(
                 configLocations);
         applicationContext.registerShutdownHook();
@@ -55,9 +55,9 @@ public class ApplicationContextLoader {
      *
      * @param main object to inject dependencies into
      */
-    protected void injectDependencies(Object main) {
+    public void injectDependencies(Object main) {
         getApplicationContext().getBeanFactory().autowireBeanProperties(
-                main, AutowireCapableBeanFactory.AUTOWIRE_NO, false);
+                main, AutowireCapableBeanFactory.AUTOWIRE_BY_TYPE, false);
     }
 
     /**

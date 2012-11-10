@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class SimulationOrderServiceImpl implements SimulationOrderService {
 
@@ -55,6 +57,16 @@ public class SimulationOrderServiceImpl implements SimulationOrderService {
             return;
         }
         getOrderForm().setSimulationInProcess(false);
+    }
+
+    @Override
+    public List<SimulationOrder> getAllSimulationOrders() {
+        return simulationOrderDao.getAll();
+    }
+
+    @Override
+    public void springAutoInjectionTest() {
+        System.out.println("Spring auto-injection works!");
     }
 
     public OrderForm getOrderForm() {

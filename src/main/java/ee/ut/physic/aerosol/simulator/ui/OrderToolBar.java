@@ -24,6 +24,7 @@ public class OrderToolBar extends JToolBar {
 
     private OrderForm orderForm;
     private SaveAndWrite saveAndWrite;
+    private ToolboxFrame toolboxFrame;
 
     private JTextField commentField;
     private JSpinner numberOfProcessesSpinner;
@@ -33,11 +34,15 @@ public class OrderToolBar extends JToolBar {
     private JButton redoButton;
 
 
-    public OrderToolBar(OrderForm orderForm, SaveAndWrite saveAndWrite) {
+    public OrderToolBar(OrderForm orderForm, SaveAndWrite saveAndWrite, ToolboxFrame toolboxFrame) {
         this.orderForm = orderForm;
         this.saveAndWrite = saveAndWrite;
+        this.toolboxFrame = toolboxFrame;
         setFloatable(false);
         setRollover(true);
+
+
+        JButton toolboxButton = createToolboxButton();
 
         undoButton = createUndoButton();
         redoButton = createRedoButton();
@@ -60,6 +65,8 @@ public class OrderToolBar extends JToolBar {
         JButton simulateButton = createSimulateButton();
         cancelButton = createCancelButton();
 
+
+        add(toolboxButton);
         add(compareButton);
         add(importButton);
         add(exportButton);
@@ -93,6 +100,18 @@ public class OrderToolBar extends JToolBar {
             button.setText(altText);
             logger.warn("Resource not found: " + imgLocation);
         }
+        return button;
+    }
+
+
+    private JButton createToolboxButton() {
+        JButton button = createButtonWithIcon("undo", "Undo");
+        button.setToolTipText("Toolbox");
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showToolbox();
+            }
+        });
         return button;
     }
 
@@ -239,6 +258,11 @@ public class OrderToolBar extends JToolBar {
 
     private int getNumberOfProcesses() {
         return (Integer) numberOfProcessesSpinner.getValue();
+    }
+
+    private void showToolbox() {
+        logger.debug("Toolbox button pressed");
+        toolboxFrame.setVisible(true);
     }
 
     private void undo() {
