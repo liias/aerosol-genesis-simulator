@@ -1,5 +1,6 @@
 package ee.ut.physic.aerosol.simulator.domain.simulation;
 
+import ee.ut.physic.aerosol.simulator.util.ExcludeFromJson;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -9,9 +10,11 @@ import java.util.List;
 
 @Entity
 public class SimulationResult {
+    @ExcludeFromJson
     private long id;
     private Date completionDate;
     private Integer time;
+    @ExcludeFromJson
     private SimulationProcess simulationProcess;
     private List<SimulationResultValue> simulationResultValues = new ArrayList<SimulationResultValue>();
 

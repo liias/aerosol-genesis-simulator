@@ -1,6 +1,7 @@
 package ee.ut.physic.aerosol.simulator.domain.simulation;
 
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParameterDefinition;
+import ee.ut.physic.aerosol.simulator.util.ExcludeFromJson;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -9,6 +10,7 @@ import java.util.Random;
 
 @Entity
 public class SimulationOrderParameter extends AbstractParameter {
+    @ExcludeFromJson
     private SimulationOrder simulationOrder;
     private Float freeAirMin;
     private Float freeAirMax;

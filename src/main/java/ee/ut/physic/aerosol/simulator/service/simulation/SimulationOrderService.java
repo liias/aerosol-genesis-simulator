@@ -15,6 +15,8 @@ public interface SimulationOrderService {
     public void setCompleted();
 
     public List<SimulationOrder> getAllSimulationOrders();
+    public String getOrdersInJson();
 
+    public void importOrders(List<SimulationOrder> orders);
     public void springAutoInjectionTest();
 }

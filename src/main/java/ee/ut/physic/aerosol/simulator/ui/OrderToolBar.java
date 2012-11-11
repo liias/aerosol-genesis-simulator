@@ -41,7 +41,6 @@ public class OrderToolBar extends JToolBar {
         setFloatable(false);
         setRollover(true);
 
-
         JButton toolboxButton = createToolboxButton();
 
         undoButton = createUndoButton();
@@ -54,8 +53,6 @@ public class OrderToolBar extends JToolBar {
 
         JButton compareButton = createCompareButton();
         JButton setBestButton = createOpenBestButton();
-        JButton importButton = new JButton("Import");
-        JButton exportButton = new JButton("Export");
 
         JLabel commentLabel = new JLabel("Comment: ");
         commentField = createCommentField();
@@ -68,8 +65,6 @@ public class OrderToolBar extends JToolBar {
 
         add(toolboxButton);
         add(compareButton);
-        add(importButton);
-        add(exportButton);
         addSeparator();
         add(undoButton);
         add(redoButton);

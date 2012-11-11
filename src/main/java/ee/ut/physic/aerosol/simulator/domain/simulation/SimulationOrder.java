@@ -1,5 +1,6 @@
 package ee.ut.physic.aerosol.simulator.domain.simulation;
 
+import ee.ut.physic.aerosol.simulator.util.ExcludeFromJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,6 +11,7 @@ import java.util.*;
 @Entity
 public class SimulationOrder {
     final Logger logger = LoggerFactory.getLogger(SimulationOrder.class);
+    @ExcludeFromJson
     private long id;
     private List<SimulationProcess> simulationProcesses = new ArrayList<SimulationProcess>();
     private Collection<SimulationOrderParameter> simulationOrderParameters = new ArrayList<SimulationOrderParameter>();

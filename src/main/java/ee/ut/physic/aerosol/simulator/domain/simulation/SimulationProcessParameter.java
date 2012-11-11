@@ -1,6 +1,7 @@
 package ee.ut.physic.aerosol.simulator.domain.simulation;
 
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParameterDefinition;
+import ee.ut.physic.aerosol.simulator.util.ExcludeFromJson;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -8,6 +9,7 @@ import javax.persistence.Transient;
 
 @Entity
 public class SimulationProcessParameter extends AbstractParameter {
+    @ExcludeFromJson
     private SimulationProcess simulationProcess;
 
     public SimulationProcessParameter() {

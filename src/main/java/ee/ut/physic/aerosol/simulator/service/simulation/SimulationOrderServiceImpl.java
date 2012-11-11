@@ -1,8 +1,12 @@
 package ee.ut.physic.aerosol.simulator.service.simulation;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import ee.ut.physic.aerosol.simulator.database.simulation.SimulationOrderDao;
-import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrder;
+import ee.ut.physic.aerosol.simulator.domain.simulation.*;
 import ee.ut.physic.aerosol.simulator.ui.OrderForm;
+import ee.ut.physic.aerosol.simulator.util.JsonExclusionStrategy;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,7 +63,46 @@ public class SimulationOrderServiceImpl implements SimulationOrderService {
         getOrderForm().setSimulationInProcess(false);
     }
 
+    @Transactional
+    public String getOrdersInJson() {
+        List<SimulationOrder> orders = getAllSimulationOrders();
+        Gson gson = new GsonBuilder()
+                .setExclusionStrategies(new JsonExclusionStrategy(Logger.class))
+                .create();
+        String jsonOrders = gson.toJson(orders);
+        return jsonOrders;
+    }
+
+    //Not sure how slow this is
+    private void fixManyToOneReferences(SimulationOrder simulationOrder) {
+        for (SimulationProcess simulationProcess : simulationOrder.getSimulationProcesses()) {
+            simulationProcess.setSimulationOrder(simulationOrder);
+            for (SimulationResult simulationResult : simulationProcess.getSimulationResults()) {
+                simulationResult.setSimulationProcess(simulationProcess);
+                for (SimulationResultValue simulationResultValue : simulationResult.getSimulationResultValues()) {
+                    simulationResultValue.setSimulationResult(simulationResult);
+                }
+            }
+            for (SimulationProcessParameter processParameter : simulationProcess.getSimulationProcessParameters()) {
+                processParameter.setSimulationProcess(simulationProcess);
+            }
+        }
+        for (SimulationOrderParameter orderParameter : simulationOrder.getSimulationOrderParameters()) {
+            orderParameter.setSimulationOrder(simulationOrder);
+        }
+    }
+
     @Override
+    @Transactional
+    public void importOrders(List<SimulationOrder> orders) {
+        for (SimulationOrder simulationOrder : orders) {
+            fixManyToOneReferences(simulationOrder);
+            simulationOrderDao.add(simulationOrder);
+        }
+    }
+
+    @Override
+    @Transactional
     public List<SimulationOrder> getAllSimulationOrders() {
         return simulationOrderDao.getAll();
     }

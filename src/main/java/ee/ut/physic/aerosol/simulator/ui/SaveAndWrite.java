@@ -19,9 +19,7 @@ public class SaveAndWrite {
         this.orderForm = orderForm;
     }
 
-    public void saveFile() {
-        Gson gson = new Gson();
-        String jsonAllValues = gson.toJson(orderForm.getAllParameterValues());
+    public void promptSaveFileWithFileContent(String fileContent) {
         int returnVal = fileChooser.showSaveDialog(orderForm);
         if (returnVal != JFileChooser.APPROVE_OPTION) {
             logger.debug("Save dialog canceled");
@@ -33,7 +31,7 @@ public class SaveAndWrite {
         FileWriter writer;
         try {
             writer = new FileWriter(file);
-            writer.write(jsonAllValues);
+            writer.write(fileContent);
             writer.close();
         } catch (IOException e) {
             logger.warn("Could not write to path: " + file.getAbsolutePath());
@@ -41,26 +39,38 @@ public class SaveAndWrite {
         }
     }
 
-    public void openFile() {
+    public void saveFile() {
+        Gson gson = new Gson();
+        String jsonAllValues = gson.toJson(orderForm.getAllParameterValues());
+        promptSaveFileWithFileContent(jsonAllValues);
+    }
+
+    public Reader promptOpenFileAsInputStreamReader() {
         int returnVal = fileChooser.showOpenDialog(orderForm);
         if (returnVal != JFileChooser.APPROVE_OPTION) {
             logger.debug("Open dialog canceled");
-            return;
+            return null;
         }
         File file = fileChooser.getSelectedFile();
         logger.debug("Opening: " + file.getName());
         InputStream in = null;
-        JsonReader jsonReader;
         try {
             in = new FileInputStream(file);
-            jsonReader = new JsonReader(new InputStreamReader(in, "UTF-8"));
+            return new InputStreamReader(in, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            jsonReader = new JsonReader(new InputStreamReader(in));
+            return new InputStreamReader(in);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void openFile() {
+        Reader streamReader = promptOpenFileAsInputStreamReader();
+        if (streamReader == null) {
             return;
         }
-
+        JsonReader jsonReader = new JsonReader(streamReader);
         try {
             Gson gson = new Gson();
             Map<String, Map<String, String>> allValues = gson.fromJson(jsonReader, Map.class);

@@ -2,6 +2,7 @@ package ee.ut.physic.aerosol.simulator.domain.simulation;
 
 import ee.ut.physic.aerosol.simulator.Configuration;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParameterDefinition;
+import ee.ut.physic.aerosol.simulator.util.ExcludeFromJson;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,6 +12,7 @@ import java.math.BigDecimal;
 
 @MappedSuperclass
 public abstract class AbstractParameter implements Comparable<AbstractParameter> {
+    @ExcludeFromJson
     protected long id;
     //Used in BurstSimulator I/O files
     private String name;

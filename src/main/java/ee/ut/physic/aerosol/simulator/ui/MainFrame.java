@@ -35,7 +35,7 @@ public class MainFrame extends JFrame {
         ParametersConfiguration parametersConfiguration = Configuration.getInstance().getParametersConfiguration();
         orderForm = new OrderForm(parametersConfiguration);
         saveAndWrite = new SaveAndWrite(orderForm);
-        toolboxFrame = new ToolboxFrame();
+        toolboxFrame = new ToolboxFrame(saveAndWrite);
         loader.injectDependencies(toolboxFrame);
         OrderToolBar orderToolBar = new OrderToolBar(orderForm, saveAndWrite, toolboxFrame);
         loader.injectDependencies(orderToolBar);

@@ -1,15 +1,20 @@
 package ee.ut.physic.aerosol.simulator.domain.simulation;
 
+import ee.ut.physic.aerosol.simulator.util.ExcludeFromJson;
+
 import javax.persistence.*;
 
 @Entity
 public class SimulationResultValue {
+    @ExcludeFromJson
     private long id;
     // value is not Float or smthing like that, because sometimes value = ?
     private String name, value;
+    @ExcludeFromJson
     private SimulationResult simulationResult;
 
     //Only for Reference values
+    @Transient
     private Integer weight;
 
     @Id
@@ -65,35 +70,4 @@ public class SimulationResultValue {
         }
         return numericValue;
     }
-
-
-/*    @Transient
-public Double getMin() {
-    Double val = Double.parseDouble(value);
-    Double min = weight * val;
-
-    return val;
-}
-
-@Transient
-public Double getMax() {
-    Double val = Double.parseDouble(value);
-    Double max = weight * val;
-    // x = ((ref[r][k] - (tul[r][k])) * ((ref[r][k] - tul[r][k]))) * kaalud[r];
-    // sum += x;//summeerub
-
-    //get the difference between the area and your input, take absolute value so always positive, then order ascending and take the first one
-
-    //SELECT TOP 1 * FROM [myTable]
-    //WHERE Name = 'Test' and Size = 2 and PType = 'p'
-    //ORDER BY ABS( Area - @input )
-
-    //SELECT ALL, FROM values, kus... LEFT JOIN result_id (või GROUP BY) vms
-    //time = 5 AND
-    //resultval1 =
-
-    //max weight = 10, min 0
-
-    return val;
-}*/
 }
