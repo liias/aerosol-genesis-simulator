@@ -2,15 +2,18 @@ package ee.ut.physic.aerosol.simulator.ui;
 
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrder;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationOrderService;
+import ee.ut.physic.aerosol.simulator.service.simulation.SimulationProcessService;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationResultService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.util.Map;
 
 public class OrderToolBar extends JToolBar {
     final Logger logger = LoggerFactory.getLogger(OrderToolBar.class);
@@ -19,6 +22,8 @@ public class OrderToolBar extends JToolBar {
 
     @Autowired
     private SimulationOrderService simulationOrderService;
+    @Autowired
+    private SimulationProcessService simulationProcessService;
     @Autowired
     private SimulationResultService simulationResultService;
 
@@ -33,6 +38,8 @@ public class OrderToolBar extends JToolBar {
     private JButton undoButton;
     private JButton redoButton;
 
+    private JComboBox openByIdType;
+    private JTextField orderOrProcessId;
 
     public OrderToolBar(OrderForm orderForm, SaveAndWrite saveAndWrite, ToolboxFrame toolboxFrame) {
         this.orderForm = orderForm;
@@ -52,7 +59,6 @@ public class OrderToolBar extends JToolBar {
         JButton clearButton = createClearButton();
 
         JButton compareButton = createCompareButton();
-        JButton setBestButton = createOpenBestButton();
 
         JLabel commentLabel = new JLabel("Comment: ");
         commentField = createCommentField();
@@ -62,9 +68,21 @@ public class OrderToolBar extends JToolBar {
         JButton simulateButton = createSimulateButton();
         cancelButton = createCancelButton();
 
+        openByIdType = new JComboBox();
+        openByIdType.addItem("Order");
+        openByIdType.addItem("Process");
+
+        orderOrProcessId = new JTextField();
+        JButton openByIdButton = createOpenByIdButton();
+
 
         add(toolboxButton);
         add(compareButton);
+
+        add(openByIdType);
+        add(orderOrProcessId);
+        add(openByIdButton);
+
         addSeparator();
         add(undoButton);
         add(redoButton);
@@ -72,7 +90,6 @@ public class OrderToolBar extends JToolBar {
         add(saveButton);
         add(resetButton);
         add(clearButton);
-        add(setBestButton);
         addSeparator();
         add(commentLabel);
         add(commentField);
@@ -100,7 +117,7 @@ public class OrderToolBar extends JToolBar {
 
 
     private JButton createToolboxButton() {
-        JButton button = createButtonWithIcon("undo", "Undo");
+        JButton button = createButtonWithIcon("toolbox", "Toolbox");
         button.setToolTipText("Toolbox");
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -187,9 +204,9 @@ public class OrderToolBar extends JToolBar {
     }
 
     private JButton createCompareButton() {
-        JButton resetButton = createButtonWithIcon("find_best_value", "Find Best Values");
+        JButton resetButton = createButtonWithIcon("find_best", "Find Best Values");
         resetButton.setToolTipText("Searches database for results which are most close to the wanted reference results." +
-                "If it finds the result you can later open the parameters to achieve that result by using button Open Best (the thumbs up button).");
+                "It saves the results to a file.");
         resetButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 findBestValues();
@@ -198,17 +215,31 @@ public class OrderToolBar extends JToolBar {
         return resetButton;
     }
 
-    private JButton createOpenBestButton() {
-        JButton resetButton = createButtonWithIcon("open_best", "Open Best");
-        resetButton.setToolTipText("Set field values to values with best known simulation results");
-        resetButton.addActionListener(new ActionListener() {
+    private JButton createOpenByIdButton() {
+        JButton button = createButtonWithIcon("view", "View");
+        button.setToolTipText("Open order or process with id");
+        button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                importBestValues();
+                openById();
             }
         });
-        return resetButton;
+        return button;
     }
 
+    @Transactional
+    private void openById() {
+        String idString = orderOrProcessId.getText();
+        Long id = new Long(idString);
+        Map<String, Map<String, String>> parametersMap;
+        if (openByIdType.getSelectedIndex() == 0) {
+            //order
+            parametersMap = simulationOrderService.getParametersMapById(id);
+        } else {
+            //process
+            parametersMap = simulationProcessService.getParametersMapById(id);
+        }
+        orderForm.setAllParameterValues(parametersMap);
+    }
 
     private JTextField createCommentField() {
         JTextField commentField = new JTextField(30);
@@ -293,11 +324,6 @@ public class OrderToolBar extends JToolBar {
     private void findBestValues() {
         logger.debug("Find Best Values button pressed");
         simulationResultService.compareWithReference();
-    }
-
-    private void importBestValues() {
-        logger.debug("Set Best button pressed");
-        orderForm.importBestValues();
     }
 
     //When simulate button is pressed

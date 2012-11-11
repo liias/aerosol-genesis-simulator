@@ -32,7 +32,6 @@ public class SpringConfiguration {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         String driverClassName = environment.getProperty("database.driverClassName");
-
         String protocol = environment.getProperty("database.protocol");
         dataSource.setDriverClassName(driverClassName);
         ee.ut.physic.aerosol.simulator.Configuration simulatorConfiguration = ee.ut.physic.aerosol.simulator.Configuration.getInstance();
@@ -46,7 +45,6 @@ public class SpringConfiguration {
         if (!databasePath.startsWith("/")) {
             databasePath = simulatorConfiguration.getRootPath() + databasePath;
         }
-
         String databaseUrl = protocol + databasePath;
         dataSource.setUrl(databaseUrl);
         dataSource.setUsername("");
@@ -59,6 +57,8 @@ public class SpringConfiguration {
         Map<String, Object> props = new HashMap<String, Object>();
         props.put("hibernate.dialect", ImprovedSQLiteDialect.class.getName());
         props.put("hibernate.ejb.naming_strategy", ImprovedNamingStrategy.class.getName());
+        props.put("hibernate.connection.charSet", "UTF-8");
+        //props.put("hibernate.hbm2ddl.auto", "create");
         return props;
     }
 

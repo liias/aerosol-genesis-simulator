@@ -16,4 +16,9 @@ public class SimulationProcessDaoImpl implements SimulationProcessDao {
     public SimulationProcess update(SimulationProcess process) {
         return entityManager.merge(process);
     }
+
+    @Override
+    public SimulationProcess getById(long id) {
+        return entityManager.find(SimulationProcess.class, id);
+    }
 }

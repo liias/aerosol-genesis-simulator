@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SimulationOrderServiceImpl implements SimulationOrderService {
@@ -110,6 +111,18 @@ public class SimulationOrderServiceImpl implements SimulationOrderService {
     @Override
     public void springAutoInjectionTest() {
         System.out.println("Spring auto-injection works!");
+    }
+
+    @Override
+    public SimulationOrder getById(long id) {
+        return simulationOrderDao.getById(id);
+    }
+
+    @Transactional
+    @Override
+    public Map<String, Map<String, String>> getParametersMapById(long id) {
+        SimulationOrder order = getById(id);
+        return order.getParametersMap();
     }
 
     public OrderForm getOrderForm() {

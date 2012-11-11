@@ -4,10 +4,7 @@ import ee.ut.physic.aerosol.simulator.util.ExcludeFromJson;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class SimulationProcess {
@@ -93,4 +90,30 @@ public class SimulationProcess {
     public Integer getResultFileNumber() {
         return resultFileNumber;
     }
+
+    @Transient
+    private String nvl(Float value) {
+        if (value != null) {
+            return value.toString();
+        }
+        return "";
+    }
+
+    @Transient
+    public Map<String, Map<String, String>> getParametersMap() {
+        Map<String, Map<String, String>> parametersMap = new HashMap<String, Map<String, String>>(30);
+        for (SimulationProcessParameter parameter : simulationProcessParameters) {
+            String name = parameter.getName();
+            Map<String, String> parameterValues = new HashMap<String, String>(2);
+            parameterValues.put("freeAirMin", nvl(parameter.getFreeAirValue()));
+            parameterValues.put("freeAirMax", "");
+            if (parameter.hasForest()) {
+                parameterValues.put("forestMin", nvl(parameter.getForestValue()));
+                parameterValues.put("forestMax", "");
+            }
+            parametersMap.put(name, parameterValues);
+        }
+        return parametersMap;
+    }
+
 }

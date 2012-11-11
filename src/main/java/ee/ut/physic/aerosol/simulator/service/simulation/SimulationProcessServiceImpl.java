@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SimulationProcessServiceImpl implements SimulationProcessService {
@@ -96,5 +97,17 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
         } catch (IndexOutOfBoundsException e) {
             logger.warn(e.getMessage());
         }
+    }
+
+    @Override
+    public SimulationProcess getById(long id) {
+        return simulationProcessDao.getById(id);
+    }
+
+    @Transactional
+    @Override
+    public Map<String, Map<String, String>> getParametersMapById(long id) {
+        SimulationProcess process = getById(id);
+        return process.getParametersMap();
     }
 }

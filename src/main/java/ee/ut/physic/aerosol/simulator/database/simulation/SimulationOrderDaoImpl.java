@@ -28,4 +28,9 @@ public class SimulationOrderDaoImpl implements SimulationOrderDao {
         Query query = entityManager.createQuery("SELECT so FROM SimulationOrder so");
         return (List<SimulationOrder>) query.getResultList();
     }
+
+    @Override
+    public SimulationOrder getById(long id) {
+        return entityManager.find(SimulationOrder.class, id);
+    }
 }

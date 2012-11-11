@@ -2,6 +2,7 @@ package ee.ut.physic.aerosol.simulator.ui;
 
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrder;
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrderParameter;
+import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcess;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParametersConfiguration;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParametersGroup;
 import org.slf4j.Logger;
@@ -117,7 +118,7 @@ public class OrderForm extends JPanel {
         return allValues;
     }
 
-    protected void setAllParameterValues(Map<String, Map<String, String>> allValues) {
+    public void setAllParameterValues(Map<String, Map<String, String>> allValues) {
         for (ParametersGroupPaneWithTitle parametersGroupPaneWithTitle : parametersGroupPanesWithTitle) {
             for (ParameterLine parameterLine : parametersGroupPaneWithTitle.getParameterLines()) {
                 String name = parameterLine.getName();
@@ -149,11 +150,6 @@ public class OrderForm extends JPanel {
             logger.debug("Not in process");
             orderToolbar.cancelButton.setEnabled(false);
         }
-    }
-
-    public void importBestValues() {
-        //TODO:Implement reading from file (or any better approach)
-        reset();
     }
 
     private void enableOrDisableUndoAndRedoButtons() {

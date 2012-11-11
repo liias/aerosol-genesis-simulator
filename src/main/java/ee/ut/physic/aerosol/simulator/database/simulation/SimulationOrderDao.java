@@ -10,4 +10,6 @@ public interface SimulationOrderDao {
     SimulationOrder update(SimulationOrder order);
 
     List<SimulationOrder> getAll();
+
+    SimulationOrder getById(long id);
 }
