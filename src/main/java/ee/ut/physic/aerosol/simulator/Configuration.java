@@ -19,7 +19,7 @@ public class Configuration {
     final Logger logger = LoggerFactory.getLogger(Configuration.class);
     private static Configuration instance = new Configuration();
     private ParametersConfiguration parametersConfiguration;
-    private Properties burstAppProperties;
+    private Properties userSettings;
     private String etcPath;
     private String burstSimulatorDirPath;
     private String burstSimulatorFileName;
@@ -29,8 +29,12 @@ public class Configuration {
     }
 
     private Configuration() {
+        setPaths();
+        loadUserSettings();
         loadParametersConfiguration();
-        loadBurstAppProperties();
+    }
+
+    private void setPaths() {
         setEtcPath();
         setBurstSimulatorDirPathAndBinaryName();
     }
@@ -43,14 +47,6 @@ public class Configuration {
         this.parametersConfiguration = parametersConfiguration;
     }
 
-    public Properties getBurstAppProperties() {
-        return burstAppProperties;
-    }
-
-    public void setBurstAppProperties(Properties burstAppProperties) {
-        this.burstAppProperties = burstAppProperties;
-    }
-
     public void loadParametersConfiguration() throws JsonSyntaxException {
         InputStream stream = getClass().getClassLoader().getResourceAsStream("config/parameters.json");
         Reader json = new InputStreamReader(stream);
@@ -59,16 +55,25 @@ public class Configuration {
         setParametersConfiguration(parametersConfiguration);
     }
 
-    public void loadBurstAppProperties() {
+    public String getUserConfPath() {
+        return getEtcPath() + "conf/";
+    }
+
+    public void loadUserSettings() {
         Properties properties = new Properties();
+        String path = getUserConfPath();
+        String fullPath = path + "settings.properties";
         try {
-            InputStream in = getClass().getClassLoader().getResourceAsStream("config/burstapp.properties");
-            properties.load(in);
-            in.close();
+            File settingsFile = new File(fullPath);
+            FileInputStream inputStream = new FileInputStream(settingsFile);
+            properties.load(inputStream);
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        setBurstAppProperties(properties);
+        userSettings = properties;
     }
 
     public ParameterDefinition getDefinitionByName(String name) {
@@ -145,5 +150,9 @@ public class Configuration {
 
     public String getBurstSimulatorFileName() {
         return burstSimulatorFileName;
+    }
+
+    public Properties getUserSettings() {
+        return userSettings;
     }
 }

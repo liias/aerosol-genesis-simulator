@@ -2,6 +2,7 @@ package ee.ut.physic.aerosol.simulator.util;
 
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -44,8 +45,8 @@ public class ApplicationContextLoader {
      * @param configLocations configuration file locations
      */
     public void loadApplicationContext(String... configLocations) {
-        applicationContext = new ClassPathXmlApplicationContext(
-                configLocations);
+        applicationContext = new AnnotationConfigApplicationContext(SpringConfiguration.class);
+        //applicationContext = new ClassPathXmlApplicationContext(configLocations);
         applicationContext.registerShutdownHook();
     }
 

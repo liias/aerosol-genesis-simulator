@@ -94,8 +94,7 @@ public class ResultFileParserServiceImpl implements ResultFileParserService {
     }
 
     private BufferedReader readReferenceResultsFile(String filename) {
-        String path = Configuration.getInstance().getEtcPath();
-        path += "conf/";
+        String path = Configuration.getInstance().getUserConfPath();
         String fullPath = path + filename;
         return readFile(fullPath);
     }
