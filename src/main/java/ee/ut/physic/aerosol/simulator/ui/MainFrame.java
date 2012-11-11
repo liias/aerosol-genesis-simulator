@@ -3,6 +3,7 @@ package ee.ut.physic.aerosol.simulator.ui;
 import ee.ut.physic.aerosol.simulator.Configuration;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParametersConfiguration;
 import ee.ut.physic.aerosol.simulator.util.ApplicationContextLoader;
+import ee.ut.physic.aerosol.simulator.util.SpringConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +54,7 @@ public class MainFrame extends JFrame {
     private void initSpringApplicationContext() {
         long startTime = System.currentTimeMillis() / 1000;
         loader = ApplicationContextLoader.getInstance();
-        loader.loadApplicationContext("META-INF/spring/beans.xml");
+        loader.loadApplicationContext(SpringConfiguration.class);
         long endTime = System.currentTimeMillis() / 1000;
         logger.info("Spring context loading took {} seconds", endTime - startTime);
     }

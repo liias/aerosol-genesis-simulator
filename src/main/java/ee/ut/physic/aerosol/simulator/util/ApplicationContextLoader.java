@@ -41,12 +41,9 @@ public class ApplicationContextLoader {
     /**
      * Loads application context. Override this method to change how the
      * application context is loaded.
-     *
-     * @param configLocations configuration file locations
      */
-    public void loadApplicationContext(String... configLocations) {
-        applicationContext = new AnnotationConfigApplicationContext(SpringConfiguration.class);
-        //applicationContext = new ClassPathXmlApplicationContext(configLocations);
+    public void loadApplicationContext(Class<?>... annotatedClasses) {
+        applicationContext = new AnnotationConfigApplicationContext(annotatedClasses);
         applicationContext.registerShutdownHook();
     }
 
@@ -65,10 +62,9 @@ public class ApplicationContextLoader {
      * Loads application context, then injects dependencies into the object.
      *
      * @param main            object to inject dependencies into
-     * @param configLocations configuration file locations
      */
-    public void load(Object main, String... configLocations) {
-        loadApplicationContext(configLocations);
+    public void load(Object main, Class<?>... annotatedClasses) {
+        loadApplicationContext(annotatedClasses);
         injectDependencies(main);
     }
 }

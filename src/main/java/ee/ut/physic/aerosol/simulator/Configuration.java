@@ -20,6 +20,7 @@ public class Configuration {
     private static Configuration instance = new Configuration();
     private ParametersConfiguration parametersConfiguration;
     private Properties userSettings;
+    private String rootPath;
     private String etcPath;
     private String burstSimulatorDirPath;
     private String burstSimulatorFileName;
@@ -35,6 +36,7 @@ public class Configuration {
     }
 
     private void setPaths() {
+        setRootPath();
         setEtcPath();
         setBurstSimulatorDirPathAndBinaryName();
     }
@@ -96,7 +98,7 @@ public class Configuration {
         return classJar.startsWith("jar:");
     }
 
-    private void setEtcPath() {
+    private void setRootPath() {
         String path = getFullPath();
         if (isRunFromJar()) {
             path = path.substring(0, path.lastIndexOf("/") + 1);
@@ -105,7 +107,16 @@ public class Configuration {
             path += "../../";
             logger.info("Running outside of JAR");
         }
-        path += "etc/";
+        logger.info("Path to root directory is: " + path);
+        this.rootPath = path;
+    }
+
+    public String getRootPath() {
+        return rootPath;
+    }
+
+    private void setEtcPath() {
+        String path = rootPath + "etc/";
         logger.info("Path to etc/ is: " + path);
         this.etcPath = path;
     }

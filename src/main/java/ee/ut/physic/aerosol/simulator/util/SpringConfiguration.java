@@ -2,7 +2,12 @@ package ee.ut.physic.aerosol.simulator.util;
 
 import dialect.ImprovedSQLiteDialect;
 import org.hibernate.cfg.ImprovedNamingStrategy;
-import org.springframework.context.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -15,41 +20,44 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@ImportResource({"classpath*:/META-INF/persistence.xml"})
-@PropertySource({"classpath:config/database.properties", "file:etc/conf/settings.properties"})
+@PropertySource({"classpath:config/database.properties"})
 @EnableTransactionManagement
 @ComponentScan("ee.ut.physic.aerosol.simulator")
 public class SpringConfiguration {
-          /*
-    public @Bean TransferService transferService() {
-        return new TransferServiceImpl(accountRepository());
-    }
 
-    public @Bean AccountRepository accountRepository() {
-        return new InMemoryAccountRepository();
-    }       */
+    @Autowired
+    private Environment environment;
 
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.sqlite.JDBC");
-        dataSource.setUrl("jdbc:sqlite:etc/database/ags.db");
+        String driverClassName = environment.getProperty("database.driverClassName");
+
+        String protocol = environment.getProperty("database.protocol");
+        dataSource.setDriverClassName(driverClassName);
+        ee.ut.physic.aerosol.simulator.Configuration simulatorConfiguration = ee.ut.physic.aerosol.simulator.Configuration.getInstance();
+        String databasePath;
+        if (simulatorConfiguration.getUserSettings().containsKey("database.path")) {
+            databasePath = simulatorConfiguration.getUserSettings().getProperty("database.path");
+        } else {
+            databasePath = environment.getProperty("database.defaultPath");
+        }
+        // If relative path, then change it to absolute path
+        if (!databasePath.startsWith("/")) {
+            databasePath = simulatorConfiguration.getRootPath() + databasePath;
+        }
+
+        String databaseUrl = protocol + databasePath;
+        dataSource.setUrl(databaseUrl);
         dataSource.setUsername("");
         dataSource.setPassword("");
         return dataSource;
     }
 
-    /*
-    @Bean
-    public LocalValidatorFactoryBean validator() {
-        return new LocalValidatorFactoryBean();
-    } */
-
     @Bean
     public Map<String, Object> jpaProperties() {
         Map<String, Object> props = new HashMap<String, Object>();
         props.put("hibernate.dialect", ImprovedSQLiteDialect.class.getName());
-        //props.put("javax.persistence.validation.factory", validator());
         props.put("hibernate.ejb.naming_strategy", ImprovedNamingStrategy.class.getName());
         return props;
     }
@@ -59,13 +67,12 @@ public class SpringConfiguration {
         LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
         entityManager.setDataSource(dataSource());
         entityManager.setPackagesToScan("ee.ut.physic.aerosol.simulator");
-
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter() {{
         }};
         vendorAdapter.setShowSql(true);
         entityManager.setJpaVendorAdapter(vendorAdapter);
         entityManager.setJpaPropertyMap(jpaProperties());
-        //entityManager.setJpaProperties( additionlProperties() );
+        //entityManager.setJpaProperties(additionalProperties());
         return entityManager;
     }
 
