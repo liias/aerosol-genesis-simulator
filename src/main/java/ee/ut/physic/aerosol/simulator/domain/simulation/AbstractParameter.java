@@ -104,15 +104,6 @@ public abstract class AbstractParameter implements Comparable<AbstractParameter>
         return forestValue != null;
     }
 
-    public String getValueStringBasedOnType(Double floatValue) {
-        if ("int".equals(getDefinition().getValueType())) {
-            int intVal = floatValue.intValue();
-            return Integer.toString(intVal);
-        }
-        //When float is e.g 0.0000016, toString will show e.g 1.6E-6, so converting to BigDecimal to get 0.0000016
-        return new BigDecimal(floatValue.toString()).toPlainString();
-    }
-
     @Transient
     public boolean isIntegerValue() {
         return "int".equals(getDefinition().getValueType());
@@ -142,6 +133,17 @@ public abstract class AbstractParameter implements Comparable<AbstractParameter>
             return -1;
         }
         return 0;
+    }
+
+    //TODO: this and stringValue() do the same thing...
+    @Transient
+    public String getValueStringBasedOnType(Double doubleValue) {
+        if ("int".equals(getDefinition().getValueType())) {
+            int intVal = doubleValue.intValue();
+            return Integer.toString(intVal);
+        }
+        //When float is e.g 0.0000016, toString will show e.g 1.6E-6, so converting to BigDecimal to get 0.0000016
+        return new BigDecimal(doubleValue.toString()).toPlainString();
     }
 
     @Transient

@@ -43,7 +43,7 @@ public class SimulationProcessParameter extends AbstractParameter {
         if (isIntegerValue()) {
             controlLine += "#";
         }
-        if (hasForestValue()) {
+        if (hasForest()) {
             controlLine += "*";
         }
         controlLine += getUnit() + ": " + getLabel() + ", " + getLineNumber() + ":" + getName();
