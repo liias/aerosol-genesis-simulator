@@ -60,7 +60,10 @@ public class OrderToolBar extends JToolBar {
 
         JButton compareButton = createCompareButton();
 
-        JLabel commentLabel = new JLabel("Comment: ");
+        String imgLocation = "/images/toolbar/16/comment.png";
+        URL imageURL = OrderToolBar.class.getResource(imgLocation);
+        Icon commentIcon = new ImageIcon(imageURL);
+        JLabel commentLabel = new JLabel(commentIcon, SwingConstants.LEFT);
         commentField = createCommentField();
         JLabel numberOfProcessesLabel = new JLabel(" # of runs: ");
 
