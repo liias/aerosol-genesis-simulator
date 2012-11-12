@@ -12,10 +12,10 @@ import java.util.Random;
 public class SimulationOrderParameter extends AbstractParameter {
     @ExcludeFromJson
     private SimulationOrder simulationOrder;
-    private Float freeAirMin;
-    private Float freeAirMax;
-    private Float forestMin;
-    private Float forestMax;
+    private Double freeAirMin;
+    private Double freeAirMax;
+    private Double forestMin;
+    private Double forestMax;
 
     public SimulationOrderParameter() {
     }
@@ -33,47 +33,47 @@ public class SimulationOrderParameter extends AbstractParameter {
         this.simulationOrder = simulationOrder;
     }
 
-    public Float getFreeAirMin() {
+    public Double getFreeAirMin() {
         return freeAirMin;
     }
 
-    public void setFreeAirMin(Float freeAirMin) {
+    public void setFreeAirMin(Double freeAirMin) {
         this.freeAirMin = freeAirMin;
         this.setFreeAirValue(freeAirMin);
     }
 
-    public Float getFreeAirMax() {
+    public Double getFreeAirMax() {
         return freeAirMax;
     }
 
-    public void setFreeAirMax(Float freeAirMax) {
+    public void setFreeAirMax(Double freeAirMax) {
         this.freeAirMax = freeAirMax;
     }
 
-    public Float getForestMin() {
+    public Double getForestMin() {
         return forestMin;
     }
 
-    public void setForestMin(Float forestMin) {
+    public void setForestMin(Double forestMin) {
         this.forestMin = forestMin;
         this.setForestValue(forestMin);
     }
 
-    public Float getForestMax() {
+    public Double getForestMax() {
         return forestMax;
     }
 
-    public void setForestMax(Float forestMax) {
+    public void setForestMax(Double forestMax) {
         this.forestMax = forestMax;
     }
 
     @Transient
-    public Float getFreeAirExactValueOrRandomBetweenMinMax() {
+    public Double getFreeAirExactValueOrRandomBetweenMinMax() {
         return getExactValueOrRandomBetweenMinMax(getFreeAirMin(), getFreeAirMax());
     }
 
     @Transient
-    public Float getForestExactValueOrRandomBetweenMinMax() {
+    public Double getForestExactValueOrRandomBetweenMinMax() {
         if (hasForest()) {
             //Forest value is not required, but maybe it should
             if (getForestMin() != null) {
@@ -84,7 +84,7 @@ public class SimulationOrderParameter extends AbstractParameter {
     }
 
     @Transient
-    private Float getRandomIntegerBetweenMinMax(Float min, Float max) {
+    private Double getRandomIntegerBetweenMinMax(Double min, Double max) {
         Random random = new Random();
         Integer minInteger = min.intValue();
         Integer maxInteger = max.intValue();
@@ -97,18 +97,18 @@ public class SimulationOrderParameter extends AbstractParameter {
             intValue = random.nextInt(maxInteger - minInteger) + minInteger;
         }
         //The lower limit is inclusive, but the upper limit is exclusive.
-        return intValue.floatValue();
+        return intValue.doubleValue();
     }
 
     @Transient
-    private Float getRandomFloatValueBetweenMinAndMax(Float min, Float max) {
+    private Double getRandomFloatValueBetweenMinAndMax(Double min, Double max) {
         Random random = new Random();
         return random.nextFloat() * (max - min) + min;
     }
 
     //TODO: Unit test it
     @Transient
-    public Float getExactValueOrRandomBetweenMinMax(Float min, Float max) {
+    public Double getExactValueOrRandomBetweenMinMax(Double min, Double max) {
         if (min == null) {
             throw new IllegalArgumentException("Minimum value MUST be set");
         }
@@ -123,9 +123,9 @@ public class SimulationOrderParameter extends AbstractParameter {
 
     public SimulationProcessParameter generateProcessParameter() {
         SimulationProcessParameter simulationProcessParameter = new SimulationProcessParameter(getDefinition());
-        Float freeAirValue = getFreeAirExactValueOrRandomBetweenMinMax();
+        Double freeAirValue = getFreeAirExactValueOrRandomBetweenMinMax();
         simulationProcessParameter.setFreeAirValue(freeAirValue);
-        Float forestValue = getForestExactValueOrRandomBetweenMinMax();
+        Double forestValue = getForestExactValueOrRandomBetweenMinMax();
         simulationProcessParameter.setForestValue(forestValue);
         return simulationProcessParameter;
     }

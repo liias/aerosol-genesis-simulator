@@ -126,24 +126,16 @@ public class SimulationOrder {
     }
 
     @Transient
-    private String nvl(Float value) {
-        if (value != null) {
-            return value.toString();
-        }
-        return "";
-    }
-
-    @Transient
     public Map<String, Map<String, String>> getParametersMap() {
         Map<String, Map<String, String>> parametersMap = new HashMap<String, Map<String, String>>(52);
         for (SimulationOrderParameter parameter : simulationOrderParameters) {
             String name = parameter.getName();
             Map<String, String> parameterValues = new HashMap<String, String>(2);
-            parameterValues.put("freeAirMin", nvl(parameter.getFreeAirMin()));
-            parameterValues.put("freeAirMax", nvl(parameter.getFreeAirMax()));
+            parameterValues.put("freeAirMin", parameter.stringValue(parameter.getFreeAirMin()));
+            parameterValues.put("freeAirMax", parameter.stringValue(parameter.getFreeAirMax()));
             if (parameter.hasForest()) {
-                parameterValues.put("forestMin", nvl(parameter.getForestMin()));
-                parameterValues.put("forestMax", nvl(parameter.getForestMax()));
+                parameterValues.put("forestMin", parameter.stringValue(parameter.getForestMin()));
+                parameterValues.put("forestMax", parameter.stringValue(parameter.getForestMax()));
             }
             parametersMap.put(name, parameterValues);
         }

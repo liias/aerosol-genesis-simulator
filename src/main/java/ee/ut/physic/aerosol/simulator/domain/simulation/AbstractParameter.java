@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 @MappedSuperclass
 public abstract class AbstractParameter implements Comparable<AbstractParameter> {
@@ -16,8 +18,8 @@ public abstract class AbstractParameter implements Comparable<AbstractParameter>
     protected long id;
     //Used in BurstSimulator I/O files
     private String name;
-    private Float freeAirValue;
-    private Float forestValue;
+    private Double freeAirValue;
+    private Double forestValue;
     protected ParameterDefinition definition;
 
     public AbstractParameter() {
@@ -49,19 +51,19 @@ public abstract class AbstractParameter implements Comparable<AbstractParameter>
         this.name = name;
     }
 
-    public Float getFreeAirValue() {
+    public Double getFreeAirValue() {
         return freeAirValue;
     }
 
-    public void setFreeAirValue(Float freeAirValue) {
+    public void setFreeAirValue(Double freeAirValue) {
         this.freeAirValue = freeAirValue;
     }
 
-    public Float getForestValue() {
+    public Double getForestValue() {
         return forestValue;
     }
 
-    public void setForestValue(Float forestValue) {
+    public void setForestValue(Double forestValue) {
         this.forestValue = forestValue;
     }
 
@@ -102,7 +104,7 @@ public abstract class AbstractParameter implements Comparable<AbstractParameter>
         return forestValue != null;
     }
 
-    public String getValueStringBasedOnType(Float floatValue) {
+    public String getValueStringBasedOnType(Double floatValue) {
         if ("int".equals(getDefinition().getValueType())) {
             int intVal = floatValue.intValue();
             return Integer.toString(intVal);
@@ -140,5 +142,20 @@ public abstract class AbstractParameter implements Comparable<AbstractParameter>
             return -1;
         }
         return 0;
+    }
+
+    @Transient
+    public String stringValue(Double value) {
+        if (value != null) {
+            String pattern;
+            if (isFloatValue()) {
+                pattern = "0.0######";
+            } else {
+                pattern = "0.#######";
+            }
+            NumberFormat formatter = new DecimalFormat(pattern);
+            return formatter.format(value);
+        }
+        return "";
     }
 }

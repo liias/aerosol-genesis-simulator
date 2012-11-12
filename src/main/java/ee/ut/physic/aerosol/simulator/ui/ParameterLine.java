@@ -119,25 +119,25 @@ public class ParameterLine {
     }
 
     // Returns null when nothing was selected
-    private Float getSelectedValue(JComboBox comboBox) {
+    private Double getSelectedValue(JComboBox comboBox) {
         String selectedValue = (String) comboBox.getSelectedItem();
-        Float value = null;
+        Double value = null;
         if (!selectedValue.isEmpty()) {
-            value = Float.parseFloat(selectedValue);
+            value = Double.parseDouble(selectedValue);
         }
         return value;
     }
 
     public SimulationOrderParameter getOrderParameter() {
         SimulationOrderParameter simulationOrderParameter = new SimulationOrderParameter(getParameterDefinition());
-        Float freeAirMin = getSelectedValue(getFreeAirMin());
+        Double freeAirMin = getSelectedValue(getFreeAirMin());
         simulationOrderParameter.setFreeAirMin(freeAirMin);
-        Float freeAirMax = getSelectedValue(getFreeAirMax());
+        Double freeAirMax = getSelectedValue(getFreeAirMax());
         simulationOrderParameter.setFreeAirMax(freeAirMax);
         if (hasForest) {
-            Float forestMin = getSelectedValue(getForestMin());
+            Double forestMin = getSelectedValue(getForestMin());
             simulationOrderParameter.setForestMin(forestMin);
-            Float forestMax = getSelectedValue(getForestMax());
+            Double forestMax = getSelectedValue(getForestMax());
             simulationOrderParameter.setForestMax(forestMax);
         }
         return simulationOrderParameter;
