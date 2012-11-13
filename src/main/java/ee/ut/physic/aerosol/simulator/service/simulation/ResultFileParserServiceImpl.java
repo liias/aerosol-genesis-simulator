@@ -47,8 +47,8 @@ public class ResultFileParserServiceImpl implements ResultFileParserService {
 
     // Parses result file into SimulationResults
     @Override
-    public Set<SimulationResult> parseResultFile(SimulationProcess process) {
-        Set<SimulationResult> results = new HashSet<SimulationResult>();
+    public List<SimulationResult> parseResultFile(SimulationProcess process) {
+        List<SimulationResult> results = new ArrayList<SimulationResult>();
         try {
             Integer resultFileNumber = process.getResultFileNumber();
             BufferedReader br = readResultFile(resultFileNumber);

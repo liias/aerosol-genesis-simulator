@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class SimulationResult {
+public class SimulationResult implements Comparable<SimulationResult> {
     @ExcludeFromJson
     private long id;
     private Date completionDate;
@@ -71,5 +71,16 @@ public class SimulationResult {
 
     public void addSimulationResultValue(SimulationResultValue simulationResultValue) {
         getSimulationResultValues().add(simulationResultValue);
+    }
+
+    @Override
+    public int compareTo(SimulationResult o) {
+        if (time < o.getTime()) {
+            return -1;
+        } else if (time > o.getTime()) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }

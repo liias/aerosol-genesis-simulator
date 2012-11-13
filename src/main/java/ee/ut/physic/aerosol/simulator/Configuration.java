@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParameterDefinition;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParametersConfiguration;
+import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ResultParameters;
 import org.apache.commons.lang.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ public class Configuration {
     private String etcPath;
     private String burstSimulatorDirPath;
     private String burstSimulatorFileName;
+    private ResultParameters resultParameters;
 
     public static Configuration getInstance() {
         return instance;
@@ -33,6 +35,7 @@ public class Configuration {
         setPaths();
         loadUserSettings();
         loadParametersConfiguration();
+        loadResultParameters();
     }
 
     private void setPaths() {
@@ -55,6 +58,10 @@ public class Configuration {
         ParametersConfiguration parametersConfiguration = new Gson().fromJson(json, ParametersConfiguration.class);
         parametersConfiguration.buildDefinitionsByName();
         setParametersConfiguration(parametersConfiguration);
+    }
+
+    public void loadResultParameters() {
+        this.resultParameters = new ResultParameters();
     }
 
     public String getUserConfPath() {
@@ -165,5 +172,9 @@ public class Configuration {
 
     public Properties getUserSettings() {
         return userSettings;
+    }
+
+    public ResultParameters getResultParameters() {
+        return resultParameters;
     }
 }

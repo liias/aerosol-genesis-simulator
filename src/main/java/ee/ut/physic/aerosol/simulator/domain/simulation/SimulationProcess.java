@@ -12,7 +12,7 @@ public class SimulationProcess {
     private long id;
     @ExcludeFromJson
     private SimulationOrder simulationOrder;
-    private Set<SimulationResult> simulationResults = new HashSet<SimulationResult>();
+    private List<SimulationResult> simulationResults = new ArrayList<SimulationResult>();
     private Set<SimulationProcessParameter> simulationProcessParameters = new HashSet<SimulationProcessParameter>();
     private Calendar createdAt;
     private SimulationProcessState state = SimulationProcessState.NOT_STARTED;
@@ -38,11 +38,11 @@ public class SimulationProcess {
     }
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "simulationProcess")
-    public Set<SimulationResult> getSimulationResults() {
+    public List<SimulationResult> getSimulationResults() {
         return simulationResults;
     }
 
-    public void setSimulationResults(Set<SimulationResult> simulationResults) {
+    public void setSimulationResults(List<SimulationResult> simulationResults) {
         this.simulationResults = simulationResults;
     }
 

@@ -1,5 +1,6 @@
 package ee.ut.physic.aerosol.simulator.service.simulation;
 
+import ee.ut.physic.aerosol.simulator.Configuration;
 import ee.ut.physic.aerosol.simulator.database.simulation.SimulationProcessDao;
 import ee.ut.physic.aerosol.simulator.database.simulation.SimulationResultDao;
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcess;
@@ -12,9 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class SimulationResultServiceImpl implements SimulationResultService {
@@ -30,7 +31,7 @@ public class SimulationResultServiceImpl implements SimulationResultService {
     @Transactional
     @Override
     public void addResultsForProcess(SimulationProcess process) {
-        Set<SimulationResult> simulationResults = resultFileParserService.parseResultFile(process);
+        List<SimulationResult> simulationResults = resultFileParserService.parseResultFile(process);
         process.setSimulationResults(simulationResults);
         simulationProcessDao.update(process);
     }
@@ -84,7 +85,7 @@ public class SimulationResultServiceImpl implements SimulationResultService {
 
     @Transactional
     @Override
-    public void compareWithReference() {
+    public List<HashMap<String, Double>> findBestResults() {
         //ordered by time
         List<SimulationResult> referenceResults = resultFileParserService.parseReferenceResults("ref.xl");
         // 5 * (21 -1) = 100
@@ -92,8 +93,9 @@ public class SimulationResultServiceImpl implements SimulationResultService {
         //also ordered by time
         List<SimulationResult> allResultsInTimeRange = simulationResultDao.findResultsGroupedByProcess(0, maxTime);
         List<HashMap<String, Double>> processRatings = findRatingForProcesses(referenceResults, allResultsInTimeRange);
+
         //The smallest rating is the best one, find it
-        Long bestProcessId = null;
+        /*Long bestProcessId = null;
         Double bestRating = null;
         for (HashMap<String, Double> pidAndRating : processRatings) {
             double pidDouble = pidAndRating.get("pid");
@@ -105,5 +107,69 @@ public class SimulationResultServiceImpl implements SimulationResultService {
             }
         }
         logger.info("Best rating is " + bestRating + " for process with id " + bestProcessId);
+         */
+        return processRatings;
     }
+
+
+    @Transactional
+    public String getResultsFileContent(SimulationProcess process) {
+        String pid = Long.toString(process.getId());
+        String comment = process.getSimulationOrder().getComment();
+        List<SimulationResult> results = process.getSimulationResults();
+        Collections.sort(results);
+        String[] parameterNames = Configuration.getInstance().getResultParameters().getParameterNames();
+
+        StringBuilder lines = new StringBuilder(100);
+        lines.append("pid\t");
+        lines.append("comment\t");
+        lines.append("rid\t");
+        for (String parameterName : parameterNames) {
+            lines.append(parameterName).append("\t");
+        }
+        lines.append("\n");
+
+        for (SimulationResult result : results) {
+            String resultId = Long.toString(result.getId());
+            lines.append(pid).append("\t");
+            lines.append(comment).append("\t");
+            lines.append(resultId).append("\t");
+            //Collections.sort(resultvalues);
+            //TODO: This is currently probably in random order
+            for (SimulationResultValue resultValue : result.getSimulationResultValues()) {
+                lines.append(resultValue.getValue()).append("\t");
+            }
+            lines.append("\n");
+        }
+
+        return lines.toString();
+    }
+
+
+    //Convenience method to do it all for best results file content generation
+    @Transactional
+    public String findBestResultsAndGenerateFileContent() {
+        List<HashMap<String, Double>> processRatings = findBestResults();
+        StringBuilder allLines = new StringBuilder(100);
+
+        //The smallest rating is the best one, find it
+        Long bestProcessId = null;
+        Double bestRating = null;
+        for (HashMap<String, Double> pidAndRating : processRatings) {
+            double pidDouble = pidAndRating.get("pid");
+            long processId = (long) pidDouble;
+            SimulationProcess process = simulationProcessDao.getById(processId);
+            allLines.append(getResultsFileContent(process));
+            allLines.append("\n\n");
+            double rating = pidAndRating.get("rating");
+            if (bestRating == null || rating < bestRating) {
+                bestProcessId = processId;
+                bestRating = rating;
+            }
+        }
+        logger.info("Best rating is " + bestRating + " for process with id " + bestProcessId);
+
+        return allLines.toString();
+    }
+
 }
