@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.List;
 
 @Repository
 public class SimulationProcessDaoImpl implements SimulationProcessDao {
@@ -20,5 +22,12 @@ public class SimulationProcessDaoImpl implements SimulationProcessDao {
     @Override
     public SimulationProcess getById(long id) {
         return entityManager.find(SimulationProcess.class, id);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Long> getProcessIdsWhereProcessTimeLessOrEqualThan(long time) {
+        Query query = entityManager.createQuery("SELECT param.simulationProcess.id FROM SimulationProcessParameter param where param.name='time' AND param.freeAirValue >= 100");
+        return (List<Long>) query.getResultList();
     }
 }
