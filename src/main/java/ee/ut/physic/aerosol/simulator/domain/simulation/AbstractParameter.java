@@ -135,29 +135,18 @@ public abstract class AbstractParameter implements Comparable<AbstractParameter>
         return 0;
     }
 
-    //TODO: this and stringValue() do the same thing...
-    @Transient
-    public String getValueStringBasedOnType(Double doubleValue) {
-        if ("int".equals(getDefinition().getValueType())) {
-            int intVal = doubleValue.intValue();
-            return Integer.toString(intVal);
-        }
-        //When float is e.g 0.0000016, toString will show e.g 1.6E-6, so converting to BigDecimal to get 0.0000016
-        return new BigDecimal(doubleValue.toString()).toPlainString();
-    }
-
     @Transient
     public String stringValue(Double value) {
-        if (value != null) {
-            String pattern;
-            if (isFloatValue()) {
-                pattern = "0.0######";
-            } else {
-                pattern = "0.#######";
-            }
+        if (value == null) {
+            return "";
+        }
+        if (isFloatValue()) {
+            String pattern = "0.0######";
             NumberFormat formatter = new DecimalFormat(pattern);
             return formatter.format(value);
+        } else {
+            int intVal = value.intValue();
+            return Integer.toString(intVal);
         }
-        return "";
     }
 }

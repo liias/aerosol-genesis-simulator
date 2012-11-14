@@ -30,9 +30,9 @@ public class SimulationProcessParameter extends AbstractParameter {
 
     @Transient
     public String getControlLineValue() {
-        String controlLineValue = getValueStringBasedOnType(getFreeAirValue());
+        String controlLineValue = stringValue(getFreeAirValue());
         if (hasForestValue()) {
-            controlLineValue += "/" + getValueStringBasedOnType(getForestValue());
+            controlLineValue += "/" + stringValue(getForestValue());
         }
         return controlLineValue;
     }

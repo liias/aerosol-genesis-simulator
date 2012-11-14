@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface SimulationResultService {
     void addResultsForProcess(SimulationProcess process);
-    String getResultsFileContent(SimulationProcess process);
-    String findBestResultsAndGenerateFileContent(int numberOfRatings);
+    String generateBestResultsFileAndSaveBestProcessId(int numberOfRatings);
     List<HashMap<String, Double>> findBestResults(int numberOfRatings);
 }

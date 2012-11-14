@@ -1,10 +1,9 @@
 package ee.ut.physic.aerosol.simulator.service.simulation;
 
+import ee.ut.physic.aerosol.simulator.Configuration;
 import ee.ut.physic.aerosol.simulator.database.simulation.SimulationOrderDao;
 import ee.ut.physic.aerosol.simulator.database.simulation.SimulationProcessDao;
-import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrder;
-import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcess;
-import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcessState;
+import ee.ut.physic.aerosol.simulator.domain.simulation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -109,5 +109,28 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
     public Map<String, Map<String, String>> getParametersMapById(long id) {
         SimulationProcess process = getById(id);
         return process.getParametersMap();
+    }
+
+    @Transactional
+    @Override
+    public String getBestFileContent(SimulationProcess process, double rating) {
+        StringBuilder lines = new StringBuilder(100);
+        String pid = Long.toString(process.getId());
+        String comment = process.getSimulationOrder().getComment();
+
+        List<SimulationProcessParameter> parameters = process.getSimulationProcessParameters();
+        Collections.sort(parameters);
+        lines.append(rating).append("\t");
+        lines.append(pid).append("\t");
+        lines.append(comment).append("\t");
+        for (SimulationProcessParameter parameter : parameters) {
+            String freeAirValue = parameter.stringValue(parameter.getFreeAirValue());
+            lines.append(freeAirValue).append("\t");
+            if (parameter.hasForest()) {
+                String forestValue = parameter.stringValue(parameter.getForestValue());
+                lines.append(forestValue).append("\t");
+            }
+        }
+        return lines.toString();
     }
 }

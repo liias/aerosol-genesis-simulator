@@ -326,7 +326,7 @@ public class OrderToolBar extends JToolBar {
 
     private void findBestValues() {
         logger.debug("Find Best Values button pressed");
-        String fileContent = simulationResultService.findBestResultsAndGenerateFileContent(10);
+        String fileContent = simulationResultService.generateBestResultsFileAndSaveBestProcessId(10);
         logger.info("Found best results, prompting for save");
         saveAndWrite.promptSaveFileWithFileContent(fileContent);
     }

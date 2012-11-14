@@ -1,6 +1,8 @@
 package ee.ut.physic.aerosol.simulator.domain.simulation.parameter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 public class ParametersConfiguration {
@@ -37,5 +39,18 @@ public class ParametersConfiguration {
 
     public ParameterDefinition getDefinitionByName(String name) {
         return definitionsByName.get(name);
+    }
+
+    public List<String> getParameterNamesWithForest() {
+        List<String> parameterNames = new ArrayList<String>(52);
+        for (ParametersGroup parametersGroup : parametersGroups) {
+            for (ParameterDefinition parameterDefinition : parametersGroup.getDefinitions()) {
+                parameterNames.add(parameterDefinition.getName());
+                if (parameterDefinition.isHasForest()) {
+                    parameterNames.add(parameterDefinition.getName() + " forest");
+                }
+            }
+        }
+        return parameterNames;
     }
 }

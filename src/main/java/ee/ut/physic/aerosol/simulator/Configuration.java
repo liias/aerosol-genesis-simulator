@@ -68,10 +68,30 @@ public class Configuration {
         return getEtcPath() + "conf/";
     }
 
-    public void loadUserSettings() {
-        Properties properties = new Properties();
+    private String getUserSettingsFilePath() {
         String path = getUserConfPath();
-        String fullPath = path + "settings.properties";
+        return path + "settings.properties";
+    }
+
+    public void saveUserSettings(Properties properties) {
+        String fullPath = getUserSettingsFilePath();
+        File file = new File(fullPath);
+        FileOutputStream fileOut = null;
+        try {
+            fileOut = new FileOutputStream(file);
+            properties.store(fileOut, "Favorite Things");
+            fileOut.close();
+            userSettings = properties;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadUserSettings() {
+        String fullPath = getUserSettingsFilePath();
+        Properties properties = new Properties();
         try {
             File settingsFile = new File(fullPath);
             FileInputStream inputStream = new FileInputStream(settingsFile);
