@@ -1,6 +1,7 @@
 package ee.ut.physic.aerosol.simulator.ui;
 
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrder;
+import ee.ut.physic.aerosol.simulator.errors.GeneralException;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationOrderService;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationProcessService;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationResultService;
@@ -41,6 +42,7 @@ public class OrderToolBar extends JToolBar {
     private JComboBox openByIdType;
     private JTextField orderOrProcessId;
 
+    @SuppressWarnings("unchecked")
     public OrderToolBar(OrderForm orderForm, SaveAndWrite saveAndWrite, ToolboxFrame toolboxFrame) {
         this.orderForm = orderForm;
         this.saveAndWrite = saveAndWrite;
@@ -59,6 +61,7 @@ public class OrderToolBar extends JToolBar {
         JButton clearButton = createClearButton();
 
         JButton compareButton = createCompareButton();
+        JButton viewBestButton = createViewBestButton();
 
         String imgLocation = "/images/toolbar/16/comment.png";
         URL imageURL = OrderToolBar.class.getResource(imgLocation);
@@ -81,7 +84,9 @@ public class OrderToolBar extends JToolBar {
 
         add(toolboxButton);
         add(compareButton);
+        add(viewBestButton);
 
+        addSeparator();
         add(openByIdType);
         add(orderOrProcessId);
         add(openByIdButton);
@@ -117,7 +122,6 @@ public class OrderToolBar extends JToolBar {
         }
         return button;
     }
-
 
     private JButton createToolboxButton() {
         JButton button = createButtonWithIcon("toolbox", "Toolbox");
@@ -213,6 +217,18 @@ public class OrderToolBar extends JToolBar {
         resetButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 findBestValues();
+            }
+        });
+        return resetButton;
+    }
+
+
+    private JButton createViewBestButton() {
+        JButton resetButton = createButtonWithIcon("view_best", "View Best Process");
+        resetButton.setToolTipText("View Best Process");
+        resetButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                viewBestProcess();
             }
         });
         return resetButton;
@@ -329,6 +345,17 @@ public class OrderToolBar extends JToolBar {
         String fileContent = simulationResultService.generateBestResultsFileAndSaveBestProcessId(10);
         logger.info("Found best results, prompting for save");
         saveAndWrite.promptSaveFileWithFileContent(fileContent);
+    }
+
+    private void viewBestProcess() {
+        logger.debug("View Best Process button pressed");
+        try {
+            Long id = simulationProcessService.getBestProcessId();
+            Map<String, Map<String, String>> parametersMap = simulationProcessService.getParametersMapById(id);
+            orderForm.setAllParameterValues(parametersMap);
+        } catch (GeneralException e) {
+            e.printStackTrace();
+        }
     }
 
     //When simulate button is pressed

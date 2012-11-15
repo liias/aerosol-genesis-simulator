@@ -3,17 +3,18 @@ package ee.ut.physic.aerosol.simulator.service.simulation;
 import ee.ut.physic.aerosol.simulator.Configuration;
 import ee.ut.physic.aerosol.simulator.database.simulation.SimulationOrderDao;
 import ee.ut.physic.aerosol.simulator.database.simulation.SimulationProcessDao;
-import ee.ut.physic.aerosol.simulator.domain.simulation.*;
+import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrder;
+import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcess;
+import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcessParameter;
+import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcessState;
+import ee.ut.physic.aerosol.simulator.errors.GeneralException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class SimulationProcessServiceImpl implements SimulationProcessService {
@@ -132,5 +133,15 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
             }
         }
         return lines.toString();
+    }
+
+    @Override
+    public Long getBestProcessId() throws GeneralException {
+        Properties conf = Configuration.getInstance().getUserSettings();
+        String id = conf.getProperty("bestProcessId");
+        if (id == null) {
+            throw new GeneralException("Try to find the best results first");
+        }
+        return Long.valueOf(id);
     }
 }
