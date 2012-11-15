@@ -287,7 +287,7 @@ public class OrderToolBar extends JToolBar {
 	            	validationService.validateOrder(orderForm);
 	                simulate();
             	} catch(GeneralException except) {
-	            	
+	            	logger.warn("Fill all fields : ", except);
 	            }
             }
         });
@@ -371,7 +371,8 @@ public class OrderToolBar extends JToolBar {
     public void simulate() {
         //Execute when button is pressed
         logger.debug("Simulate button pressed");
-        SimulationOrder simulationOrder = orderForm.createSimulationOrderWithData(getComment(), getNumberOfProcesses());
+        int realSimulationCount = validationService.validateSimulationCount(orderForm, getNumberOfProcesses());
+        SimulationOrder simulationOrder = orderForm.createSimulationOrderWithData(getComment(), realSimulationCount);
         simulationOrderService.setOrderForm(orderForm);
         simulationOrderService.simulate(simulationOrder);
     }
