@@ -17,7 +17,7 @@ public class ValidationService {
 		for (String title : orderForm.getAllParameterValues().keySet()) {
 			Map<String, String> valueMap = orderForm.getAllParameterValues().get(title);
 			for (String name : valueMap.keySet()) {
-				if (("forestMin".equals(name) || "freeAirMin".equals(name)) && valueMap.get(name).length() == 0) {
+				if ("freeAirMin".equals(name) && valueMap.get(name).length() == 0) {
 					throw new GeneralException("Fill all fields please (Minimum)");
 				}
 			}

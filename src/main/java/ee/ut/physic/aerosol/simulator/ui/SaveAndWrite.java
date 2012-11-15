@@ -1,14 +1,16 @@
 package ee.ut.physic.aerosol.simulator.ui;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.stream.JsonReader;
+import au.com.bytecode.opencsv.CSVReader;
+import au.com.bytecode.opencsv.CSVWriter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class SaveAndWrite {
     final Logger logger = LoggerFactory.getLogger(SaveAndWrite.class);
@@ -28,11 +30,13 @@ public class SaveAndWrite {
         File file = fileChooser.getSelectedFile();
         logger.debug("Saving: " + file.getName());
 
-        FileWriter writer;
+        CSVWriter writer;
         try {
-            writer = new FileWriter(file);
-            writer.write(fileContent);
+            writer = new CSVWriter(new FileWriter(file), '\t');
+            String[] entries = fileContent.split("#");
+            writer.writeNext(entries);
             writer.close();
+
         } catch (IOException e) {
             logger.warn("Could not write to path: " + file.getAbsolutePath());
             e.printStackTrace();
@@ -40,9 +44,19 @@ public class SaveAndWrite {
     }
 
     public void saveFile() {
-        Gson gson = new Gson();
-        String jsonAllValues = gson.toJson(orderForm.getAllParameterValues());
-        promptSaveFileWithFileContent(jsonAllValues);
+    	String fileString = "";
+		for (String title : orderForm.getAllParameterValues().keySet()) {
+			if(fileString == "") {
+				fileString += title;
+			} else {
+				fileString += "#" + title;
+			}			
+			Map<String, String> valueMap = orderForm.getAllParameterValues().get(title);
+			for (String name : valueMap.keySet()) {
+				fileString += "#" + name + "#" + valueMap.get(name);
+			}
+		}
+        promptSaveFileWithFileContent(fileString);
     }
 
     public Reader promptOpenFileAsInputStreamReader() {
@@ -70,13 +84,34 @@ public class SaveAndWrite {
         if (streamReader == null) {
             return;
         }
-        JsonReader jsonReader = new JsonReader(streamReader);
+        CSVReader reader = new CSVReader(streamReader, '\t');
         try {
-            Gson gson = new Gson();
-            Map<String, Map<String, String>> allValues = gson.fromJson(jsonReader, Map.class);
+            String[] fileRow = reader.readNext();
+            Map<String, Map<String, String>> allValues = new HashMap<String, Map<String,String>>();
+            Map<String, String> values = new HashMap<String, String>();
+            String mainName = "";
+            String lastValueName = "";
+            for(String item : fileRow) {
+            	if(item.startsWith("forest") || item.startsWith("free")) {
+            		lastValueName = item;
+            	} else if(Pattern.compile("^[a-zA-Z]").matcher(item).find()) {
+            		if(mainName != "") {
+            			logger.info("putting : " + mainName + " - " + values);
+            			allValues.put(mainName, values);
+            			logger.info("getting : " + mainName + " - " + allValues.get(mainName));
+            		} 
+            		mainName = item;
+            		values.clear();
+            	} else {
+            		values.put(lastValueName, item);
+            	}
+            }
+            for(String s: allValues.keySet()) {
+            	logger.info(s + " - " + allValues.get(s));
+            }
             orderForm.setAllParameterValues(allValues);
-        } catch (JsonSyntaxException e) {
-            logger.warn("File could not be parsed as a json file");
+        } catch (IOException e) {
+            logger.warn("File could not be parsed as a CSV file");
         }
     }
 }
