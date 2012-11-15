@@ -5,6 +5,8 @@ import ee.ut.physic.aerosol.simulator.errors.GeneralException;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationOrderService;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationProcessService;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationResultService;
+import ee.ut.physic.aerosol.simulator.service.simulation.ValidationService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ public class OrderToolBar extends JToolBar {
     private SimulationProcessService simulationProcessService;
     @Autowired
     private SimulationResultService simulationResultService;
+    @Autowired
+    private ValidationService validationService;
 
     private OrderForm orderForm;
     private SaveAndWrite saveAndWrite;
@@ -279,7 +283,12 @@ public class OrderToolBar extends JToolBar {
         simulateButton.setToolTipText("Start Simulation");
         simulateButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                simulate();
+            	try {
+	            	validationService.validateOrder(orderForm);
+	                simulate();
+            	} catch(GeneralException except) {
+	            	
+	            }
             }
         });
         return simulateButton;

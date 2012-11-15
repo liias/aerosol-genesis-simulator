@@ -2,7 +2,6 @@ package ee.ut.physic.aerosol.simulator.ui;
 
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrder;
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrderParameter;
-import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcess;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParametersConfiguration;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParametersGroup;
 import org.slf4j.Logger;
@@ -108,7 +107,7 @@ public class OrderForm extends JPanel {
         }
     }
 
-    protected Map<String, Map<String, String>> getAllParameterValues() {
+    public Map<String, Map<String, String>> getAllParameterValues() {
         Map<String, Map<String, String>> allValues = new HashMap<String, Map<String, String>>();
         for (ParametersGroupPaneWithTitle parametersGroupPaneWithTitle : parametersGroupPanesWithTitle) {
             for (ParameterLine parameterLine : parametersGroupPaneWithTitle.getParameterLines()) {
