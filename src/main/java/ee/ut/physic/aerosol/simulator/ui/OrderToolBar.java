@@ -267,7 +267,7 @@ public class OrderToolBar extends JToolBar {
     }
 
     private JSpinner createNumberOfProcessesSpinner() {
-        SpinnerModel model = new SpinnerNumberModel(1, 1, 10, 1);
+        SpinnerModel model = new SpinnerNumberModel(1, 1, 1000000, 1);
         JSpinner spinner = new JSpinner(model);
         String toolTip = "Number of Simulations";
         spinner.setToolTipText(toolTip);
