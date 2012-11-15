@@ -10,4 +10,6 @@ public interface SimulationResultService {
     void addResultsForProcess(SimulationProcess process);
     String generateBestResultsFileAndSaveBestProcessId(int numberOfRatings);
     List<HashMap<String, Double>> findBestResults(int numberOfRatings);
+    String getResultsFileContent(SimulationProcess process);
+    String getResultsFileContent(Long id);
 }

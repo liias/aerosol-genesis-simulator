@@ -5,7 +5,9 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrder;
+import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcess;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationOrderService;
+import ee.ut.physic.aerosol.simulator.service.simulation.SimulationResultService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +23,12 @@ import java.util.List;
 
 public class ToolboxFrame extends JFrame {
     final Logger logger = LoggerFactory.getLogger(ToolboxFrame.class);
-
     @Autowired
     private SimulationOrderService simulationOrderService;
-
+    @Autowired
+    private SimulationResultService simulationResultsService;
     private SaveAndWrite saveAndWrite;
+    private JTextField processIdField;
 
     public ToolboxFrame(SaveAndWrite saveAndWrite) throws HeadlessException {
         super();
@@ -56,11 +59,30 @@ public class ToolboxFrame extends JFrame {
             }
         });
 
+        JLabel processIdLabel = new JLabel("Process ID: ");
+        processIdField = new JTextField(5);
+
+        JButton saveResultsFile = new JButton("Save Results");
+        saveResultsFile.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                saveResults();
+            }
+        });
+
         panel.add(importButton);
         panel.add(exportButton);
+        panel.add(processIdLabel);
+        panel.add(processIdField);
+        panel.add(saveResultsFile);
         add(panel);
     }
 
+    private void saveResults() {
+        String idString = processIdField.getText();
+        Long id = new Long(idString);
+        String resultsFileContent = simulationResultsService.getResultsFileContent(id);
+        saveAndWrite.promptSaveFileWithFileContent(resultsFileContent);
+    }
 
     public void importOrders() {
         Reader streamReader = saveAndWrite.promptOpenFileAsInputStreamReader();

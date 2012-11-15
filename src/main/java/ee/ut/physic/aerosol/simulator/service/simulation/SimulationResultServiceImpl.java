@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 @Service
 public class SimulationResultServiceImpl implements SimulationResultService {
@@ -177,5 +174,45 @@ public class SimulationResultServiceImpl implements SimulationResultService {
         logger.info("Best rating is " + bestRating + " for process with id " + bestProcessId);
         saveBestProcessId(bestProcessId);
         return allLines.toString();
+    }
+
+    @Transactional
+    public String getResultsFileContent(SimulationProcess process) {
+        String pid = Long.toString(process.getId());
+        String comment = process.getSimulationOrder().getComment();
+        List<SimulationResult> results = process.getSimulationResults();
+        Collections.sort(results);
+        String[] parameterNames = Configuration.getInstance().getResultParameters().getParameterNames();
+
+        StringBuilder lines = new StringBuilder(100);
+        lines.append("pid\t");
+        lines.append("comment\t");
+        lines.append("rid\t");
+        for (String parameterName : parameterNames) {
+            lines.append(parameterName).append("\t");
+        }
+        lines.append("\n");
+
+        for (SimulationResult result : results) {
+            String resultId = Long.toString(result.getId());
+            lines.append(pid).append("\t");
+            lines.append(comment).append("\t");
+            lines.append(resultId).append("\t");
+            //Collections.sort(resultvalues);
+            //TODO: Are they in correct order?
+            for (SimulationResultValue resultValue : result.getSimulationResultValues()) {
+                lines.append(resultValue.getValue()).append("\t");
+            }
+            lines.append("\n");
+        }
+
+        return lines.toString();
+    }
+
+    @Transactional
+    @Override
+    public String getResultsFileContent(Long id) {
+        SimulationProcess simulationProcess = simulationProcessDao.getById(id);
+        return getResultsFileContent(simulationProcess);
     }
 }
