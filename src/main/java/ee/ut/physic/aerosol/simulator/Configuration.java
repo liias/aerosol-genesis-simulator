@@ -159,7 +159,8 @@ public class Configuration {
         if ("amd64".equals(SystemUtils.OS_ARCH) || "x86_64".equals(SystemUtils.OS_ARCH)) {
             archPath = "x86_64";
         } else {
-            throw new IllegalStateException("Unsupported os architecture or Java architecture: " + SystemUtils.OS_ARCH);
+            archPath = "x86";
+            //throw new IllegalStateException("Unsupported os architecture or Java architecture: " + SystemUtils.OS_ARCH);
         }
         archPath += sep;
         String osPath;
