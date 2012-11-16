@@ -33,6 +33,7 @@
                 <include>burst_simulator/linux/x86_64/burst_simulator</include>
                 <include>burst_simulator/mac/x86_64/burst_simulator.app</include>
                 <include>burst_simulator/win/x86_64/burst_simulator.exe</include>
+                <include>burst_simulator/win/x86/burst_simulator.exe</include>
                 <include>conf/ref.xl</include>
                 <include>conf/settings.properties</include>
                 <include>database/ags.db</include>
