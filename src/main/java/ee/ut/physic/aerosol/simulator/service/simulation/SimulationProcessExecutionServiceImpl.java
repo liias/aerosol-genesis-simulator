@@ -116,7 +116,7 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
         }
         input = new BufferedReader(inputStreamReader);
         String line;
-        boolean is_success = false;
+        SimulationProcessState stopReason = SimulationProcessState.FAILED;
         try {
             preFillBurstAppInput(burstAppProcess, resultFileNumber);
             //We must allow InterruptedException, waitFor allows that
@@ -125,27 +125,40 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
             while ((line = input.readLine()) != null) {
                 System.out.println(line);
                 if ((line.startsWith(uniqueSuccessLineStart))) {
-                    is_success = true;
+                    stopReason = SimulationProcessState.FINISHED;
+                    break;
                 }
             }
             int exitCode = burstAppProcess.exitValue();
             log.debug("Burst Simulator exit code: {}", exitCode);
         } catch (IOException e) {
             log.debug(e.getMessage());
+            stopReason = SimulationProcessState.CANCELED;
         } catch (InterruptedException e) {
             log.warn("Thread was interrupted");
             log.warn(e.getMessage());
             killBurstAppProcess();
+            stopReason = SimulationProcessState.CANCELED;
         }
         try {
             input.close();
         } catch (IOException e) {
             log.debug(e.getMessage());
         }
-        if (is_success) {
-            simulationProcessService.setCompleted(simulationProcess);
-        } else {
-            simulationProcessService.setFailed(simulationProcess);
+
+        endProcessWithReason(stopReason);
+    }
+
+    private void endProcessWithReason(SimulationProcessState stopReason) {
+        switch (stopReason) {
+          case FINISHED:
+              simulationProcessService.setCompleted(simulationProcess);
+              break;
+          case FAILED:
+              simulationProcessService.setFailed(simulationProcess);
+              break;
+          case CANCELED:
+              simulationProcessService.setCanceled(simulationProcess);
         }
     }
 
@@ -157,3 +170,4 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
         burstAppProcess.destroy();
     }
 }
+

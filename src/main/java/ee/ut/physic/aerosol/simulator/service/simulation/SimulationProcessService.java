@@ -9,6 +9,8 @@ import java.util.Map;
 public interface SimulationProcessService {
     void startInNewThread(SimulationProcess process);
 
+    void setCanceled(SimulationProcess simulationProcess);
+
     void setFailed(SimulationProcess process);
 
     void setCompleted(SimulationProcess process);

@@ -7,6 +7,7 @@ import ee.ut.physic.aerosol.simulator.domain.simulation.*;
 import ee.ut.physic.aerosol.simulator.ui.OrderForm;
 import ee.ut.physic.aerosol.simulator.util.JsonExclusionStrategy;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import java.util.Map;
 
 @Service
 public class SimulationOrderServiceImpl implements SimulationOrderService {
+    final Logger logger = LoggerFactory.getLogger(SimulationOrderServiceImpl.class);
 
     private OrderForm orderForm;
 
@@ -58,6 +60,7 @@ public class SimulationOrderServiceImpl implements SimulationOrderService {
 
     @Override
     public void setCompleted() {
+        logger.debug("Order completed");
         if (getOrderForm() == null) {
             return;
         }

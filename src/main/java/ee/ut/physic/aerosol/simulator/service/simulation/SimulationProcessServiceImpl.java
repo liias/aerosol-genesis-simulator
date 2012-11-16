@@ -52,6 +52,13 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
     }
 
     @Override
+    public void setCanceled(SimulationProcess process) {
+        logger.info("Process was canceled, not running the next process in order");
+        simulationOrderService.setCompleted();
+    }
+
+    @Override
+    @Transactional
     public void setFailed(SimulationProcess process) {
         process.setState(SimulationProcessState.FAILED);
         SimulationOrder order = process.getSimulationOrder();

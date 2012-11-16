@@ -79,7 +79,7 @@ public class Configuration {
         FileOutputStream fileOut = null;
         try {
             fileOut = new FileOutputStream(file);
-            properties.store(fileOut, "Favorite Things");
+            properties.store(fileOut, "User Settings. To set absolute path, start the path with /");
             fileOut.close();
             userSettings = properties;
         } catch (FileNotFoundException e) {
