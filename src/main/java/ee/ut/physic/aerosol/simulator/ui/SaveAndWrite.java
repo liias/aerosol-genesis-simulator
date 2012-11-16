@@ -30,6 +30,26 @@ public class SaveAndWrite {
         File file = fileChooser.getSelectedFile();
         logger.debug("Saving: " + file.getName());
 
+        FileWriter writer;
+        try {
+            writer = new FileWriter(file);
+            writer.write(fileContent);
+            writer.close();       
+        } catch (IOException e) {
+            logger.warn("Could not write to path: " + file.getAbsolutePath());
+            e.printStackTrace();
+        }
+    }
+
+    public void promptSaveFileWithCSVContent(String fileContent) {
+        int returnVal = fileChooser.showSaveDialog(orderForm);
+        if (returnVal != JFileChooser.APPROVE_OPTION) {
+            logger.debug("Save dialog canceled");
+            return;
+        }
+        File file = fileChooser.getSelectedFile();
+        logger.debug("Saving: " + file.getName());
+
         CSVWriter writer;
         try {
             writer = new CSVWriter(new FileWriter(file), '\t');
@@ -44,19 +64,19 @@ public class SaveAndWrite {
     }
 
     public void saveFile() {
-    	String fileString = "";
-		for (String title : orderForm.getAllParameterValues().keySet()) {
-			if(fileString == "") {
-				fileString += title;
-			} else {
-				fileString += "#" + title;
-			}			
-			Map<String, String> valueMap = orderForm.getAllParameterValues().get(title);
-			for (String name : valueMap.keySet()) {
-				fileString += "#" + name + "#" + valueMap.get(name);
-			}
-		}
-        promptSaveFileWithFileContent(fileString);
+        String fileString = "";
+        for (String title : orderForm.getAllParameterValues().keySet()) {
+            if (fileString == "") {
+                fileString += title;
+            } else {
+                fileString += "#" + title;
+            }
+            Map<String, String> valueMap = orderForm.getAllParameterValues().get(title);
+            for (String name : valueMap.keySet()) {
+                fileString += "#" + name + "#" + valueMap.get(name);
+            }
+        }
+        promptSaveFileWithCSVContent(fileString);
     }
 
     public Reader promptOpenFileAsInputStreamReader() {
@@ -87,28 +107,26 @@ public class SaveAndWrite {
         CSVReader reader = new CSVReader(streamReader, '\t');
         try {
             String[] fileRow = reader.readNext();
-            Map<String, Map<String, String>> allValues = new HashMap<String, Map<String,String>>();
+            Map<String, Map<String, String>> allValues = new HashMap<String, Map<String, String>>();
             Map<String, String> values = new HashMap<String, String>();
+
             String mainName = "";
             String lastValueName = "";
-            for(String item : fileRow) {
-            	if(item.startsWith("forest") || item.startsWith("free")) {
-            		lastValueName = item;
-            	} else if(Pattern.compile("^[a-zA-Z]").matcher(item).find()) {
-            		if(mainName != "") {
-            			logger.info("putting : " + mainName + " - " + values);
-            			allValues.put(mainName, values);
-            			logger.info("getting : " + mainName + " - " + allValues.get(mainName));
-            		} 
-            		mainName = item;
-            		values.clear();
-            	} else {
-            		values.put(lastValueName, item);
-            	}
+            for (String item : fileRow) {
+                if (item.startsWith("forest") || item.startsWith("free")) {
+                    lastValueName = item;
+                } else if (Pattern.compile("^[a-zA-Z]").matcher(item).find()) {
+                    if (mainName != "") {
+                        allValues.put(mainName, values);
+                    }
+                    mainName = item;
+                    values = new HashMap<String, String>();
+                } else {
+                    values.put(lastValueName, item);
+                }
             }
-            for(String s: allValues.keySet()) {
-            	logger.info(s + " - " + allValues.get(s));
-            }
+            allValues.put(mainName, values);
+
             orderForm.setAllParameterValues(allValues);
         } catch (IOException e) {
             logger.warn("File could not be parsed as a CSV file");

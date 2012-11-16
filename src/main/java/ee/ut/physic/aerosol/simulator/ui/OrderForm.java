@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OrderForm extends JPanel {
+    private static final long serialVersionUID = 11313947889710019L;
+
     final Logger logger = LoggerFactory.getLogger(OrderForm.class);
 
     private SimulationOrder simulationOrder;
@@ -118,14 +120,10 @@ public class OrderForm extends JPanel {
     }
 
     public void setAllParameterValues(Map<String, Map<String, String>> allValues) {
-//        for(String s: allValues.keySet()) {
-//        	logger.info(s + " - " + allValues.get(s));
-//        }
         for (ParametersGroupPaneWithTitle parametersGroupPaneWithTitle : parametersGroupPanesWithTitle) {
             for (ParameterLine parameterLine : parametersGroupPaneWithTitle.getParameterLines()) {
                 String name = parameterLine.getName();
                 Map<String, String> parameterValues = allValues.get(name);
-//                System.out.println("name " + name);
                 String freeAirMin = parameterValues.get("freeAirMin");
                 parameterLine.setFieldValue("freeAirMin", freeAirMin);
                 String freeAirMax = parameterValues.get("freeAirMax");
