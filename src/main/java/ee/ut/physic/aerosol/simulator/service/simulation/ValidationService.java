@@ -29,8 +29,8 @@ public class ValidationService {
 		for (String title : orderForm.getAllParameterValues().keySet()) {
 			Map<String, String> valueMap = orderForm.getAllParameterValues().get(title);
 			for (String name : valueMap.keySet()) {
-				if ("forestMax".equals(name) && valueMap.get(name).length() > 0 || 
-						"freeAirMax".equals(name) && valueMap.get(name).length() > 0) {
+				if ("forestMax".equals(name) && valueMap.get(name).length() > 0 || "freeAirMax".equals(name)
+						&& valueMap.get(name).length() > 0) {
 					count = initialCount;
 				}
 			}

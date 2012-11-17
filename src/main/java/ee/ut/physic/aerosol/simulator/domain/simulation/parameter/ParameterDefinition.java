@@ -4,6 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +15,7 @@ import java.util.List;
 // Dont actually use them in database at the moment (if ever will)
 @Entity
 public class ParameterDefinition {
+	final Logger logger = LoggerFactory.getLogger(ParameterDefinition.class);
     private long id;
     //Used in BurstSimulator I/O files
     private String name;
@@ -172,7 +177,7 @@ public class ParameterDefinition {
                 String stringValue = value.toString();
                 values.add(stringValue);
             }
-            if (step.intValue() != 0 && max.intValue() % step.intValue() != 0) {
+            if (step.intValue() != 0 && (max.intValue() - min.intValue()) % step.intValue() != 0) {
                 values.add(max.toString());
             }
         }
