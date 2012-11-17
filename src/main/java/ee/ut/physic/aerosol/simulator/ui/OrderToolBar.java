@@ -398,6 +398,7 @@ public class OrderToolBar extends JToolBar {
         }
     }
 
+    //process here means progress
     public void setSimulationInProcess(boolean inProcess) {
         if (inProcess) {
             logger.debug("In process");
@@ -408,5 +409,10 @@ public class OrderToolBar extends JToolBar {
             simulateButton.setEnabled(true);
             cancelButton.setEnabled(false);
         }
+    }
+
+    // Not the most reliable way...
+    public boolean isSimulationInProcess() {
+        return !simulateButton.isEnabled();
     }
 }
