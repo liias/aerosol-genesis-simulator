@@ -40,6 +40,7 @@ public class MainFrame extends JFrame {
         loader.injectDependencies(toolboxFrame);
         OrderToolBar orderToolBar = new OrderToolBar(orderForm, saveAndWrite, toolboxFrame);
         loader.injectDependencies(orderToolBar);
+        orderToolBar.simulationOrderService.setOrderForm(orderForm);
         orderForm.setToolbar(orderToolBar);
         JScrollPane scrollPane = new JScrollPane(orderForm);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);

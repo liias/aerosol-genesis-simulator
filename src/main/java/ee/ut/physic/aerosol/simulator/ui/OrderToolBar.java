@@ -24,7 +24,7 @@ public class OrderToolBar extends JToolBar {
 //    final static Color ERROR_COLOR = Color.PINK;
 
     @Autowired
-    private SimulationOrderService simulationOrderService;
+    public SimulationOrderService simulationOrderService;
     @Autowired
     private SimulationProcessService simulationProcessService;
     @Autowired
@@ -39,6 +39,7 @@ public class OrderToolBar extends JToolBar {
     private JTextField commentField;
     private JSpinner numberOfProcessesSpinner;
     public JButton cancelButton;
+    public JButton simulateButton;
 
     private JButton undoButton;
     private JButton redoButton;
@@ -46,14 +47,17 @@ public class OrderToolBar extends JToolBar {
     private JComboBox openByIdType;
     private JTextField orderOrProcessId;
 
-    @SuppressWarnings("unchecked")
     public OrderToolBar(OrderForm orderForm, SaveAndWrite saveAndWrite, ToolboxFrame toolboxFrame) {
         this.orderForm = orderForm;
         this.saveAndWrite = saveAndWrite;
         this.toolboxFrame = toolboxFrame;
         setFloatable(false);
         setRollover(true);
+        createAndAddWidgets();
+    }
 
+    @SuppressWarnings("unchecked")
+    private void createAndAddWidgets() {
         JButton toolboxButton = createToolboxButton();
 
         undoButton = createUndoButton();
@@ -75,7 +79,8 @@ public class OrderToolBar extends JToolBar {
         JLabel numberOfProcessesLabel = new JLabel(" # of runs: ");
 
         numberOfProcessesSpinner = createNumberOfProcessesSpinner();
-        JButton simulateButton = createSimulateButton();
+
+        simulateButton = createSimulateButton();
         cancelButton = createCancelButton();
 
         openByIdType = new JComboBox();
@@ -284,7 +289,6 @@ public class OrderToolBar extends JToolBar {
         simulateButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    validationService.validateOrder(orderForm);
                     simulate();
                 } catch (GeneralException except) {
                     logger.warn("Fill all fields : ", except);
@@ -368,16 +372,20 @@ public class OrderToolBar extends JToolBar {
     }
 
     //When simulate button is pressed
-    public void simulate() {
+    public void simulate() throws GeneralException {
+        setSimulationInProcess(true);
         //Execute when button is pressed
         logger.debug("Simulate button pressed");
-        int realSimulationCount = validationService.validateSimulationCount(orderForm, getNumberOfProcesses());
-        SimulationOrder simulationOrder = orderForm.createSimulationOrderWithData(getComment(), realSimulationCount);
-        //TODO: maybe should set orderForm in constructor already
-        simulationOrderService.setOrderForm(orderForm);
         try {
+            validationService.validateOrder(orderForm);
+            int realSimulationCount = validationService.validateSimulationCount(orderForm, getNumberOfProcesses());
+            SimulationOrder simulationOrder = orderForm.createSimulationOrderWithData(getComment(), realSimulationCount);
             simulationOrderService.simulate(simulationOrder);
         } catch (ParametersExistException e) {
+            setSimulationInProcess(false);
+            throw new GeneralException(e.getMessage());
+        } catch (GeneralException e) {
+            setSimulationInProcess(false);
             throw new GeneralException(e.getMessage());
         }
     }
@@ -387,6 +395,18 @@ public class OrderToolBar extends JToolBar {
         SimulationOrder simulationOrder = orderForm.getSimulationOrder();
         if (simulationOrder != null) {
             simulationOrderService.stopSimulation(simulationOrder);
+        }
+    }
+
+    public void setSimulationInProcess(boolean inProcess) {
+        if (inProcess) {
+            logger.debug("In process");
+            simulateButton.setEnabled(false);
+            cancelButton.setEnabled(true);
+        } else {
+            logger.debug("Not in process");
+            simulateButton.setEnabled(true);
+            cancelButton.setEnabled(false);
         }
     }
 }

@@ -144,13 +144,7 @@ public class OrderForm extends JPanel {
     }
 
     public void setSimulationInProcess(boolean inProcess) {
-        if (inProcess) {
-            logger.debug("In process");
-            orderToolbar.cancelButton.setEnabled(true);
-        } else {
-            logger.debug("Not in process");
-            orderToolbar.cancelButton.setEnabled(false);
-        }
+        orderToolbar.setSimulationInProcess(inProcess);
     }
 
     private void enableOrDisableUndoAndRedoButtons() {
@@ -174,4 +168,6 @@ public class OrderForm extends JPanel {
         }
         orderToolbar.enableUndoButton(true);
     }
+
+
 }
