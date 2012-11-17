@@ -1,13 +1,14 @@
 package ee.ut.physic.aerosol.simulator.service.simulation;
 
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrder;
+import ee.ut.physic.aerosol.simulator.errors.ParametersExistException;
 import ee.ut.physic.aerosol.simulator.ui.OrderForm;
 
 import java.util.List;
 import java.util.Map;
 
 public interface SimulationOrderService {
-    public void simulate(SimulationOrder simulationOrder);
+    public void simulate(SimulationOrder simulationOrder) throws ParametersExistException;
 
     public void stopSimulation(SimulationOrder simulationOrder);
 

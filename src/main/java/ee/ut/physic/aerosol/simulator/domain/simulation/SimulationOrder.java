@@ -52,18 +52,7 @@ public class SimulationOrder {
         getSimulationProcesses().add(process);
     }
 
-    public void generateProcesses() {
-        //generate process for numberOfProcesses times
-        for (int i = 0; i < getNumberOfProcesses(); i++) {
-            try {
-                generateProcess();
-            } catch (IllegalArgumentException e) {
-                logger.error(e.getMessage());
-            }
-        }
-    }
-
-    public void generateProcess() {
+    public SimulationProcess generateProcess() {
         SimulationProcess generatedProcess = new SimulationProcess();
         generatedProcess.setSimulationOrder(this);
         for (SimulationOrderParameter simulationOrderParameter : getSimulationOrderParameters()) {
@@ -71,7 +60,9 @@ public class SimulationOrder {
             simulationProcessParameter.setSimulationProcess(generatedProcess);
             generatedProcess.addParameter(simulationProcessParameter);
         }
-        addProcess(generatedProcess);
+        String hash = generatedProcess.generateParametersHash();
+        generatedProcess.setParametersHash(hash);
+        return generatedProcess;
     }
 
     public String getComment() {

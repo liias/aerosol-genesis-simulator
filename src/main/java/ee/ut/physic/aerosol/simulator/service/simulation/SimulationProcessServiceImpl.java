@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.NonUniqueResultException;
 import java.util.*;
 
 @Service
@@ -150,5 +151,15 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
             throw new GeneralException("Try to find the best results first");
         }
         return Long.valueOf(id);
+    }
+
+    @Override
+    public boolean isProcessWithHashAlreadyExisting(String hash) {
+        try {
+            SimulationProcess existingProcess = simulationProcessDao.getByHash(hash);
+            return existingProcess != null;
+        } catch (NonUniqueResultException e) {
+            return true;
+        }
     }
 }

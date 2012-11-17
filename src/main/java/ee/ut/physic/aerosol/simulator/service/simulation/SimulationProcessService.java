@@ -24,4 +24,6 @@ public interface SimulationProcessService {
     String getBestFileContent(SimulationProcess process, double rating);
 
     Long getBestProcessId() throws GeneralException;
+
+    boolean isProcessWithHashAlreadyExisting(String hash);
 }

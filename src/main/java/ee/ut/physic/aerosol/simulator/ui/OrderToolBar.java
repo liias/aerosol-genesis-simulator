@@ -2,11 +2,11 @@ package ee.ut.physic.aerosol.simulator.ui;
 
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrder;
 import ee.ut.physic.aerosol.simulator.errors.GeneralException;
+import ee.ut.physic.aerosol.simulator.errors.ParametersExistException;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationOrderService;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationProcessService;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationResultService;
 import ee.ut.physic.aerosol.simulator.service.simulation.ValidationService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -283,12 +283,12 @@ public class OrderToolBar extends JToolBar {
         simulateButton.setToolTipText("Start Simulation");
         simulateButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	try {
-	            	validationService.validateOrder(orderForm);
-	                simulate();
-            	} catch(GeneralException except) {
-	            	logger.warn("Fill all fields : ", except);
-	            }
+                try {
+                    validationService.validateOrder(orderForm);
+                    simulate();
+                } catch (GeneralException except) {
+                    logger.warn("Fill all fields : ", except);
+                }
             }
         });
         return simulateButton;
@@ -373,8 +373,13 @@ public class OrderToolBar extends JToolBar {
         logger.debug("Simulate button pressed");
         int realSimulationCount = validationService.validateSimulationCount(orderForm, getNumberOfProcesses());
         SimulationOrder simulationOrder = orderForm.createSimulationOrderWithData(getComment(), realSimulationCount);
+        //TODO: maybe should set orderForm in constructor already
         simulationOrderService.setOrderForm(orderForm);
-        simulationOrderService.simulate(simulationOrder);
+        try {
+            simulationOrderService.simulate(simulationOrder);
+        } catch (ParametersExistException e) {
+            throw new GeneralException(e.getMessage());
+        }
     }
 
     public void stopSimulation() {

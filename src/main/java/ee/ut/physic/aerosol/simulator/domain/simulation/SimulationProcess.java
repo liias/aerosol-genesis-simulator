@@ -4,6 +4,8 @@ import ee.ut.physic.aerosol.simulator.util.ExcludeFromJson;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 @Entity
@@ -17,6 +19,7 @@ public class SimulationProcess {
     private Calendar createdAt;
     private SimulationProcessState state = SimulationProcessState.NOT_STARTED;
     private Integer resultFileNumber;
+    private String parametersHash;
 
     @Id
     @GeneratedValue
@@ -108,4 +111,43 @@ public class SimulationProcess {
         return parametersMap;
     }
 
+    public String getParametersHash() {
+        return parametersHash;
+    }
+
+    public void setParametersHash(String parametersHash) {
+        this.parametersHash = parametersHash;
+    }
+
+    @Transient
+    public String generateParametersHash() {
+        StringBuilder allValues = new StringBuilder();
+        for (SimulationProcessParameter parameter : getSimulationProcessParameters()) {
+            allValues.append(parameter.stringValue(parameter.getFreeAirValue()));
+            if (parameter.hasForest()) {
+                allValues.append(parameter.stringValue(parameter.getForestValue()));
+            }
+        }
+        return encryptToMd5(allValues.toString());
+    }
+
+    @Transient
+    private String encryptToMd5(String content) {
+        byte[] defaultBytes = content.getBytes();
+        try {
+            MessageDigest algorithm = MessageDigest.getInstance("MD5");
+            algorithm.reset();
+            algorithm.update(defaultBytes);
+            byte messageDigest[] = algorithm.digest();
+
+            StringBuilder hexString = new StringBuilder();
+            for (byte aMessageDigest : messageDigest) {
+                hexString.append(Integer.toHexString(0xFF & aMessageDigest));
+            }
+            return hexString + "";
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

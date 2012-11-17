@@ -10,4 +10,6 @@ public interface SimulationProcessDao {
     SimulationProcess getById(long id);
 
     List<Long> getProcessIdsWhereProcessTimeLessOrEqualThan(long time);
+
+    SimulationProcess getByHash(String hash);
 }

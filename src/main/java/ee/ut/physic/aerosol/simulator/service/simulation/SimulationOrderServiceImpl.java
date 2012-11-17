@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import ee.ut.physic.aerosol.simulator.database.simulation.SimulationOrderDao;
 import ee.ut.physic.aerosol.simulator.domain.simulation.*;
+import ee.ut.physic.aerosol.simulator.errors.ParametersExistException;
 import ee.ut.physic.aerosol.simulator.ui.OrderForm;
 import ee.ut.physic.aerosol.simulator.util.JsonExclusionStrategy;
 import org.slf4j.Logger;
@@ -33,11 +34,39 @@ public class SimulationOrderServiceImpl implements SimulationOrderService {
 
     @Override
     @Transactional
-    public void simulate(SimulationOrder simulationOrder) {
+    public void simulate(SimulationOrder simulationOrder) throws ParametersExistException {
         setInProcess();
-        simulationOrder.generateProcesses();
+        generateProcessesForOrder(simulationOrder);
         simulationOrderDao.add(simulationOrder);
         simulationProcessService.startInNewThread(simulationOrder.getNextNotStartedProcess());
+    }
+
+    public void generateProcessesForOrder(SimulationOrder order) throws ParametersExistException {
+        if (order.getNumberOfProcesses() == 1) {
+            //If only one process is made, which means no max values were set, then throw the exception, so user will know
+            generateProcess(order);
+        } else {
+            //generate process for numberOfProcesses times
+            for (int i = 0; i < order.getNumberOfProcesses(); i++) {
+                try {
+                    generateProcess(order);
+                } catch (IllegalArgumentException e) {
+                    logger.error(e.getMessage());
+                } catch (ParametersExistException e) {
+                    //If multiple processes were to be generated, then don't tell user that this process failed
+                    logger.warn(e.getMessage());
+                }
+            }
+        }
+    }
+
+    private void generateProcess(SimulationOrder order) throws ParametersExistException {
+        SimulationProcess generatedProcess = order.generateProcess();
+        String hash = generatedProcess.getParametersHash();
+        if (simulationProcessService.isProcessWithHashAlreadyExisting(hash)) {
+            throw new ParametersExistException("Simulation process with these parameters already exists in database");
+        }
+        order.addProcess(generatedProcess);
     }
 
     @Override

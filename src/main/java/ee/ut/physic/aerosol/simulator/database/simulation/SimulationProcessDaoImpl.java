@@ -3,9 +3,7 @@ package ee.ut.physic.aerosol.simulator.database.simulation;
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcess;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.*;
 import java.util.List;
 
 @Repository
@@ -29,5 +27,17 @@ public class SimulationProcessDaoImpl implements SimulationProcessDao {
     public List<Long> getProcessIdsWhereProcessTimeLessOrEqualThan(long time) {
         Query query = entityManager.createQuery("SELECT param.simulationProcess.id FROM SimulationProcessParameter param where param.name='time' AND param.freeAirValue >= 100");
         return (List<Long>) query.getResultList();
+    }
+
+    @Override
+    public SimulationProcess getByHash(String hash) {
+        try {
+            String query = "select p from SimulationProcess p where p.parametersHash=:hash";
+            return entityManager.createQuery(query, SimulationProcess.class)
+                    .setParameter("hash", hash)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

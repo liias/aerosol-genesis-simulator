@@ -151,14 +151,14 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
 
     private void endProcessWithReason(SimulationProcessState stopReason) {
         switch (stopReason) {
-          case FINISHED:
-              simulationProcessService.setCompleted(simulationProcess);
-              break;
-          case FAILED:
-              simulationProcessService.setFailed(simulationProcess);
-              break;
-          case CANCELED:
-              simulationProcessService.setCanceled(simulationProcess);
+            case FINISHED:
+                simulationProcessService.setCompleted(simulationProcess);
+                break;
+            case FAILED:
+                simulationProcessService.setFailed(simulationProcess);
+                break;
+            case CANCELED:
+                simulationProcessService.setCanceled(simulationProcess);
         }
     }
 
