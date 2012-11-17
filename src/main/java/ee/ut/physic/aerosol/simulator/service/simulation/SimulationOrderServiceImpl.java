@@ -53,8 +53,9 @@ public class SimulationOrderServiceImpl implements SimulationOrderService {
                 } catch (IllegalArgumentException e) {
                     logger.error(e.getMessage());
                 } catch (ParametersExistException e) {
-                    //If multiple processes were to be generated, then don't tell user that this process failed
+                    //If multiple processes were to be generated, then don't tell user that this process is skipped
                     logger.warn(e.getMessage());
+                    order.setNumberOfProcesses(order.getNumberOfProcesses() - 1);
                 }
             }
         }
