@@ -25,5 +25,5 @@ public interface SimulationProcessService {
 
     Long getBestProcessId() throws GeneralException;
 
-    boolean isProcessWithHashAlreadyExisting(String hash);
+    boolean isFinishedProcessWithHashAlreadyExisting(String hash);
 }

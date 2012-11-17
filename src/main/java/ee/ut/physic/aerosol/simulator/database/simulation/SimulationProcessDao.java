@@ -11,5 +11,5 @@ public interface SimulationProcessDao {
 
     List<Long> getProcessIdsWhereProcessTimeLessOrEqualThan(long time);
 
-    SimulationProcess getByHash(String hash);
+    List<SimulationProcess> getAllByHash(String hash);
 }

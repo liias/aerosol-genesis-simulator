@@ -64,7 +64,7 @@ public class SimulationOrderServiceImpl implements SimulationOrderService {
     private void generateProcess(SimulationOrder order) throws ParametersExistException {
         SimulationProcess generatedProcess = order.generateProcess();
         String hash = generatedProcess.getParametersHash();
-        if (simulationProcessService.isProcessWithHashAlreadyExisting(hash)) {
+        if (simulationProcessService.isFinishedProcessWithHashAlreadyExisting(hash)) {
             throw new ParametersExistException("Simulation process with these parameters already exists in database");
         }
         order.addProcess(generatedProcess);

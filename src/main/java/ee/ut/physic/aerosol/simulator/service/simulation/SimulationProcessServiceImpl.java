@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.NonUniqueResultException;
 import java.util.*;
 
 @Service
@@ -154,12 +153,14 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
     }
 
     @Override
-    public boolean isProcessWithHashAlreadyExisting(String hash) {
-        try {
-            SimulationProcess existingProcess = simulationProcessDao.getByHash(hash);
-            return existingProcess != null;
-        } catch (NonUniqueResultException e) {
-            return true;
+    @Transactional
+    public boolean isFinishedProcessWithHashAlreadyExisting(String hash) {
+        List<SimulationProcess> existingProcesses = simulationProcessDao.getAllByHash(hash);
+        for (SimulationProcess process : existingProcesses) {
+            if (process.getState() == SimulationProcessState.FINISHED) {
+                return true;
+            }
         }
+        return false;
     }
 }
