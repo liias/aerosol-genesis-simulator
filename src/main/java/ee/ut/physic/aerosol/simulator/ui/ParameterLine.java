@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ParameterLine {
@@ -152,6 +153,29 @@ public class ParameterLine {
             allValues.put("forestMax", (String) getForestMax().getSelectedItem());
         }
         return allValues;
+    }
+    
+    public ArrayList<String> getAllValuesArray() {
+        ArrayList<String> allValues = new ArrayList<String>();
+        allValues.add((String) getFreeAirMin().getSelectedItem());
+        allValues.add((String) getFreeAirMax().getSelectedItem());
+        if (hasForest) {
+            allValues.add((String) getForestMin().getSelectedItem());
+            allValues.add((String) getForestMax().getSelectedItem());
+        }
+        return allValues;
+    }
+    
+    public int setAllValuesArray(ArrayList<String> allValues, int count) {
+    	int myCount = 2;
+    	getFreeAirMin().setSelectedItem(allValues.get(count)); 
+    	getFreeAirMax().setSelectedItem(allValues.get(count + 1)); 
+        if (hasForest) {
+        	getForestMin().setSelectedItem(allValues.get(count + 2)); 
+        	getForestMax().setSelectedItem(allValues.get(count + 3)); 
+            myCount +=2;
+        }
+        return count + myCount;
     }
 
     public String getName() {

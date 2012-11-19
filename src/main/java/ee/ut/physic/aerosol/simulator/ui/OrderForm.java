@@ -118,6 +118,16 @@ public class OrderForm extends JPanel {
         }
         return allValues;
     }
+    
+    public ArrayList<String> getAllParameterValuesArray() {
+    	ArrayList<String> allValues = new ArrayList<String>();
+        for (ParametersGroupPaneWithTitle parametersGroupPaneWithTitle : parametersGroupPanesWithTitle) {
+            for (ParameterLine parameterLine : parametersGroupPaneWithTitle.getParameterLines()) {	
+                allValues.addAll(parameterLine.getAllValuesArray());
+            }
+        }
+        return allValues;
+    }
 
     public void setAllParameterValues(Map<String, Map<String, String>> allValues) {
         for (ParametersGroupPaneWithTitle parametersGroupPaneWithTitle : parametersGroupPanesWithTitle) {
@@ -134,6 +144,15 @@ public class OrderForm extends JPanel {
                     String forestMax = parameterValues.get("forestMax");
                     parameterLine.setFieldValue("forestMax", forestMax);
                 }
+            }
+        }
+    }
+    
+    public void setAllParameterValues(ArrayList<String> allValues) {
+    	int count = 0;
+        for (ParametersGroupPaneWithTitle parametersGroupPaneWithTitle : parametersGroupPanesWithTitle) {
+            for (ParameterLine parameterLine : parametersGroupPaneWithTitle.getParameterLines()) {
+            	count = parameterLine.setAllValuesArray(allValues, count);
             }
         }
     }
