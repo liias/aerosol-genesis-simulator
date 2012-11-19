@@ -9,6 +9,11 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class SaveAndWrite {
 	final Logger logger = LoggerFactory.getLogger(SaveAndWrite.class);
@@ -101,8 +106,36 @@ public class SaveAndWrite {
 			for (String item : fileRow) {
 				allValues.add(item);
 			}
+			// since last value from file may be "", it will get lost from end of line
+			if(fileRow.length == 127) {
+				allValues.add("");
+			}
 
 			orderForm.setAllParameterValues(allValues);
+		} catch (IOException e) {
+			logger.warn("File could not be parsed as a CSV file");
+		}
+	}
+	
+	public void openBigFile() {
+		Reader streamReader = promptOpenFileAsInputStreamReader();
+		if (streamReader == null) {
+			return;
+		}
+		CSVReader reader = new CSVReader(streamReader, ';');
+		try {
+			List<String[]> file = reader.readAll();
+			Set<ArrayList<String>> stringSet = new HashSet<ArrayList<String>>();
+			for (String[] row : file) {
+				ArrayList<String> allValues = new ArrayList<String>();
+				logger.info("ROW SIZE : " + row.length);
+				for(String item : row) {
+					allValues.add(item);
+				}
+				stringSet.add(allValues);
+			}
+			
+//			orderForm.setAllParameterValues(allValues);
 		} catch (IOException e) {
 			logger.warn("File could not be parsed as a CSV file");
 		}
