@@ -5,20 +5,25 @@ import au.com.bytecode.opencsv.CSVWriter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import ee.ut.physic.aerosol.simulator.errors.GeneralException;
+import ee.ut.physic.aerosol.simulator.service.simulation.MultipleOrderService;
 
 import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class SaveAndWrite {
 	final Logger logger = LoggerFactory.getLogger(SaveAndWrite.class);
 	private OrderForm orderForm;
 	private JFileChooser fileChooser = new JFileChooser();
+	
+	@Autowired
+	private MultipleOrderService multipleOrderService;
 
 	public SaveAndWrite(OrderForm orderForm) {
 		this.orderForm = orderForm;
@@ -117,7 +122,7 @@ public class SaveAndWrite {
 		}
 	}
 	
-	public void openBigFile() {
+	public void openBigFile(OrderToolBar toolbar) {
 		Reader streamReader = promptOpenFileAsInputStreamReader();
 		if (streamReader == null) {
 			return;
@@ -132,10 +137,18 @@ public class SaveAndWrite {
 				for(String item : row) {
 					allValues.add(item);
 				}
+				if(row.length == 127) {
+					allValues.add("");
+				}
 				stringSet.add(allValues);
 			}
-			
-//			orderForm.setAllParameterValues(allValues);
+	
+			try {
+				multipleOrderService.setOrderForm(orderForm);
+				multipleOrderService.simulate(toolbar, stringSet);
+			} catch (GeneralException e) {
+				e.printStackTrace();
+			}
 		} catch (IOException e) {
 			logger.warn("File could not be parsed as a CSV file");
 		}

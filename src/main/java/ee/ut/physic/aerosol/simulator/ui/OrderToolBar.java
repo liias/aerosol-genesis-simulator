@@ -19,7 +19,9 @@ import java.net.URL;
 import java.util.Map;
 
 public class OrderToolBar extends JToolBar {
-    final Logger logger = LoggerFactory.getLogger(OrderToolBar.class);
+	private static final long serialVersionUID = 1177215375547938677L;
+
+	final Logger logger = LoggerFactory.getLogger(OrderToolBar.class);
 
 //    final static Color ERROR_COLOR = Color.PINK;
 
@@ -56,7 +58,6 @@ public class OrderToolBar extends JToolBar {
         createAndAddWidgets();
     }
 
-    @SuppressWarnings("unchecked")
     private void createAndAddWidgets() {
         JButton toolboxButton = createToolboxButton();
 
@@ -310,7 +311,7 @@ public class OrderToolBar extends JToolBar {
         return cancelButton;
     }
 
-    private String getComment() {
+    public String getComment() {
         return commentField.getText();
     }
 
@@ -335,13 +336,13 @@ public class OrderToolBar extends JToolBar {
 
     private void open() {
         logger.debug("Open button pressed");
-        saveAndWrite.openFile();
-//        saveAndWrite.openBigFile();
+//        saveAndWrite.openFile();
+        saveAndWrite.openBigFile(this);
     }
     
     private void openMany() {
         logger.debug("Open button pressed");
-        saveAndWrite.openBigFile();
+        saveAndWrite.openBigFile(this);
     }
 
     public void save() {
