@@ -9,6 +9,7 @@ import ee.ut.physic.aerosol.simulator.service.simulation.SimulationResultService
 import ee.ut.physic.aerosol.simulator.service.simulation.ValidationService;
 import ee.ut.physic.aerosol.simulator.ui.dialogs.SimulationIsReadyDialog;
 import ee.ut.physic.aerosol.simulator.ui.dialogs.SimulationIsRunningDialog;
+import ee.ut.physic.aerosol.simulator.ui.help.HelpWindow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,9 @@ import java.net.URL;
 import java.util.Map;
 
 public class OrderToolBar extends JToolBar {
-	private static final long serialVersionUID = 1177215375547938677L;
+    private static final long serialVersionUID = 1177215375547938677L;
 
-	final Logger logger = LoggerFactory.getLogger(OrderToolBar.class);
+    final Logger logger = LoggerFactory.getLogger(OrderToolBar.class);
 
 //    final static Color ERROR_COLOR = Color.PINK;
     @Autowired
@@ -91,6 +92,7 @@ public class OrderToolBar extends JToolBar {
 
         orderOrProcessId = new JTextField();
         JButton openByIdButton = createOpenByIdButton();
+        JButton helpButton = createHelpButton();
 
 
         add(toolboxButton);
@@ -116,6 +118,7 @@ public class OrderToolBar extends JToolBar {
         add(numberOfProcessesSpinner);
         add(simulateButton);
         add(cancelButton);
+        add(helpButton);
     }
 
     private JButton createButtonWithIcon(String imageName, String altText) {
@@ -256,6 +259,17 @@ public class OrderToolBar extends JToolBar {
         return button;
     }
 
+    private JButton createHelpButton() {
+        JButton button = createButtonWithIcon("help", "Help");
+        button.setToolTipText("Help");
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showHelp();
+            }
+        });
+        return button;
+    }
+
     @Transactional
     private void openById() {
         String idString = orderOrProcessId.getText();
@@ -340,7 +354,7 @@ public class OrderToolBar extends JToolBar {
 //        saveAndWrite.openFile();
         saveAndWrite.openBigFile(this);
     }
-    
+
     private void openMany() {
         logger.debug("Open button pressed");
         saveAndWrite.openBigFile(this);
@@ -354,6 +368,12 @@ public class OrderToolBar extends JToolBar {
     public void clear() {
         logger.debug("Clear button pressed");
         orderForm.clear();
+    }
+
+    public void showHelp() {
+        logger.debug("Help button pressed");
+        URL index = ClassLoader.getSystemResource("help/index.html");
+        new HelpWindow("User Manual", index);
     }
 
     public void reset() {

@@ -6,7 +6,7 @@
             {
                 "name":"time",
                 "label":"Time period under consideration",
-                "minimumValue":0,
+                "minimumValue":5,
                 "maximumValue":1440,
                 "defaultValue":1440,
                 "step":25,
