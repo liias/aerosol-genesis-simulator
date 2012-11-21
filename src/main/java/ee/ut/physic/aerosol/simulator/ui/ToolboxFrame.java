@@ -29,18 +29,22 @@ public class ToolboxFrame extends JFrame {
     private SimulationResultService simulationResultsService;
     private SaveAndWrite saveAndWrite;
     private JTextField processIdField;
+    GridBagConstraints toolconstraints;
 
     public ToolboxFrame(SaveAndWrite saveAndWrite) throws HeadlessException {
         super();
         this.saveAndWrite = saveAndWrite;
 
+
         URL iconUrl = getClass().getResource("/images/icon.png");
         setIconImage(Toolkit.getDefaultToolkit().getImage(iconUrl));
         setTitle("Utilities");
-        setSize(300, 200);
-        setMinimumSize(new Dimension(200, 50));
+        setSize(180, 120);
+        setMinimumSize(new Dimension(180, 120));
 
         GridBagLayout gridBagLayout = new GridBagLayout();
+
+        toolconstraints = new GridBagConstraints();
         JPanel panel = new JPanel(gridBagLayout);
 
 
@@ -68,12 +72,24 @@ public class ToolboxFrame extends JFrame {
                 saveResults();
             }
         });
+        toolconstraints.gridx=0;
+        toolconstraints.fill = GridBagConstraints.HORIZONTAL;
 
-        panel.add(importButton);
-        panel.add(exportButton);
-        panel.add(processIdLabel);
-        panel.add(processIdField);
-        panel.add(saveResultsFile);
+        toolconstraints.fill = GridBagConstraints.VERTICAL;
+        toolconstraints.gridy=0;
+        panel.add(importButton, toolconstraints);
+        toolconstraints.gridx=1;
+        panel.add(exportButton, toolconstraints);
+        toolconstraints.gridx=0;
+        toolconstraints.gridy=1;
+        panel.add(processIdLabel, toolconstraints);
+        toolconstraints.gridx=1;
+        toolconstraints.gridy=1;
+        panel.add(processIdField, toolconstraints);
+        toolconstraints.gridx=0;
+        toolconstraints.gridy=2;
+        toolconstraints.gridwidth=2;
+        panel.add(saveResultsFile, toolconstraints);
         add(panel);
     }
 
