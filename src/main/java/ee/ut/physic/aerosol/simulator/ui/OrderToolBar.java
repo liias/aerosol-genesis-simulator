@@ -134,8 +134,8 @@ public class OrderToolBar extends JToolBar {
     }
 
     private JButton createToolboxButton() {
-        JButton button = createButtonWithIcon("toolbox", "Toolbox");
-        button.setToolTipText("Toolbox");
+        JButton button = createButtonWithIcon("toolbox", "Utilities");
+        button.setToolTipText("<html>Utilities<br> Import/Export database, save results of an existing process etc");
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 showToolbox();
@@ -222,7 +222,7 @@ public class OrderToolBar extends JToolBar {
 
     private JButton createCompareButton() {
         JButton resetButton = createButtonWithIcon("find_best", "Find Best Values");
-        resetButton.setToolTipText("Searches database for results which are most close to the wanted reference results." +
+        resetButton.setToolTipText("<html>Find Best Results <br>Searches database for results which are most close to the wanted reference results.<br>" +
                 "It saves the results to a file.");
         resetButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -234,8 +234,8 @@ public class OrderToolBar extends JToolBar {
 
 
     private JButton createViewBestButton() {
-        JButton resetButton = createButtonWithIcon("view_best", "View Best Process");
-        resetButton.setToolTipText("View Best Process");
+        JButton resetButton = createButtonWithIcon("view_best", "Open Best Process");
+        resetButton.setToolTipText("Open Best");
         resetButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 viewBestProcess();

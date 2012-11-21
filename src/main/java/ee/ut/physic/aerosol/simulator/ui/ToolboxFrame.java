@@ -36,7 +36,7 @@ public class ToolboxFrame extends JFrame {
 
         URL iconUrl = getClass().getResource("/images/icon.png");
         setIconImage(Toolkit.getDefaultToolkit().getImage(iconUrl));
-        setTitle("Toolbox");
+        setTitle("Utilities");
         setSize(300, 200);
         setMinimumSize(new Dimension(200, 50));
 
@@ -91,8 +91,6 @@ public class ToolboxFrame extends JFrame {
         }
         JsonReader jsonReader = new JsonReader(streamReader);
         try {
-            Gson gson = new Gson();
-
             java.lang.reflect.Type listType = new TypeToken<ArrayList<SimulationOrder>>() {
             }.getType();
             List<SimulationOrder> orders = new Gson().fromJson(jsonReader, listType);

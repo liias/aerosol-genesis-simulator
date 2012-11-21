@@ -46,11 +46,16 @@ public class MainFrame extends JFrame {
             int exitSelection = ExitConfirmationDialog.show();
             if (exitSelection == 0) {
                 orderToolBar.stopSimulation();
-                dispose();
+                quit();
             }
         } else {
-            dispose();
+            quit();
         }
+    }
+
+    private void quit() {
+        dispose();
+        System.exit(0);
     }
 
     public void createForm() {
