@@ -26,7 +26,6 @@ public class OrderToolBar extends JToolBar {
 	final Logger logger = LoggerFactory.getLogger(OrderToolBar.class);
 
 //    final static Color ERROR_COLOR = Color.PINK;
-    JFrame frame=new JFrame();
     @Autowired
     public SimulationOrderService simulationOrderService;
     @Autowired
@@ -386,7 +385,6 @@ public class OrderToolBar extends JToolBar {
         //Execute when button is pressed
         logger.debug("Simulate button pressed");
         try {
-            JOptionPane.showMessageDialog(frame, "Simulation is running.");
             validationService.validateOrder(orderForm);
             int realSimulationCount = validationService.validateSimulationCount(orderForm, getNumberOfProcesses());
             SimulationOrder simulationOrder = orderForm.createSimulationOrderWithData(getComment(), realSimulationCount);
@@ -403,7 +401,6 @@ public class OrderToolBar extends JToolBar {
 
     public void stopSimulation() {
         logger.debug("Stop Simulate button pressed");
-        JOptionPane.showMessageDialog(frame, "Stop Simulate button pressed.");
 
         SimulationOrder simulationOrder = orderForm.getSimulationOrder();
         if (simulationOrder != null) {
@@ -421,7 +418,6 @@ public class OrderToolBar extends JToolBar {
         } else {
             logger.debug("Not in process");
 
-            JOptionPane.showMessageDialog(frame, "Simulation is not running.");
             simulateButton.setEnabled(true);
             cancelButton.setEnabled(false);
             SimulationIsReadyDialog.show();
