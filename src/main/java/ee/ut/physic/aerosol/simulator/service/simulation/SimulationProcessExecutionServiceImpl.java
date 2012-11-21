@@ -81,7 +81,6 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
     public void run() {
         //TODO: update in db maybe
         getSimulationProcess().setState(SimulationProcessState.RUNNING);
-
         String path = Configuration.getInstance().getBurstSimulatorDirPath();
         String fullPath = path + Configuration.getInstance().getBurstSimulatorFileName();
         String configFilePath = path + "burstcontrol.txt";

@@ -54,9 +54,6 @@ public class ControlFileGenerationServiceImpl implements ControlFileGenerationSe
         context.put("id", simulationProcess.getId());
         context.put("output_filename", "simulation_output");
         context.put("parameters", getParametersOrderedByLineNumber(simulationProcess));
-        for (SimulationProcessParameter parameter : simulationProcess.getSimulationProcessParameters()) {
-            context.put(parameter.getName(), parameter.getControlLineValue());
-        }
         StringWriter writer = new StringWriter();
         Template template = getBurstControlTemplate();
         template.merge(context, writer);

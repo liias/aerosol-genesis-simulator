@@ -1,4 +1,4 @@
-package ee.ut.physic.aerosol.simulator.util;
+package config;
 
 import dialect.ImprovedSQLiteDialect;
 import org.hibernate.cfg.ImprovedNamingStrategy;
@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -20,36 +21,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@PropertySource({"classpath:config/database.properties"})
 @EnableTransactionManagement
 @ComponentScan("ee.ut.physic.aerosol.simulator")
-public class SpringConfiguration {
+public class InMemorySpringConfiguration {
 
     @Autowired
     private Environment environment;
 
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        String driverClassName = environment.getProperty("database.driverClassName");
-        String protocol = environment.getProperty("database.protocol");
-        dataSource.setDriverClassName(driverClassName);
-        ee.ut.physic.aerosol.simulator.Configuration simulatorConfiguration = ee.ut.physic.aerosol.simulator.Configuration.getInstance();
-        String databasePath;
-        if (simulatorConfiguration.getUserSettings().containsKey("database.path")) {
-            databasePath = simulatorConfiguration.getUserSettings().getProperty("database.path");
-        } else {
-            databasePath = environment.getProperty("database.defaultPath");
-        }
-        // If relative path, then change it to absolute path
-        if (!databasePath.startsWith("/")) {
-            databasePath = simulatorConfiguration.getRootPath() + databasePath;
-        }
-        String databaseUrl = protocol + databasePath;
-        dataSource.setUrl(databaseUrl);
-        dataSource.setUsername("");
-        dataSource.setPassword("");
+        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+        EmbeddedDatabase dataSource = builder.setType(EmbeddedDatabaseType.H2).build();
+        // do stuff against the db (EmbeddedDatabase extends javax.sql.DataSource)
+        //db.shutdown()
+
         return dataSource;
+        //DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        //dataSource.setDriverClassName("org.sqlite.JDBC");
+        //dataSource.setUrl("jdbc:sqlite::memory:");
+        //return dataSource;
     }
 
     @Bean
@@ -58,7 +48,7 @@ public class SpringConfiguration {
         props.put("hibernate.dialect", ImprovedSQLiteDialect.class.getName());
         props.put("hibernate.ejb.naming_strategy", ImprovedNamingStrategy.class.getName());
         props.put("hibernate.connection.charSet", "UTF-8");
-        //props.put("hibernate.hbm2ddl.auto", "create");
+        props.put("hibernate.hbm2ddl.auto", "create");
         return props;
     }
 

@@ -4,7 +4,7 @@ import ee.ut.physic.aerosol.simulator.Configuration;
 import ee.ut.physic.aerosol.simulator.domain.simulation.parameter.ParametersConfiguration;
 import ee.ut.physic.aerosol.simulator.ui.dialogs.ExitConfirmationDialog;
 import ee.ut.physic.aerosol.simulator.util.ApplicationContextLoader;
-import ee.ut.physic.aerosol.simulator.util.SpringConfiguration;
+import config.SpringConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
