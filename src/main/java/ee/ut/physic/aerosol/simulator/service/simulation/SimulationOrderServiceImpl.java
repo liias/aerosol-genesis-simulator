@@ -80,7 +80,6 @@ public class SimulationOrderServiceImpl implements SimulationOrderService {
         this.orderForm = orderForm;
     }
 
-
     public void setInProcess() {
         if (getOrderForm() == null) {
             return;
@@ -100,9 +99,7 @@ public class SimulationOrderServiceImpl implements SimulationOrderService {
     @Transactional
     public String getOrdersInJson() {
         List<SimulationOrder> orders = getAllSimulationOrders();
-        Gson gson = new GsonBuilder()
-                .setExclusionStrategies(new JsonExclusionStrategy(Logger.class))
-                .create();
+        Gson gson = new GsonBuilder().setExclusionStrategies(new JsonExclusionStrategy(Logger.class)).create();
         String jsonOrders = gson.toJson(orders);
         return jsonOrders;
     }

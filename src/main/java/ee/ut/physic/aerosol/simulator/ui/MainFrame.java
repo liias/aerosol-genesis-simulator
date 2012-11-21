@@ -14,6 +14,7 @@ import java.awt.event.WindowEvent;
 import java.net.URL;
 
 public class MainFrame extends JFrame {
+    private static final long serialVersionUID = -4965460578713007705L;
     final Logger logger = LoggerFactory.getLogger(MainFrame.class);
     private OrderForm orderForm;
     private OrderToolBar orderToolBar;
@@ -62,6 +63,7 @@ public class MainFrame extends JFrame {
         ParametersConfiguration parametersConfiguration = Configuration.getInstance().getParametersConfiguration();
         orderForm = new OrderForm(parametersConfiguration);
         saveAndWrite = new SaveAndWrite(orderForm);
+        loader.injectDependencies(saveAndWrite);
         toolboxFrame = new ToolboxFrame(saveAndWrite);
         loader.injectDependencies(toolboxFrame);
         orderToolBar = new OrderToolBar(orderForm, saveAndWrite, toolboxFrame);
