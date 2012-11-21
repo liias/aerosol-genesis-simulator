@@ -7,6 +7,8 @@ import ee.ut.physic.aerosol.simulator.service.simulation.SimulationOrderService;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationProcessService;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationResultService;
 import ee.ut.physic.aerosol.simulator.service.simulation.ValidationService;
+import ee.ut.physic.aerosol.simulator.ui.dialogs.SimulationIsReadyDialog;
+import ee.ut.physic.aerosol.simulator.ui.dialogs.SimulationIsRunningDialog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -388,6 +390,7 @@ public class OrderToolBar extends JToolBar {
             int realSimulationCount = validationService.validateSimulationCount(orderForm, getNumberOfProcesses());
             SimulationOrder simulationOrder = orderForm.createSimulationOrderWithData(getComment(), realSimulationCount);
             simulationOrderService.simulate(simulationOrder);
+            SimulationIsRunningDialog.show();
         } catch (ParametersExistException e) {
             setSimulationInProcess(false);
             throw new GeneralException(e.getMessage());
@@ -415,6 +418,7 @@ public class OrderToolBar extends JToolBar {
             logger.debug("Not in process");
             simulateButton.setEnabled(true);
             cancelButton.setEnabled(false);
+            SimulationIsReadyDialog.show();
         }
     }
 
