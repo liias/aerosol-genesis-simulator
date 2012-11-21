@@ -1,0 +1,43 @@
+RUNNING
+----------
+Run the following command in your terminal:
+mvn compile exec:exec
+
+
+
+
+
+DETAILS
+-------
+
+Directory Structure:
+    src
+        main        Our application
+        java        .java files (compilable code)
+        resources   static files, configuration files, media files
+    test
+        java        .java files (compilable code)
+
+
+Package Structure
+Read: http://martinfowler.com/bliki/AnemicDomainModel.html, but he's not 100% right too
+    ee.ut.physic.aerosol.simulator  Root namespace for our application
+        database    Data access objects. SQL helper classes (JPA)
+        domain      Domain objects. Business rules.
+        service     Co-ordinates tasks. Should delegate work to domain objects.
+        ui          User interface. All Swing classes.
+        util        Utilities that don't fit anywhere else
+
+
+Definitions of Spring annotations and why they are needed in this code:
+    @Autowired          Dependency injection
+    @Transactional      Waits until everything in method is done before saving to database
+    @Service            Says Spring that it's a bean what could be autowired.
+    @Repository         For database communication
+
+
+Maven targets:
+    mvn package     Creates executable jar
+    mvn compile     Compiles from source
+    mvn exec:exec   Starts the application
+    mvn install     Creates jar and copies all libraries to lib/ and binaries to etc/
