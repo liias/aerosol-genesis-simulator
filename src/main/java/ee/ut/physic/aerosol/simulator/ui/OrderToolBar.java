@@ -26,7 +26,6 @@ public class OrderToolBar extends JToolBar {
 
     final Logger logger = LoggerFactory.getLogger(OrderToolBar.class);
 
-//    final static Color ERROR_COLOR = Color.PINK;
     @Autowired
     public SimulationOrderService simulationOrderService;
     @Autowired
@@ -287,7 +286,6 @@ public class OrderToolBar extends JToolBar {
 
     private JTextField createCommentField() {
         JTextField commentField = new JTextField(30);
-//        commentField.setBackground(ERROR_COLOR);
         return commentField;
     }
 

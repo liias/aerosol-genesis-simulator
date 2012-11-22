@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
@@ -16,6 +18,8 @@ public class ParameterLine {
     final Logger logger = LoggerFactory.getLogger(ParameterLine.class);
 
     private ParameterDefinition parameterDefinition;
+    private Double min;
+    private Double max;
     private UndoManager undoManager;
     private JLabel label;
     private JComboBox freeAirMin;
@@ -28,6 +32,8 @@ public class ParameterLine {
 
     public ParameterLine(ParameterDefinition parameterDefinition, UndoManager undoManager) {
         this.parameterDefinition = parameterDefinition;
+        min = Double.parseDouble(parameterDefinition.getMinimumValue().toPlainString());
+        max = Double.parseDouble(parameterDefinition.getMaximumValue().toPlainString());
         this.undoManager = undoManager;
         this.name = parameterDefinition.getName();
         if (parameterDefinition.isHasForest()) {
@@ -54,10 +60,13 @@ public class ParameterLine {
         setDefaultValues();
     }
 
+    private JTextComponent getTextComponent(JComboBox comboBox) {
+        return (JTextComponent) comboBox.getEditor().getEditorComponent();
+    }
+
     @SuppressWarnings("unchecked")
     private JComboBox createComboBox() {
         JComboBox comboBox = new JComboBox();
-        final JTextComponent textComponent = (JTextComponent) comboBox.getEditor().getEditorComponent();
         comboBox.addItem("");
         for (String value : parameterValues) {
             comboBox.addItem(value);
@@ -67,8 +76,51 @@ public class ParameterLine {
         comboBox.setPrototypeDisplayValue("00000000");
         int height = (int) comboBox.getPreferredSize().getHeight();
         comboBox.setPreferredSize(new Dimension(80, height));
+        JTextComponent textComponent = getTextComponent(comboBox);
         textComponent.getDocument().addUndoableEditListener(undoManager);
+        addValidator(comboBox);
         return comboBox;
+    }
+
+    private void addValidator(final JComboBox comboBox) {
+        final JTextComponent textComponent = getTextComponent(comboBox);
+
+        // Listen for changes in the text
+        textComponent.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                validateField(comboBox);
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                validateField(comboBox);
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                validateField(comboBox);
+            }
+        });
+    }
+
+    private void validateField(JComboBox comboBox) {
+        String valueString = (String) comboBox.getEditor().getItem();
+        if (valueString == null) {
+            return;
+        }
+        if (valueString.isEmpty()) {
+            return;
+        }
+        try {
+            Double value = Double.parseDouble(valueString);
+            if (value < min || value > max) {
+                UIHelper.setInvalid(comboBox);
+                return;
+            }
+        } catch (NumberFormatException e) {
+            UIHelper.setInvalid(comboBox);
+            return;
+        }
+
+        UIHelper.setValid(comboBox);
     }
 
     private void setDefaultValues() {
@@ -120,6 +172,7 @@ public class ParameterLine {
     }
 
     // Returns null when nothing was selected
+    //Might not be the latest value, if field hasnt been unfocused
     private Double getSelectedValue(JComboBox comboBox) {
         String selectedValue = (String) comboBox.getSelectedItem();
         Double value = null;
@@ -154,7 +207,7 @@ public class ParameterLine {
         }
         return allValues;
     }
-    
+
     public ArrayList<String> getAllValuesArray() {
         ArrayList<String> allValues = new ArrayList<String>();
         allValues.add((String) getFreeAirMin().getSelectedItem());
@@ -165,15 +218,15 @@ public class ParameterLine {
         }
         return allValues;
     }
-    
+
     public int setAllValuesArray(ArrayList<String> allValues, int count) {
-    	int myCount = 2;
-    	getFreeAirMin().setSelectedItem(allValues.get(count)); 
-    	getFreeAirMax().setSelectedItem(allValues.get(count + 1)); 
+        int myCount = 2;
+        getFreeAirMin().setSelectedItem(allValues.get(count));
+        getFreeAirMax().setSelectedItem(allValues.get(count + 1));
         if (hasForest) {
-        	getForestMin().setSelectedItem(allValues.get(count + 2)); 
-        	getForestMax().setSelectedItem(allValues.get(count + 3)); 
-            myCount +=2;
+            getForestMin().setSelectedItem(allValues.get(count + 2));
+            getForestMax().setSelectedItem(allValues.get(count + 3));
+            myCount += 2;
         }
         return count + myCount;
     }
@@ -201,4 +254,6 @@ public class ParameterLine {
             logger.warn("Unknown field name: " + fieldName);
         }
     }
+
+
 }
