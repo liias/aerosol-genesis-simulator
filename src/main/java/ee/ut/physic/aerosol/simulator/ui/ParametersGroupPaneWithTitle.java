@@ -6,6 +6,7 @@ import org.jdesktop.swingx.JXCollapsiblePane;
 import javax.swing.*;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
+import java.net.URL;
 import java.util.Collection;
 
 public class ParametersGroupPaneWithTitle extends JPanel {
@@ -54,10 +55,19 @@ public class ParametersGroupPaneWithTitle extends JPanel {
         JLabel minLabel = createTableHeading("Minimum", "Minimum or exact value if no maximum value is set. Required.");
         JLabel maxLabel = createTableHeading("Maximum", "Maximum value. Not Required.");
         Action toggleAction = parametersGroupPane.getActionMap().get(JXCollapsiblePane.TOGGLE_ACTION);
-        // use the collapse/expand icons from the JTree UI
-        toggleAction.putValue(JXCollapsiblePane.COLLAPSE_ICON, UIManager.getIcon("Tree.expandedIcon"));
-        toggleAction.putValue(JXCollapsiblePane.EXPAND_ICON, UIManager.getIcon("Tree.collapsedIcon"));
+        URL expandUrl = OrderToolBar.class.getResource("/images/other/expand.gif");
+        URL collapseUrl = OrderToolBar.class.getResource("/images/other/collapse.gif");
+        Icon expandIcon = new ImageIcon(expandUrl);
+        Icon collapseIcon = new ImageIcon(collapseUrl);
+
+        toggleAction.putValue(JXCollapsiblePane.COLLAPSE_ICON, collapseIcon);
+        toggleAction.putValue(JXCollapsiblePane.EXPAND_ICON, expandIcon);
+
         toggleButton = new JButton(toggleAction);
+
+        toggleButton.setBorder(BorderFactory.createEmptyBorder());
+        toggleButton.setContentAreaFilled(false);
+
         toggleButton.setText("");
         toggleButton.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
         GridBagConstraints constraints = new GridBagConstraints();
