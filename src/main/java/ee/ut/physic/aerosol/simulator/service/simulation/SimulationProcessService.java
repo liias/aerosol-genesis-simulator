@@ -19,7 +19,7 @@ public interface SimulationProcessService {
 
     SimulationProcess getById(long id);
 
-    Map<String, Map<String, String>> getParametersMapById(long id);
+    Map<String, Map<String, String>> getParametersMapById(long id) throws GeneralException;
 
     String getBestFileContent(SimulationProcess process, double rating);
 

@@ -1,6 +1,7 @@
 package ee.ut.physic.aerosol.simulator.service.simulation;
 
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrder;
+import ee.ut.physic.aerosol.simulator.errors.GeneralException;
 import ee.ut.physic.aerosol.simulator.errors.ParametersExistException;
 import ee.ut.physic.aerosol.simulator.ui.OrderForm;
 
@@ -24,5 +25,5 @@ public interface SimulationOrderService {
 
     public SimulationOrder getById(long id);
 
-    public Map<String, Map<String, String>> getParametersMapById(long id);
+    public Map<String, Map<String, String>> getParametersMapById(long id) throws GeneralException;
 }

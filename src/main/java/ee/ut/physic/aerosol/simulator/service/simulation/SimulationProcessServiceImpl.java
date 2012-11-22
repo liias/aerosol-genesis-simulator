@@ -114,8 +114,11 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
 
     @Transactional
     @Override
-    public Map<String, Map<String, String>> getParametersMapById(long id) {
+    public Map<String, Map<String, String>> getParametersMapById(long id) throws GeneralException {
         SimulationProcess process = getById(id);
+        if (process == null) {
+            throw new GeneralException("There is no simulation process with id " + id);
+        }
         return process.getParametersMap();
     }
 

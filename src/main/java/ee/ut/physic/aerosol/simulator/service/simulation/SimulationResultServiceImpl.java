@@ -6,6 +6,7 @@ import ee.ut.physic.aerosol.simulator.database.simulation.SimulationResultDao;
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcess;
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationResult;
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationResultValue;
+import ee.ut.physic.aerosol.simulator.errors.GeneralException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,14 +125,20 @@ public class SimulationResultServiceImpl implements SimulationResultService {
 
     @Transactional
     @Override
-    public List<HashMap<String, Double>> findBestResults(int numberOfRatings) {
+    public List<HashMap<String, Double>> findBestResults(int numberOfRatings) throws GeneralException {
         //ordered by time
         List<SimulationResult> referenceResults = resultFileParserService.parseReferenceResults("ref.xl");
         // 5 * (21 -1) = 100
         int maxTime = 5 * (referenceResults.size() - 1);
         //also ordered by time
         List<Long> validProcessIds = simulationProcessDao.getProcessIdsWhereProcessTimeLessOrEqualThan(maxTime);
+        if (validProcessIds.isEmpty()) {
+            throw new GeneralException("There are no simulations in time range: 0-" + maxTime);
+        }
         List<SimulationResult> allResultsInTimeRange = simulationResultDao.getAllResults(validProcessIds, 0, maxTime);
+        if (allResultsInTimeRange.isEmpty()) {
+            throw new GeneralException("There are no results in time range: 0-" + maxTime);
+        }
         return findRatingForProcesses(referenceResults, allResultsInTimeRange, numberOfRatings);
     }
 
@@ -145,7 +152,7 @@ public class SimulationResultServiceImpl implements SimulationResultService {
 
     //Convenience method to do it all for best results file content generation
     @Transactional
-    public String generateBestResultsFileAndSaveBestProcessId(int numberOfRatings) {
+    public String generateBestResultsFileAndSaveBestProcessId(int numberOfRatings) throws GeneralException {
         List<HashMap<String, Double>> processRatings = findBestResults(numberOfRatings);
         StringBuilder allLines = new StringBuilder(100);
         //The smallest rating is the best one, find it

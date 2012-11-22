@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import ee.ut.physic.aerosol.simulator.database.simulation.SimulationOrderDao;
 import ee.ut.physic.aerosol.simulator.domain.simulation.*;
+import ee.ut.physic.aerosol.simulator.errors.GeneralException;
 import ee.ut.physic.aerosol.simulator.errors.ParametersExistException;
 import ee.ut.physic.aerosol.simulator.ui.OrderForm;
 import ee.ut.physic.aerosol.simulator.util.JsonExclusionStrategy;
@@ -150,8 +151,11 @@ public class SimulationOrderServiceImpl implements SimulationOrderService {
 
     @Transactional
     @Override
-    public Map<String, Map<String, String>> getParametersMapById(long id) {
+    public Map<String, Map<String, String>> getParametersMapById(long id) throws GeneralException {
         SimulationOrder order = getById(id);
+        if (order == null) {
+            throw new GeneralException("There is no simulation process with id " + id);
+        }
         return order.getParametersMap();
     }
 

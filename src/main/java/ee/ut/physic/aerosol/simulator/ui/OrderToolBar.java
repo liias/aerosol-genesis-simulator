@@ -252,7 +252,11 @@ public class OrderToolBar extends JToolBar {
         button.setToolTipText("Open order or process with id");
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                openById();
+                try {
+                    openById();
+                } catch (GeneralException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
         return button;
@@ -270,18 +274,25 @@ public class OrderToolBar extends JToolBar {
     }
 
     @Transactional
-    private void openById() {
+    private void openById() throws GeneralException {
         String idString = orderOrProcessId.getText();
-        Long id = new Long(idString);
-        Map<String, Map<String, String>> parametersMap;
-        if (openByIdType.getSelectedIndex() == 0) {
-            //order
-            parametersMap = simulationOrderService.getParametersMapById(id);
-        } else {
-            //process
-            parametersMap = simulationProcessService.getParametersMapById(id);
+        try {
+            Long id = new Long(idString);
+            Map<String, Map<String, String>> parametersMap;
+            if (openByIdType.getSelectedIndex() == 0) {
+                //order
+                parametersMap = simulationOrderService.getParametersMapById(id);
+            } else {
+                //process
+                parametersMap = simulationProcessService.getParametersMapById(id);
+            }
+            orderForm.setAllParameterValues(parametersMap);
+        } catch (NumberFormatException e) {
+            throw new GeneralException("ID must be an integer number");
+        } catch (GeneralException except) {
+            logger.warn("Invalid ID: ", except);
         }
-        orderForm.setAllParameterValues(parametersMap);
+
     }
 
     private JTextField createCommentField() {
@@ -381,9 +392,13 @@ public class OrderToolBar extends JToolBar {
 
     private void findBestValues() {
         logger.debug("Find Best Values button pressed");
-        String fileContent = simulationResultService.generateBestResultsFileAndSaveBestProcessId(10);
-        logger.info("Found best results, prompting for save");
-        saveAndWrite.promptSaveFileWithFileContent(fileContent);
+        try {
+            String fileContent = simulationResultService.generateBestResultsFileAndSaveBestProcessId(10);
+            logger.info("Found best results, prompting for save");
+            saveAndWrite.promptSaveFileWithFileContent(fileContent);
+        } catch (GeneralException e) {
+            e.printStackTrace();
+        }
     }
 
     private void viewBestProcess() {
