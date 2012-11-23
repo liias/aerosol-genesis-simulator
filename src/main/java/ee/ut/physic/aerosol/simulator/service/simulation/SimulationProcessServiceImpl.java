@@ -37,6 +37,9 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
     @Autowired
     private SimulationOrderService simulationOrderService;
 
+    @Autowired
+    private MultipleOrderService multipleOrderService;
+
     private List<Thread> simulationThreads = new ArrayList<Thread>();
 
     //Starts the task asynchronously, meaning return value has no real use
@@ -72,6 +75,11 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
         } else {
             simulationOrderService.setCompleted();
         }
+        try {
+            multipleOrderService.simulate();
+        } catch (GeneralException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -90,6 +98,11 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
             startInNewThread(nextProcess);
         } else {
             simulationOrderService.setCompleted();
+        }
+        try {
+            multipleOrderService.simulate();
+        } catch (GeneralException e) {
+            e.printStackTrace();
         }
     }
 

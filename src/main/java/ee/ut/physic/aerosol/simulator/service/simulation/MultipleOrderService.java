@@ -10,5 +10,7 @@ public interface MultipleOrderService {
 
     public void init(OrderForm orderForm, OrderToolBar toolbar, ArrayList<ArrayList<String>> stringSet);
 
-    public void simulate(int orderNumber) throws GeneralException;
+    public void simulate() throws GeneralException;
+
+    public boolean isRunning();
 }

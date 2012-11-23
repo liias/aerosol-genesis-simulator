@@ -3,6 +3,7 @@ package ee.ut.physic.aerosol.simulator.ui;
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrder;
 import ee.ut.physic.aerosol.simulator.errors.GeneralException;
 import ee.ut.physic.aerosol.simulator.errors.ParametersExistException;
+import ee.ut.physic.aerosol.simulator.service.simulation.MultipleOrderService;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationOrderService;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationProcessService;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationResultService;
@@ -34,6 +35,8 @@ public class OrderToolBar extends JToolBar {
     private SimulationResultService simulationResultService;
     @Autowired
     private ValidationService validationService;
+    @Autowired
+    private MultipleOrderService multipleOrderService;
 
     private OrderForm orderForm;
     private SaveAndWrite saveAndWrite;
@@ -422,7 +425,9 @@ public class OrderToolBar extends JToolBar {
             int realSimulationCount = validationService.validateSimulationCount(orderForm, getNumberOfProcesses());
             SimulationOrder simulationOrder = orderForm.createSimulationOrderWithData(getComment(), realSimulationCount);
             simulationOrderService.simulate(simulationOrder);
-            SimulationIsRunningDialog.show();
+            if(!multipleOrderService.isRunning()) {
+                SimulationIsRunningDialog.show();
+            }
         } catch (ParametersExistException e) {
             setSimulationInProcess(false);
             throw new GeneralException(e.getMessage());
@@ -453,7 +458,9 @@ public class OrderToolBar extends JToolBar {
 
             simulateButton.setEnabled(true);
             cancelButton.setEnabled(false);
-            SimulationIsReadyDialog.show();
+            if(!multipleOrderService.isRunning()) {
+                SimulationIsReadyDialog.show();
+            }
         }
     }
 

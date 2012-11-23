@@ -5,6 +5,9 @@ import ee.ut.physic.aerosol.simulator.errors.GeneralException;
 import ee.ut.physic.aerosol.simulator.errors.ParametersExistException;
 import ee.ut.physic.aerosol.simulator.ui.OrderForm;
 import ee.ut.physic.aerosol.simulator.ui.OrderToolBar;
+import ee.ut.physic.aerosol.simulator.ui.dialogs.SimulationIsReadyDialog;
+import ee.ut.physic.aerosol.simulator.ui.dialogs.SimulationIsRunningDialog;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,8 @@ public class MultipleOrderServiceImpl implements MultipleOrderService {
     private OrderForm orderForm;
     private OrderToolBar toolbar;
     private ArrayList<ArrayList<String>> orderParams;
+    private int currentOrder;
+    private boolean running = false;
     @Autowired
     private ValidationService validationService;
     @Autowired
@@ -28,30 +33,46 @@ public class MultipleOrderServiceImpl implements MultipleOrderService {
         this.orderForm = orderForm;
         this.toolbar = toolbar;
         this.orderParams = stringSet;
-
+        this.currentOrder = -1;
+        this.running = true;
+        
         try {
-            simulate(0);
+            SimulationIsRunningDialog.show();
+            simulate();
         } catch (GeneralException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void simulate(int orderNumber) throws GeneralException {
-        toolbar.setSimulationInProcess(true);
-        logger.debug("Simulate button pressed");
-        try {
-            orderForm.setAllParameterValues(orderParams.get(orderNumber));
-            validationService.validateOrder(orderForm);
-            SimulationOrder simulationOrder = orderForm.createSimulationOrderWithData(toolbar.getComment(), 1);
-            simulationOrderService.simulate(simulationOrder);
-        } catch (ParametersExistException e) {
-            toolbar.setSimulationInProcess(false);
-            throw new GeneralException(e.getMessage());
-        } catch (GeneralException e) {
-            toolbar.setSimulationInProcess(false);
-            throw new GeneralException(e.getMessage());
+    public void simulate() throws GeneralException {
+        if(orderParams != null && orderParams.size() != currentOrder + 1) {
+            currentOrder++;
+            logger.info("making order with : " + (currentOrder) + " - " + running);
+            toolbar.setSimulationInProcess(true);
+            logger.debug("Simulate button pressed");
+            try {
+                orderForm.setAllParameterValues(orderParams.get(currentOrder));
+                validationService.validateOrder(orderForm);
+                SimulationOrder simulationOrder = orderForm.createSimulationOrderWithData(toolbar.getComment(), 1);
+                simulationOrderService.simulate(simulationOrder);
+            } catch (ParametersExistException e) {
+                toolbar.setSimulationInProcess(false);
+                throw new GeneralException(e.getMessage());
+            } catch (GeneralException e) {
+                toolbar.setSimulationInProcess(false);
+                throw new GeneralException(e.getMessage());
+            }
+        } else {
+            if(running == true) {
+                SimulationIsReadyDialog.show();
+                running = false;
+            }
         }
     }
 
+    @Override
+    public boolean isRunning() {
+        return running;
+    }
 }
