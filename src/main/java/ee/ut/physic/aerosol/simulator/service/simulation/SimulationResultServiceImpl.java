@@ -131,7 +131,7 @@ public class SimulationResultServiceImpl implements SimulationResultService {
         // 5 * (21 -1) = 100
         int maxTime = 5 * (referenceResults.size() - 1);
         //also ordered by time
-        List<Long> validProcessIds = simulationProcessDao.getProcessIdsWhereProcessTimeLessOrEqualThan(maxTime);
+        List<Long> validProcessIds = simulationProcessDao.getProcessIdsWhereProcessTimeMoreOrEqualThan(maxTime);
         if (validProcessIds.isEmpty()) {
             throw new GeneralException("There are no simulations in time range: 0-" + maxTime);
         }

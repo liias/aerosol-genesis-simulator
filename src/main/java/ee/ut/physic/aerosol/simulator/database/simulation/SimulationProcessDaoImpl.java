@@ -26,16 +26,16 @@ public class SimulationProcessDaoImpl implements SimulationProcessDao {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Long> getProcessIdsWhereProcessTimeLessOrEqualThan(long time) {
-        Query query = entityManager.createQuery("SELECT param.simulationProcess.id FROM SimulationProcessParameter param where param.name='time' AND param.freeAirValue >= 100");
+    public List<Long> getProcessIdsWhereProcessTimeMoreOrEqualThan(double time) {
+        Query query = entityManager.createQuery(
+                "SELECT param.simulationProcess.id FROM SimulationProcessParameter param where param.name = :name AND param.freeAirValue >= :time")
+                .setParameter("time", time).setParameter("name", "time");
         return (List<Long>) query.getResultList();
     }
 
     @Override
     public List<SimulationProcess> getAllByHash(String hash) {
         String query = "select p from SimulationProcess p where p.parametersHash=:hash";
-        return entityManager.createQuery(query, SimulationProcess.class)
-                .setParameter("hash", hash)
-                .getResultList();
+        return entityManager.createQuery(query, SimulationProcess.class).setParameter("hash", hash).getResultList();
     }
 }

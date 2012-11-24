@@ -9,7 +9,7 @@ public interface SimulationProcessDao {
 
     SimulationProcess getById(long id);
 
-    List<Long> getProcessIdsWhereProcessTimeLessOrEqualThan(long time);
+    List<Long> getProcessIdsWhereProcessTimeMoreOrEqualThan(double time);
 
     List<SimulationProcess> getAllByHash(String hash);
 }

@@ -83,4 +83,8 @@ public class SimulationResult implements Comparable<SimulationResult> {
             return 0;
         }
     }
+    @Override
+    public String toString() {
+        return time + " - " + simulationProcess.getId();       
+    }
 }
