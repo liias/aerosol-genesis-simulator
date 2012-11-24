@@ -68,6 +68,7 @@ public class OrderToolBar extends JToolBar {
         undoButton = createUndoButton();
         redoButton = createRedoButton();
 
+        JButton openManyButton = createOpenManyButton();
         JButton openButton = createOpenButton();
         JButton saveButton = createSaveButton();
         JButton resetButton = createResetButton();
@@ -109,6 +110,7 @@ public class OrderToolBar extends JToolBar {
         addSeparator();
         add(undoButton);
         add(redoButton);
+        add(openManyButton);
         add(openButton);
         add(saveButton);
         add(resetButton);
@@ -180,6 +182,17 @@ public class OrderToolBar extends JToolBar {
             }
         });
         return button;
+    }
+    
+    private JButton createOpenManyButton() {
+        JButton openButton = createButtonWithIcon("open", "Open many");
+        openButton.setToolTipText("Open multiple from CSV");
+        openButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                openMany();
+            }
+        });
+        return openButton;
     }
 
     private JButton createOpenButton() {
@@ -363,8 +376,7 @@ public class OrderToolBar extends JToolBar {
 
     private void open() {
         logger.debug("Open button pressed");
-//        saveAndWrite.openFile();
-        saveAndWrite.openBigFile(this);
+        saveAndWrite.openFile();
     }
 
     private void openMany() {
