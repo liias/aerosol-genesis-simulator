@@ -205,7 +205,7 @@
             {
                 "name":"st",
                 "label":"Time of steady nucleation activity",
-                "minimumValue":5,
+                "minimumValue":0,
                 "maximumValue":600,
                 "defaultValue":235,
                 "step":20,
@@ -215,7 +215,7 @@
             {
                 "name":"dt",
                 "label":"Time of dropping nucleation activity",
-                "minimumValue":5,
+                "minimumValue":0,
                 "maximumValue":300,
                 "defaultValue":25,
                 "step":10,
