@@ -58,6 +58,7 @@ public class SpringConfiguration {
         props.put("hibernate.dialect", ImprovedSQLiteDialect.class.getName());
         props.put("hibernate.ejb.naming_strategy", ImprovedNamingStrategy.class.getName());
         props.put("hibernate.connection.charSet", "UTF-8");
+        props.put("hibernate.show_sql", "false");
         //props.put("hibernate.hbm2ddl.auto", "create");
         return props;
     }

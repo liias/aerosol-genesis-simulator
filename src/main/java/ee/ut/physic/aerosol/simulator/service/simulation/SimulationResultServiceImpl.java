@@ -91,7 +91,7 @@ public class SimulationResultServiceImpl implements SimulationResultService {
         pidAndRating.put("pid", (double) processId);
         pidAndRating.put("rating", processRating);
         // if ratings table is not full yet
-        if (processRatings.size() <= numberOfRatings) {
+        if (processRatings.size() < numberOfRatings) {
             // if this rating is worst than the worst rating the processRatings map so far
             if (processRating > worstRatingInProcessRatings) {
                 worstRatingInProcessRatings = processRating;
@@ -111,7 +111,7 @@ public class SimulationResultServiceImpl implements SimulationResultService {
             for (HashMap<String, Double> tempPidAndRating : processRatings) {
                 double tempRating = tempPidAndRating.get("rating");
                 if (tempRating > worstRatingInProcessRatings) {
-                    worstRatingInProcessRatings = 0;
+                    worstRatingInProcessRatings = tempRating;
                     worstRatingIndexInProcessRatings = i;
                 }
                 i++;
