@@ -39,16 +39,18 @@ public class ToolboxFrame extends JFrame {
         URL iconUrl = getClass().getResource("/images/icon.png");
         setIconImage(Toolkit.getDefaultToolkit().getImage(iconUrl));
         setTitle("Utilities");
-        setSize(180, 120);
-        setMinimumSize(new Dimension(180, 120));
+        setSize(180, 130);
+        setMinimumSize(new Dimension(180, 130));
 
         GridBagLayout gridBagLayout = new GridBagLayout();
 
         toolconstraints = new GridBagConstraints();
         JPanel panel = new JPanel(gridBagLayout);
 
+        JLabel databaseLabel = new JLabel("Database: ");
 
         JButton importButton = new JButton("Import");
+        importButton.setToolTipText("Import data from another database");
         importButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 importOrders();
@@ -57,6 +59,8 @@ public class ToolboxFrame extends JFrame {
 
 
         JButton exportButton = new JButton("Export");
+
+        exportButton.setToolTipText("Export data from your database");
         exportButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 exportOrders();
@@ -67,6 +71,8 @@ public class ToolboxFrame extends JFrame {
         processIdField = new JTextField(5);
 
         JButton saveResultsFile = new JButton("Save Results");
+
+        saveResultsFile.setToolTipText("Save results from specific process into a file");
         saveResultsFile.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 saveResults();
@@ -77,17 +83,22 @@ public class ToolboxFrame extends JFrame {
 
         toolconstraints.fill = GridBagConstraints.VERTICAL;
         toolconstraints.gridy=0;
+        toolconstraints.gridx=0;
+        panel.add(databaseLabel, toolconstraints);
+        toolconstraints.gridy=1;
         panel.add(importButton, toolconstraints);
+
+
         toolconstraints.gridx=1;
         panel.add(exportButton, toolconstraints);
         toolconstraints.gridx=0;
-        toolconstraints.gridy=1;
+        toolconstraints.gridy=2;
         panel.add(processIdLabel, toolconstraints);
         toolconstraints.gridx=1;
-        toolconstraints.gridy=1;
+
         panel.add(processIdField, toolconstraints);
         toolconstraints.gridx=0;
-        toolconstraints.gridy=2;
+        toolconstraints.gridy=3;
         toolconstraints.gridwidth=2;
         panel.add(saveResultsFile, toolconstraints);
         add(panel);
