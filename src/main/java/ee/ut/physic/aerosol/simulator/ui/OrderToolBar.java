@@ -110,11 +110,13 @@ public class OrderToolBar extends JToolBar {
         addSeparator();
         add(undoButton);
         add(redoButton);
-        add(openManyButton);
+
         add(openButton);
         add(saveButton);
         add(resetButton);
         add(clearButton);
+        addSeparator();
+        add(openManyButton);
         addSeparator();
         add(commentLabel);
         add(commentField);
@@ -185,8 +187,8 @@ public class OrderToolBar extends JToolBar {
     }
     
     private JButton createOpenManyButton() {
-        JButton openButton = createButtonWithIcon("open", "Open many");
-        openButton.setToolTipText("Open multiple from CSV");
+        JButton openButton = createButtonWithIcon("run_from_file", "Run from file");
+        openButton.setToolTipText("Run many from CSV");
         openButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 openMany();
