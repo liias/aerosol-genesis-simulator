@@ -17,6 +17,7 @@ import java.util.HashMap;
 public class ParameterLine {
     final Logger logger = LoggerFactory.getLogger(ParameterLine.class);
 
+    private OrderForm orderForm;
     private ParameterDefinition parameterDefinition;
     private Double min;
     private Double max;
@@ -30,7 +31,11 @@ public class ParameterLine {
     private boolean hasForest = false;
     private String name;
 
-    public ParameterLine(ParameterDefinition parameterDefinition, UndoManager undoManager) {
+    public enum FieldType {FREE_AIR_MIN, FREE_AIR_MAX, FOREST_MIN, FOREST_MAX}
+
+
+    public ParameterLine(OrderForm orderForm, ParameterDefinition parameterDefinition, UndoManager undoManager) {
+        this.orderForm = orderForm;
         this.parameterDefinition = parameterDefinition;
         min = Double.parseDouble(parameterDefinition.getMinimumValue().toPlainString());
         max = Double.parseDouble(parameterDefinition.getMaximumValue().toPlainString());
@@ -51,11 +56,11 @@ public class ParameterLine {
         label.setText(labelText);
         String tooltip = "<html><b>" + parameterDefinition.getLabel() + "</b><br>Unit: " + parameterDefinition.getUnit() + "<br>" + parameterDefinition.getDescription() + "</html>";
         label.setToolTipText(tooltip);
-        freeAirMin = createComboBox();
-        freeAirMax = createComboBox();
+        freeAirMin = createComboBox(FieldType.FREE_AIR_MIN);
+        freeAirMax = createComboBox(FieldType.FREE_AIR_MAX);
         if (hasForest) {
-            forestMin = createComboBox();
-            forestMax = createComboBox();
+            forestMin = createComboBox(FieldType.FOREST_MIN);
+            forestMax = createComboBox(FieldType.FOREST_MAX);
         }
         setDefaultValues();
     }
@@ -65,7 +70,7 @@ public class ParameterLine {
     }
 
     @SuppressWarnings("unchecked")
-    private JComboBox createComboBox() {
+    private JComboBox createComboBox(FieldType fieldType) {
         JComboBox comboBox = new JComboBox();
         comboBox.addItem("");
         for (String value : parameterValues) {
@@ -78,30 +83,33 @@ public class ParameterLine {
         comboBox.setPreferredSize(new Dimension(80, height));
         JTextComponent textComponent = getTextComponent(comboBox);
         textComponent.getDocument().addUndoableEditListener(undoManager);
-        addValidator(comboBox);
+        addValidator(comboBox, fieldType);
         return comboBox;
     }
 
-    private void addValidator(final JComboBox comboBox) {
+    private void addValidator(final JComboBox comboBox, final FieldType fieldType) {
         final JTextComponent textComponent = getTextComponent(comboBox);
-
         // Listen for changes in the text
         textComponent.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
-                validateField(comboBox);
+                validateField(comboBox, fieldType);
             }
 
             public void removeUpdate(DocumentEvent e) {
-                validateField(comboBox);
+                validateField(comboBox, fieldType);
             }
 
             public void insertUpdate(DocumentEvent e) {
-                validateField(comboBox);
+                validateField(comboBox, fieldType);
             }
         });
     }
 
-    private void validateField(JComboBox comboBox) {
+    private void validateField(JComboBox comboBox, FieldType fieldType) {
+        if (!orderForm.isInitialized) {
+            return;
+        }
+
         String valueString = (String) comboBox.getEditor().getItem();
         if (valueString == null) {
             return;
@@ -113,14 +121,68 @@ public class ParameterLine {
             Double value = Double.parseDouble(valueString);
             if (value < min || value > max) {
                 UIHelper.setInvalid(comboBox);
-                return;
+            } else if ("Yu1".equals(name)) {
+                validateNadykto1Values(comboBox, fieldType, value);
+            } else if ("Yu2".equals(name)) {
+                validateNadykto2Values(comboBox, fieldType, value);
+            } else {
+                UIHelper.setValid(comboBox);
             }
         } catch (NumberFormatException e) {
             UIHelper.setInvalid(comboBox);
-            return;
         }
+    }
 
-        UIHelper.setValid(comboBox);
+    public JComboBox getComboBoxByType(FieldType fieldType) {
+        switch (fieldType) {
+            case FREE_AIR_MIN:
+                return getFreeAirMin();
+            case FREE_AIR_MAX:
+                return getFreeAirMax();
+            case FOREST_MIN:
+                return getForestMin();
+            case FOREST_MAX:
+                return getForestMax();
+        }
+        return null;
+    }
+
+    public Double getValueByType(FieldType fieldType) {
+        JComboBox comboBox = getComboBoxByType(fieldType);
+        String valueString = (String) comboBox.getEditor().getItem();
+        if (valueString == null) {
+            return null;
+        }
+        if (valueString.isEmpty()) {
+            return null;
+        }
+        return Double.parseDouble(valueString);
+    }
+
+    private void validateNadykto1Values(JComboBox comboBox, FieldType fieldType, Double value) {
+        if (fieldType == FieldType.FREE_AIR_MIN) {
+            ParameterLine otherParameter = orderForm.getParameterLineByName("Yu2");
+            Double otherValue = otherParameter.getValueByType(FieldType.FREE_AIR_MIN);
+            JComboBox otherComboBox = otherParameter.getComboBoxByType(FieldType.FREE_AIR_MIN);
+            if (otherValue != null && value <= otherValue) {
+                UIHelper.setInvalid(comboBox, otherComboBox);
+            } else {
+                UIHelper.setValid(comboBox, otherComboBox);
+            }
+        }
+    }
+
+    private void validateNadykto2Values(JComboBox comboBox, FieldType fieldType, Double value) {
+        if (fieldType == FieldType.FREE_AIR_MIN) {
+            ParameterLine otherParameter = orderForm.getParameterLineByName("Yu1");
+            Double otherValue = otherParameter.getValueByType(FieldType.FREE_AIR_MIN);
+            JComboBox otherComboBox = otherParameter.getComboBoxByType(FieldType.FREE_AIR_MIN);
+            if (otherValue != null && value >= otherValue) {
+                UIHelper.setInvalid(comboBox, otherComboBox);
+            } else {
+                UIHelper.setValid(comboBox, otherComboBox);
+            }
+        }
     }
 
     private void setDefaultValues() {

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class ParametersGroupPane extends JPanel {
+    private OrderForm orderForm;
     Collection<ParameterDefinition> parameterDefinitions;
     Collection<ParameterLine> parameterLines = new ArrayList<ParameterLine>();
     GridBagConstraints constraints;
@@ -16,7 +17,8 @@ public class ParametersGroupPane extends JPanel {
 
     private Color stripeColor = Color.CYAN;
 
-    public ParametersGroupPane(Collection<ParameterDefinition> parameterDefinitions, UndoManager undoManager) {
+    public ParametersGroupPane(OrderForm orderForm, Collection<ParameterDefinition> parameterDefinitions, UndoManager undoManager) {
+        this.orderForm = orderForm;
         this.parameterDefinitions = parameterDefinitions;
         this.undoManager = undoManager;
         stripeColor = getBackground().brighter();
@@ -72,7 +74,7 @@ public class ParametersGroupPane extends JPanel {
         int rowIndex = 0;
         boolean hasBackground = true;
         for (ParameterDefinition parameterDefinition : parameterDefinitions) {
-            ParameterLine parameterLine = new ParameterLine(parameterDefinition, undoManager);
+            ParameterLine parameterLine = new ParameterLine(orderForm, parameterDefinition, undoManager);
             parameterLines.add(parameterLine);
             addParameterLine(parameterLine, rowIndex, hasBackground);
             if (parameterLine.getParameterDefinition().isHasForest()) {
@@ -86,5 +88,14 @@ public class ParametersGroupPane extends JPanel {
 
     public Collection<ParameterLine> getParameterLines() {
         return parameterLines;
+    }
+
+    public ParameterLine getParameterLineByName(String name) throws NoSuchFieldException {
+        for (ParameterLine parameterLine : parameterLines) {
+            if (name.equals(parameterLine.getName())) {
+                return parameterLine;
+            }
+        }
+        throw new NoSuchFieldException("did not find parameter with name " + name);
     }
 }

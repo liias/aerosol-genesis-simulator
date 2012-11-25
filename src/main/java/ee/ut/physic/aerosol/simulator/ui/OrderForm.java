@@ -25,6 +25,7 @@ public class OrderForm extends JPanel {
     private ParametersConfiguration parametersConfiguration;
     private OrderToolBar orderToolbar;
     private UndoManager undoManager;
+    public boolean isInitialized = false;
 
     public OrderForm(ParametersConfiguration parametersConfiguration) {
         this.parametersConfiguration = parametersConfiguration;
@@ -60,6 +61,7 @@ public class OrderForm extends JPanel {
         allParametersPanel.add(rightPanel, leftAndRightConstraints);
 
         add(allParametersPanel);
+        isInitialized = true;
     }
 
     private void initUndoManager() {
@@ -68,7 +70,7 @@ public class OrderForm extends JPanel {
 
     private void addParametersGroup(String groupId, JPanel panel, GridBagConstraints constraints) {
         ParametersGroup parametersGroup = parametersConfiguration.getGroupById(groupId);
-        ParametersGroupPaneWithTitle parametersGroupPaneWithTitle = new ParametersGroupPaneWithTitle(parametersGroup, undoManager);
+        ParametersGroupPaneWithTitle parametersGroupPaneWithTitle = new ParametersGroupPaneWithTitle(this, parametersGroup, undoManager);
         parametersGroupPanesWithTitle.add(parametersGroupPaneWithTitle);
         panel.add(parametersGroupPaneWithTitle, constraints);
     }
@@ -118,11 +120,11 @@ public class OrderForm extends JPanel {
         }
         return allValues;
     }
-    
+
     public ArrayList<String> getAllParameterValuesArray() {
-    	ArrayList<String> allValues = new ArrayList<String>();
+        ArrayList<String> allValues = new ArrayList<String>();
         for (ParametersGroupPaneWithTitle parametersGroupPaneWithTitle : parametersGroupPanesWithTitle) {
-            for (ParameterLine parameterLine : parametersGroupPaneWithTitle.getParameterLines()) {	
+            for (ParameterLine parameterLine : parametersGroupPaneWithTitle.getParameterLines()) {
                 allValues.addAll(parameterLine.getAllValuesArray());
             }
         }
@@ -147,14 +149,24 @@ public class OrderForm extends JPanel {
             }
         }
     }
-    
+
     public void setAllParameterValues(ArrayList<String> allValues) {
-    	int count = 0;
+        int count = 0;
         for (ParametersGroupPaneWithTitle parametersGroupPaneWithTitle : parametersGroupPanesWithTitle) {
             for (ParameterLine parameterLine : parametersGroupPaneWithTitle.getParameterLines()) {
-            	count = parameterLine.setAllValuesArray(allValues, count);
+                count = parameterLine.setAllValuesArray(allValues, count);
             }
         }
+    }
+
+    public ParameterLine getParameterLineByName(String name) {
+        for (ParametersGroupPaneWithTitle groupPaneWithTitle : parametersGroupPanesWithTitle) {
+            try {
+                return groupPaneWithTitle.getParameterLineByName(name);
+            } catch (NoSuchFieldException ignored) {
+            }
+        }
+        return null;
     }
 
     public void setToolbar(OrderToolBar orderToolBar) {
@@ -187,6 +199,4 @@ public class OrderForm extends JPanel {
         }
         orderToolbar.enableUndoButton(true);
     }
-
-
 }

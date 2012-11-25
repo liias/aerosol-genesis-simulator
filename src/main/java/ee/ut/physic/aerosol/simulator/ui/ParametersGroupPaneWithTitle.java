@@ -13,8 +13,10 @@ public class ParametersGroupPaneWithTitle extends JPanel {
     private ParametersGroup parametersGroup;
     private ParametersGroupCollapsiblePane parametersGroupPane;
     private JButton toggleButton;
+    private OrderForm orderForm;
 
-    public ParametersGroupPaneWithTitle(ParametersGroup parametersGroup, UndoManager undoManager) {
+    public ParametersGroupPaneWithTitle(OrderForm orderForm, ParametersGroup parametersGroup, UndoManager undoManager) {
+        this.orderForm = orderForm;
         this.parametersGroup = parametersGroup;
         LayoutManager layout = new GridBagLayout();
         setLayout(layout);
@@ -23,7 +25,7 @@ public class ParametersGroupPaneWithTitle extends JPanel {
     }
 
     private void createParametersGroupPane(UndoManager undoManager) {
-        parametersGroupPane = new ParametersGroupCollapsiblePane(getParametersGroup().getDefinitions(), undoManager);
+        parametersGroupPane = new ParametersGroupCollapsiblePane(orderForm, getParametersGroup().getDefinitions(), undoManager);
     }
 
     public ParametersGroup getParametersGroup() {
@@ -101,5 +103,8 @@ public class ParametersGroupPaneWithTitle extends JPanel {
         return parametersGroupPane.getParameterLines();
     }
 
+    public ParameterLine getParameterLineByName(String name) throws NoSuchFieldException {
+        return parametersGroupPane.getParameterLineByName(name);
+    }
 
 }

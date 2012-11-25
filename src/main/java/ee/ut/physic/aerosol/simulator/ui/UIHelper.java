@@ -15,8 +15,20 @@ public class UIHelper {
         comboBox.setBackground(INVALID_COLOR);
     }
 
+    public static void setInvalid(JComboBox... comboBoxes) {
+        for (JComboBox comboBox : comboBoxes) {
+            setInvalid(comboBox);
+        }
+    }
+
     public static void setValid(JTextField textField) {
         textField.setBackground(VALID_COLOR);
+    }
+
+    public static void setValid(JComboBox... comboBoxes) {
+        for (JComboBox comboBox : comboBoxes) {
+            setValid(comboBox);
+        }
     }
 
     public static void setValid(JComboBox comboBox) {
