@@ -40,6 +40,8 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
     @Autowired
     private MultipleOrderService multipleOrderService;
 
+    private Integer stoppingType;
+
     private List<Thread> simulationThreads = new ArrayList<Thread>();
 
     //Starts the task asynchronously, meaning return value has no real use
@@ -55,9 +57,22 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
     }
 
     @Override
+    @Transactional
     public void setCanceled(SimulationProcess process) {
-        logger.info("Process was canceled, not running the next process in order");
-        simulationOrderService.setCompleted();
+        process.setState(SimulationProcessState.CANCELED);
+        SimulationOrder order = process.getSimulationOrder();
+        order.increaseCountOfFinishedProcesses();
+        order = simulationOrderDao.update(order);
+        if (stoppingType == null) {
+            logger.error("stoppingType is null, should never be! Canceling all processes anyway");
+            simulationOrderService.setCompleted();
+        } else if (stoppingType == 0) {
+            logger.info("All processes were canceled, not running the next process in order");
+            simulationOrderService.setCompleted();
+        } else if (stoppingType == 1) {
+            logger.info("One process was canceled, running the next process in order");
+            runNextProcess(order);
+        }
     }
 
     @Override
@@ -69,6 +84,11 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
         order = simulationOrderDao.update(order);
         logger.warn("setFailed callback called");
         //TODO: Should we really try to execute the next process?
+        runNextProcess(order);
+    }
+
+    @Transactional
+    private void runNextProcess(SimulationOrder order) {
         SimulationProcess nextProcess = order.getNextNotStartedProcess();
         if (nextProcess != null) {
             startInNewThread(nextProcess);
@@ -90,20 +110,8 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
         order.increaseCountOfFinishedProcesses();
         order = simulationOrderDao.update(order);
         logger.info("setCompleted callback called");
-
         simulationResultService.addResultsForProcess(process);
-
-        SimulationProcess nextProcess = order.getNextNotStartedProcess();
-        if (nextProcess != null) {
-            startInNewThread(nextProcess);
-        } else {
-            simulationOrderService.setCompleted();
-        }
-        try {
-            multipleOrderService.simulate();
-        } catch (GeneralException e) {
-            e.printStackTrace();
-        }
+        runNextProcess(order);
     }
 
     private Thread getNewestSimulationThread() throws IndexOutOfBoundsException {
@@ -112,6 +120,17 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
 
     @Override
     public void stop() {
+        stoppingType = 0;
+        interruptProcessThread();
+    }
+
+    @Override
+    public void stopCurrentProcess() {
+        stoppingType = 1;
+        interruptProcessThread();
+    }
+
+    private void interruptProcessThread() {
         try {
             Thread newestSimulationThread = getNewestSimulationThread();
             newestSimulationThread.interrupt();

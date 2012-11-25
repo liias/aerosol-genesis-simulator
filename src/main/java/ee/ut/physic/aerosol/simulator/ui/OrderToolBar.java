@@ -44,7 +44,6 @@ public class OrderToolBar extends JToolBar {
 
     private JTextField commentField;
     private JSpinner numberOfProcessesSpinner;
-    public JButton cancelButton;
     public JButton simulateButton;
 
     private JButton undoButton;
@@ -52,6 +51,8 @@ public class OrderToolBar extends JToolBar {
 
     private JComboBox openByIdType;
     private JTextField orderOrProcessId;
+    public JButton cancelButton;
+    private JButton stopCurrentProcessButton;
 
     public OrderToolBar(OrderForm orderForm, SaveAndWrite saveAndWrite, ToolboxFrame toolboxFrame) {
         this.orderForm = orderForm;
@@ -88,6 +89,7 @@ public class OrderToolBar extends JToolBar {
 
         simulateButton = createSimulateButton();
         cancelButton = createCancelButton();
+        stopCurrentProcessButton = createStopCurrentProcessButton();
 
         openByIdType = new JComboBox();
         openByIdType.addItem("Order");
@@ -123,6 +125,7 @@ public class OrderToolBar extends JToolBar {
         add(numberOfProcessesLabel);
         add(numberOfProcessesSpinner);
         add(simulateButton);
+        add(stopCurrentProcessButton);
         add(cancelButton);
         add(helpButton);
     }
@@ -352,6 +355,17 @@ public class OrderToolBar extends JToolBar {
         });
         return cancelButton;
     }
+    private JButton createStopCurrentProcessButton() {
+        JButton cancelButton = createButtonWithIcon("stop", "Stop Current Process");
+        cancelButton.setEnabled(false);
+        cancelButton.setToolTipText("Stop Current Process");
+        cancelButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                stopCurrentProcess();
+            }
+        });
+        return cancelButton;
+    }
 
     public String getComment() {
         return commentField.getText();
@@ -451,6 +465,15 @@ public class OrderToolBar extends JToolBar {
         }
     }
 
+    private void stopCurrentProcess() {
+        logger.debug("Stop Current Process button pressed");
+
+        SimulationOrder simulationOrder = orderForm.getSimulationOrder();
+        if (simulationOrder != null) {
+            simulationOrderService.stopCurrentProcess(simulationOrder);
+        }
+    }
+
     public void stopSimulation() {
         logger.debug("Stop Simulate button pressed");
 
@@ -466,12 +489,12 @@ public class OrderToolBar extends JToolBar {
             logger.debug("In process");
             simulateButton.setEnabled(false);
             cancelButton.setEnabled(true);
-
+            stopCurrentProcessButton.setEnabled(true);
         } else {
             logger.debug("Not in process");
-
             simulateButton.setEnabled(true);
             cancelButton.setEnabled(false);
+            stopCurrentProcessButton.setEnabled(false);
             if(!multipleOrderService.isRunning()) {
                 SimulationIsReadyDialog.show();
             }

@@ -77,6 +77,11 @@ public class SimulationOrderServiceImpl implements SimulationOrderService {
     }
 
     @Override
+    public void stopCurrentProcess(SimulationOrder simulationOrder) {
+        simulationProcessService.stopCurrentProcess();
+    }
+
+    @Override
     public void setOrderForm(OrderForm orderForm) {
         this.orderForm = orderForm;
     }

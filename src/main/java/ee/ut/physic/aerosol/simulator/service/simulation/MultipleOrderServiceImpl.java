@@ -1,17 +1,17 @@
 package ee.ut.physic.aerosol.simulator.service.simulation;
 
-import ee.ut.physic.aerosol.simulator.domain.simulation.*;
+import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrder;
 import ee.ut.physic.aerosol.simulator.errors.GeneralException;
 import ee.ut.physic.aerosol.simulator.errors.ParametersExistException;
 import ee.ut.physic.aerosol.simulator.ui.OrderForm;
 import ee.ut.physic.aerosol.simulator.ui.OrderToolBar;
 import ee.ut.physic.aerosol.simulator.ui.dialogs.SimulationIsReadyDialog;
 import ee.ut.physic.aerosol.simulator.ui.dialogs.SimulationIsRunningDialog;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 
 @Service
@@ -35,7 +35,7 @@ public class MultipleOrderServiceImpl implements MultipleOrderService {
         this.orderParams = stringSet;
         this.currentOrder = -1;
         this.running = true;
-        
+
         try {
             SimulationIsRunningDialog.show();
             simulate();
@@ -46,7 +46,7 @@ public class MultipleOrderServiceImpl implements MultipleOrderService {
 
     @Override
     public void simulate() throws GeneralException {
-        if(orderParams != null && orderParams.size() != currentOrder + 1) {
+        if (orderParams != null && orderParams.size() != currentOrder + 1) {
             currentOrder++;
             logger.info("making order with : " + (currentOrder) + " - " + running);
             toolbar.setSimulationInProcess(true);
@@ -64,7 +64,7 @@ public class MultipleOrderServiceImpl implements MultipleOrderService {
                 throw new GeneralException(e.getMessage());
             }
         } else {
-            if(running == true) {
+            if (running) {
                 SimulationIsReadyDialog.show();
                 running = false;
             }
