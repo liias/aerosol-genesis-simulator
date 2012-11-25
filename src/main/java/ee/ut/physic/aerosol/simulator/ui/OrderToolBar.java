@@ -3,11 +3,7 @@ package ee.ut.physic.aerosol.simulator.ui;
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrder;
 import ee.ut.physic.aerosol.simulator.errors.GeneralException;
 import ee.ut.physic.aerosol.simulator.errors.ParametersExistException;
-import ee.ut.physic.aerosol.simulator.service.simulation.MultipleOrderService;
-import ee.ut.physic.aerosol.simulator.service.simulation.SimulationOrderService;
-import ee.ut.physic.aerosol.simulator.service.simulation.SimulationProcessService;
-import ee.ut.physic.aerosol.simulator.service.simulation.SimulationResultService;
-import ee.ut.physic.aerosol.simulator.service.simulation.ValidationService;
+import ee.ut.physic.aerosol.simulator.service.simulation.*;
 import ee.ut.physic.aerosol.simulator.ui.dialogs.SimulationIsReadyDialog;
 import ee.ut.physic.aerosol.simulator.ui.dialogs.SimulationIsRunningDialog;
 import ee.ut.physic.aerosol.simulator.ui.help.HelpWindow;
@@ -118,12 +114,11 @@ public class OrderToolBar extends JToolBar {
         add(resetButton);
         add(clearButton);
         addSeparator();
-        add(openManyButton);
-        addSeparator();
         add(commentLabel);
         add(commentField);
         add(numberOfProcessesLabel);
         add(numberOfProcessesSpinner);
+        add(openManyButton);
         add(simulateButton);
         add(stopCurrentProcessButton);
         add(cancelButton);
@@ -188,7 +183,7 @@ public class OrderToolBar extends JToolBar {
         });
         return button;
     }
-    
+
     private JButton createOpenManyButton() {
         JButton openButton = createButtonWithIcon("run_from_file", "Run from file");
         openButton.setToolTipText("Run many from CSV");
@@ -355,6 +350,7 @@ public class OrderToolBar extends JToolBar {
         });
         return cancelButton;
     }
+
     private JButton createStopCurrentProcessButton() {
         JButton cancelButton = createButtonWithIcon("stop", "Stop Current Process");
         cancelButton.setEnabled(false);
@@ -453,7 +449,7 @@ public class OrderToolBar extends JToolBar {
             int realSimulationCount = validationService.validateSimulationCount(orderForm, getNumberOfProcesses());
             SimulationOrder simulationOrder = orderForm.createSimulationOrderWithData(getComment(), realSimulationCount);
             simulationOrderService.simulate(simulationOrder);
-            if(!multipleOrderService.isRunning()) {
+            if (!multipleOrderService.isRunning()) {
                 SimulationIsRunningDialog.show();
             }
         } catch (ParametersExistException e) {
@@ -495,7 +491,7 @@ public class OrderToolBar extends JToolBar {
             simulateButton.setEnabled(true);
             cancelButton.setEnabled(false);
             stopCurrentProcessButton.setEnabled(false);
-            if(!multipleOrderService.isRunning()) {
+            if (!multipleOrderService.isRunning()) {
                 SimulationIsReadyDialog.show();
             }
         }
