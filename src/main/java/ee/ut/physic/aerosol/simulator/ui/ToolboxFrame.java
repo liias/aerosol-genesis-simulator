@@ -8,6 +8,8 @@ import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrder;
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcess;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationOrderService;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationResultService;
+import org.hibernate.metamodel.source.binder.ConstraintSource;
+import org.jdesktop.swingx.JXTitledSeparator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,16 +42,16 @@ public class ToolboxFrame extends JFrame {
         setIconImage(Toolkit.getDefaultToolkit().getImage(iconUrl));
         setTitle("Utilities");
         setSize(180, 130);
-        setMinimumSize(new Dimension(180, 130));
+        setMinimumSize(new Dimension(300, 200));
 
         GridBagLayout gridBagLayout = new GridBagLayout();
 
         toolconstraints = new GridBagConstraints();
         JPanel panel = new JPanel(gridBagLayout);
 
-        JLabel databaseLabel = new JLabel("Database: ");
+        JLabel databaseLabel = new JLabel("<html><b>Import or Export Database</b>");
 
-        JButton importButton = new JButton("Import");
+        JButton importButton = new JButton("Import Database");
         importButton.setToolTipText("Import data from another database");
         importButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -58,7 +60,7 @@ public class ToolboxFrame extends JFrame {
         });
 
 
-        JButton exportButton = new JButton("Export");
+        JButton exportButton = new JButton("Export Database");
 
         exportButton.setToolTipText("Export data from your database");
         exportButton.addActionListener(new ActionListener() {
@@ -66,6 +68,8 @@ public class ToolboxFrame extends JFrame {
                 exportOrders();
             }
         });
+
+        JLabel resultsDescription = new JLabel("<html><b>Save simulation results to a file</b>");
 
         JLabel processIdLabel = new JLabel("Process ID: ");
         processIdField = new JTextField(5);
@@ -79,8 +83,6 @@ public class ToolboxFrame extends JFrame {
             }
         });
         toolconstraints.gridx=0;
-        toolconstraints.fill = GridBagConstraints.HORIZONTAL;
-
         toolconstraints.fill = GridBagConstraints.VERTICAL;
         toolconstraints.gridy=0;
         toolconstraints.gridx=0;
@@ -93,12 +95,24 @@ public class ToolboxFrame extends JFrame {
         panel.add(exportButton, toolconstraints);
         toolconstraints.gridx=0;
         toolconstraints.gridy=2;
+        toolconstraints.weightx = 1.0;
+        toolconstraints.ipady = 25;
+        toolconstraints.anchor = GridBagConstraints.SOUTHWEST;
+        toolconstraints.gridwidth = GridBagConstraints.REMAINDER;
+        panel.add(resultsDescription, toolconstraints);
+
+        //reset
+        toolconstraints.anchor = GridBagConstraints.CENTER;
+        toolconstraints.ipady = 0;
+        toolconstraints.weightx = 0;
+        toolconstraints.gridwidth = 1;
+        toolconstraints.gridy=3;
         panel.add(processIdLabel, toolconstraints);
         toolconstraints.gridx=1;
 
         panel.add(processIdField, toolconstraints);
         toolconstraints.gridx=0;
-        toolconstraints.gridy=3;
+        toolconstraints.gridy=4;
         toolconstraints.gridwidth=2;
         panel.add(saveResultsFile, toolconstraints);
         add(panel);
