@@ -10,7 +10,7 @@ import java.util.List;
 public interface SimulationResultService {
     void addResultsForProcess(SimulationProcess process);
     String generateBestResultsFileAndSaveBestProcessId(int numberOfRatings) throws GeneralException;
-    List<HashMap<String, Double>> findBestResults(int numberOfRatings) throws GeneralException;
+    List<RatedProcess> findBestResults(int numberOfRatings) throws GeneralException;
     String getResultsFileContent(SimulationProcess process);
     String getResultsFileContent(Long id) throws GeneralException;
 }

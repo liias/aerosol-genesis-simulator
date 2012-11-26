@@ -35,9 +35,8 @@ public class SimulationResultServiceImpl implements SimulationResultService {
         simulationProcessDao.update(process);
     }
 
-    //TODO: process time must have at least the same time as reference (100)
     @Transactional
-    private List<HashMap<String, Double>> findRatingForProcesses(List<SimulationResult> referenceResults, List<SimulationResult> allResultsInTimeRange, int numberOfRatings) {
+    private List<RatedProcess> findRatingForProcesses(List<SimulationResult> referenceResults, List<SimulationResult> allResultsInTimeRange, int numberOfRatings) {
         // When time is 100, then resultsAmountInProcess is 100/5 + 1 = 21
         int resultsAmountInProcess = referenceResults.size();
         int allResultsAmount = allResultsInTimeRange.size();
@@ -45,7 +44,7 @@ public class SimulationResultServiceImpl implements SimulationResultService {
             throw new IllegalArgumentException("Reference has different amount of results than Process has");
         }
         int numberOfProcesses = allResultsAmount / resultsAmountInProcess;
-        List<HashMap<String, Double>> processRatings = new ArrayList<HashMap<String, Double>>();
+        List<RatedProcess> processRatings = new ArrayList<RatedProcess>();
 
         double worstRatingInProcessRatings = -1;
         Integer worstRatingIndexInProcessRatings = null;
@@ -83,13 +82,14 @@ public class SimulationResultServiceImpl implements SimulationResultService {
             worstRatingIndexInProcessRatings = newWorstRatingAndIndex.get("index").intValue();
             System.out.println(worstRatingInProcessRatings + ": " + worstRatingIndexInProcessRatings);
         }
+        Collections.sort(processRatings);
         return processRatings;
     }
 
-    private HashMap<String, Double> addToProcessRatingsIfAllowed(List<HashMap<String, Double>> processRatings, int numberOfRatings, long processId, double processRating, double worstRatingInProcessRatings, Integer worstRatingIndexInProcessRatings) {
-        HashMap<String, Double> pidAndRating = new HashMap<String, Double>();
-        pidAndRating.put("pid", (double) processId);
-        pidAndRating.put("rating", processRating);
+    private HashMap<String, Double> addToProcessRatingsIfAllowed(List<RatedProcess> processRatings, int numberOfRatings, long processId, double processRating, double worstRatingInProcessRatings, Integer worstRatingIndexInProcessRatings) {
+        RatedProcess ratedProcess = new RatedProcess();
+        ratedProcess.setProcessId(processId);
+        ratedProcess.setRating(processRating);
         // if ratings table is not full yet
         if (processRatings.size() < numberOfRatings) {
             // if this rating is worst than the worst rating the processRatings map so far
@@ -97,19 +97,19 @@ public class SimulationResultServiceImpl implements SimulationResultService {
                 worstRatingInProcessRatings = processRating;
                 worstRatingIndexInProcessRatings = processRatings.size();
             }
-            processRatings.add(pidAndRating);
+            processRatings.add(ratedProcess);
             // if ratings table is full, then replace the worst one only if this is better
         } else {
             // if this rating is better
             if (processRating < worstRatingInProcessRatings) {
-                processRatings.set(worstRatingIndexInProcessRatings, pidAndRating);
+                processRatings.set(worstRatingIndexInProcessRatings, ratedProcess);
             }
             //now we need to find the new worst rating and index, as this might have been better one than some others too
             worstRatingInProcessRatings = -1;
             worstRatingIndexInProcessRatings = null;
             int i = 0;
-            for (HashMap<String, Double> tempPidAndRating : processRatings) {
-                double tempRating = tempPidAndRating.get("rating");
+            for (RatedProcess tempRatedProcess : processRatings) {
+                double tempRating = tempRatedProcess.getRating();
                 if (tempRating > worstRatingInProcessRatings) {
                     worstRatingInProcessRatings = tempRating;
                     worstRatingIndexInProcessRatings = i;
@@ -125,7 +125,7 @@ public class SimulationResultServiceImpl implements SimulationResultService {
 
     @Transactional
     @Override
-    public List<HashMap<String, Double>> findBestResults(int numberOfRatings) throws GeneralException {
+    public List<RatedProcess> findBestResults(int numberOfRatings) throws GeneralException {
         //ordered by time
         List<SimulationResult> referenceResults = resultFileParserService.parseReferenceResults("ref.xl");
         // 5 * (21 -1) = 100
@@ -153,7 +153,7 @@ public class SimulationResultServiceImpl implements SimulationResultService {
     //Convenience method to do it all for best results file content generation
     @Transactional
     public String generateBestResultsFileAndSaveBestProcessId(int numberOfRatings) throws GeneralException {
-        List<HashMap<String, Double>> processRatings = findBestResults(numberOfRatings);
+        List<RatedProcess> processRatings = findBestResults(numberOfRatings);
         StringBuilder allLines = new StringBuilder(100);
         //The smallest rating is the best one, find it
         Long bestProcessId = null;
@@ -166,10 +166,9 @@ public class SimulationResultServiceImpl implements SimulationResultService {
             allLines.append(parameterName).append("\t");
         }
         allLines.append("\n");
-        for (HashMap<String, Double> pidAndRating : processRatings) {
-            double pidDouble = pidAndRating.get("pid");
-            long processId = (long) pidDouble;
-            double rating = pidAndRating.get("rating");
+        for (RatedProcess ratedProcess : processRatings) {
+            long processId = ratedProcess.getProcessId();
+            double rating = ratedProcess.getRating();
             if (bestRating == null || rating < bestRating) {
                 bestProcessId = processId;
                 bestRating = rating;
