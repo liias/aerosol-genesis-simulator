@@ -5,11 +5,9 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationOrder;
-import ee.ut.physic.aerosol.simulator.domain.simulation.SimulationProcess;
+import ee.ut.physic.aerosol.simulator.errors.GeneralException;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationOrderService;
 import ee.ut.physic.aerosol.simulator.service.simulation.SimulationResultService;
-import org.hibernate.metamodel.source.binder.ConstraintSource;
-import org.jdesktop.swingx.JXTitledSeparator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,19 +80,19 @@ public class ToolboxFrame extends JFrame {
                 saveResults();
             }
         });
-        toolconstraints.gridx=0;
+        toolconstraints.gridx = 0;
         toolconstraints.fill = GridBagConstraints.VERTICAL;
-        toolconstraints.gridy=0;
-        toolconstraints.gridx=0;
+        toolconstraints.gridy = 0;
+        toolconstraints.gridx = 0;
         panel.add(databaseLabel, toolconstraints);
-        toolconstraints.gridy=1;
+        toolconstraints.gridy = 1;
         panel.add(importButton, toolconstraints);
 
 
-        toolconstraints.gridx=1;
+        toolconstraints.gridx = 1;
         panel.add(exportButton, toolconstraints);
-        toolconstraints.gridx=0;
-        toolconstraints.gridy=2;
+        toolconstraints.gridx = 0;
+        toolconstraints.gridy = 2;
         toolconstraints.weightx = 1.0;
         toolconstraints.ipady = 25;
         toolconstraints.anchor = GridBagConstraints.SOUTHWEST;
@@ -106,14 +104,14 @@ public class ToolboxFrame extends JFrame {
         toolconstraints.ipady = 0;
         toolconstraints.weightx = 0;
         toolconstraints.gridwidth = 1;
-        toolconstraints.gridy=3;
+        toolconstraints.gridy = 3;
         panel.add(processIdLabel, toolconstraints);
-        toolconstraints.gridx=1;
+        toolconstraints.gridx = 1;
 
         panel.add(processIdField, toolconstraints);
-        toolconstraints.gridx=0;
-        toolconstraints.gridy=4;
-        toolconstraints.gridwidth=2;
+        toolconstraints.gridx = 0;
+        toolconstraints.gridy = 4;
+        toolconstraints.gridwidth = 2;
         panel.add(saveResultsFile, toolconstraints);
         add(panel);
     }
@@ -121,8 +119,12 @@ public class ToolboxFrame extends JFrame {
     private void saveResults() {
         String idString = processIdField.getText();
         Long id = new Long(idString);
-        String resultsFileContent = simulationResultsService.getResultsFileContent(id);
-        saveAndWrite.promptSaveFileWithFileContent(resultsFileContent);
+        try {
+            String resultsFileContent = simulationResultsService.getResultsFileContent(id);
+            saveAndWrite.promptSaveFileWithFileContent(resultsFileContent);
+        } catch (GeneralException e) {
+            e.printStackTrace();
+        }
     }
 
     public void importOrders() {

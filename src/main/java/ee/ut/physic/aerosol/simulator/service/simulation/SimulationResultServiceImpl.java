@@ -218,8 +218,12 @@ public class SimulationResultServiceImpl implements SimulationResultService {
 
     @Transactional
     @Override
-    public String getResultsFileContent(Long id) {
+    public String getResultsFileContent(Long id) throws GeneralException {
         SimulationProcess simulationProcess = simulationProcessDao.getById(id);
+        if (simulationProcess == null) {
+            throw new GeneralException("No process with id " + id + " exists");
+        }
+
         return getResultsFileContent(simulationProcess);
     }
 }
