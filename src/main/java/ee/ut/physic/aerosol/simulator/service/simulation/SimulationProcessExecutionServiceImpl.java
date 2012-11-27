@@ -79,7 +79,7 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
 
     @Override
     public void run() {
-        //TODO: update in db maybe
+        //TODO: update in db maybe 
         getSimulationProcess().setState(SimulationProcessState.RUNNING);
         String path = Configuration.getInstance().getBurstSimulatorDirPath();
         String fullPath = path + Configuration.getInstance().getBurstSimulatorFileName();
