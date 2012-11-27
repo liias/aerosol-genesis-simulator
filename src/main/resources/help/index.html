@@ -1,55 +1,191 @@
-<h1>Aerosol Burst Simulator</h1>
-<h2>User Manual</h2>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 
-<p>This program has two main purposes: to simulate atmospheric aerosol nucleation
-    bursts and analyze simulation results - compare with the results measured in real life. </p><h1><a
-        name="Modeling"></a>Modeling<a href="#Modeling" class="section_anchor"></a></h1><p><strong>Simulation with fixed
-    parameters </strong></p><p>To execute a simulation with fixed parameters, user have to set inception parameters to
-    all "Minimum" fields and press "Run" button. User can use program default values (already set when program is
-    launched) or use own values. </p><p>When simulation is ongoing, "Run" button goes inactive and "Stop" button becomes
-    active. When simulation is done, again "Run" button is active and "Stop" is inactive. </p><p><strong>Simulation with
-    generated parameters </strong></p><p>To execute a simulation with generated parameters, user have to set inception
-    parameters to all "Minimum" and "Maximum" fields and press "Run" button. A random value between given range will be
-    generated automatically. User can use values suggested from drop-down menus or use own values. </p><p>When
-    simulation is ongoing, "Run" button goes inactive and "Stop" button becomes active. When simulation is done, again
-    "Run" button is active and "Stop" is inactive. </p><p><strong>Simulation with combined parameters </strong></p><p>
-    This is a combination from two previous options - some inception parameters are fixed and some shall be generated.
-    To execute a simulation with combined values, user have to set inception parameters to all "Minimum" fields and to
-    those "Maximum" fields, where parameters are not fixed and press "Run" button. User can use values suggested from
-    drop-down menus or use own values. </p><p>When simulation is ongoing, "Run" button goes inactive and "Stop" button
-    becomes active. When simulation is done, again "Run" button is active and "Stop" is inactive. </p><p><strong>Simulation
-    with parameters from file </strong></p><p>To execute a simulation with values from file, user have to press a "Take
-    values from file" button, select the file. </p><p>When simulation is ongoing, "Run" button goes inactive and "Stop"
-    button becomes active. When simulation is done, again "Run" button is active and "Stop" is inactive. </p><p><strong>Related
-    buttons &amp; features:</strong></p><p><strong>"Run"</strong> - start simulation(s); </p><p><strong>"Stop"</strong>
-    - finish calculations with ongoing inception parameters set and stop; </p><p><strong>"# of runs"</strong> -
-    determine how many simulations should be done. Can be used when one or more inception parameters are generated; </p>
-<p><strong>Comment field</strong> - comment field information will be included to a database when simulation is done;
-</p><p><strong>"Clear"</strong> - clear all "Minimum" and "Maximum" values; </p><p><strong>"Defaults"</strong> - set
-    default values to all "Minimum" fields; </p><p>"<strong>Save Parameters</strong>" - save all parameters into a file;
-</p><p>"<strong>Open Parameters</strong>" - load previously saved parameters into fields; </p><p><strong>"Undo"</strong>
-    and <strong>"redo"</strong> - take previous step back or opposite; </p><h1><a name="Analysis"></a>Analysis<a
-        href="#Analysis" class="section_anchor"></a></h1><p>Reference values are in
-    ..\aerosol-simulator-1.0-SNAPSHOT\etc\conf\ref.xl file. First line is columns explanation, second is column
-    "weights" and third and further lines are actual values. User can freely modify those values, including column
-    "weights". </p><p><strong>Finding closest inception parameters sets</strong></p><p>In order to compare reference
-    values with simulated values and determine which inception parameters gave closest results to a reference values,
-    simply press the "Find Best Results" button. When program is done, a dialog window will pop-up with an option to
-    save (up to ten closest) results into a file. </p><p><strong> Set best parameters</strong></p><p>To get best
-    inception parameters set into a program "Minimum" fields, simply click on "Open Best" button. </p><h1><a
-        name="Extra_features"></a>Extra features<a href="#Extra_features" class="section_anchor"></a></h1><p>You can
-    export all your local program data into a file and import to other computer with same program or make searches in
-    you local database without having any database browser program, such as "SQLite Database Browser" installed into
-    your computer. </p><p><strong>Import</strong></p><p>To import all data, simply click on "Utilities" button and a
-    separate window will pop-up. Click on "Import" and a dialog window will pop, select a file with data and you are
-    done. </p><p><strong>Export</strong></p><p>To export all data, simply click on "Utilities" button and a separate
-    window will pop-up. Click on "Export" and a dialog window will pop, give file a name and location and you are
-    done. </p><p><strong>Export specific result set by id</strong></p><p>To export specific result set, simply click on
-    "Utilities" button and write an id number (e.g .pid number from a file created by "Find Best Results" function) and
-    then click on "Save Results". Now result set of that specific inception parameters will be written into a file of
-    user choice. </p><p><strong>Open specific parameters</strong></p><p>Select "Process" from a drop-down menu, write a
-    pid (id) number and click on "Open order or process by id". Inception parameters of that specific run will be
-    loaded. </p><p>If you also know the id of the simulations group (order) you can select "Order" from drop-down menu,
-    put that id into a text field and press the button again. Simulations group (order) simply has the maximum fields
-    set. If you start simulating based on these min and max values the application might generate totally different
-    simulation parameters than it did in the past, because it takes something random between min and max. </p>
+<html>
+<head>
+    <title></title>
+</head>
+
+<body>
+    <h1>Aerosol Burst Simulator</h1>
+
+    <h2>User Manual</h2>
+
+    <p>This program has two main purposes: to simulate atmospheric aerosol
+    nucleation bursts and analyze simulation results - compare with the results
+    measured in real life.</p>
+
+    <h1><a id="Modeling" name="Modeling"></a>Modeling<a class="section_anchor"
+    href="#Modeling"></a></h1>
+
+    <p><strong>Simulation with fixed parameters</strong></p>
+
+    <p>To execute a simulation with fixed parameters, user have to set
+    inception parameters to all "Minimum" fields and press "Run" button. User
+    can use program default values (already set when program is launched) or
+    use own values.</p>
+
+    <p>When simulation is ongoing, "Run" button goes inactive and "Stop" button
+    becomes active. When simulation is done, again "Run" button is active and
+    "Stop" is inactive.</p>
+
+    <p>Note: In order to browse simulation results, a separate database
+    browsing program, such as "SQLite Database Broswer" can be used. Program
+    database file "ags.db " is located in
+    ..\aerosol-simulator-1.0-SNAPSHOT\etc\database\ folder.</p>
+
+    <p><strong>Simulation with generated parameters</strong></p>
+
+    <p>To execute a simulation with generated parameters, user have to set
+    inception parameters to all "Minimum" and "Maximum" fields and press "Run"
+    button. A random value between given range will be generated automatically.
+    User can use values suggested from drop-down menus or use own values.</p>
+
+    <p>When simulation is ongoing, "Run" button goes inactive and "Stop" button
+    becomes active. When simulation is done, again "Run" button is active and
+    "Stop" is inactive.</p>
+
+    <p><strong>Simulation with combined parameters</strong></p>
+
+    <p>This is a combination from two previous options - some inception
+    parameters are fixed and some shall be generated. To execute a simulation
+    with combined values, user have to set inception parameters to all
+    "Minimum" fields and to those "Maximum" fields, where parameters are not
+    fixed and press "Run" button. User can use values suggested from drop-down
+    menus or use own values.</p>
+
+    <p>When simulation is ongoing, "Run" button goes inactive and "Stop" button
+    becomes active. When simulation is done, again "Run" button is active and
+    "Stop" is inactive.</p>
+
+    <p><strong>Simulation with parameters from file</strong></p>
+
+    <p>To execute a simulation with values from file, user have to press a
+    "Take values from file" button, select the file.</p>
+
+    <p>When simulation is ongoing, "Run" button goes inactive and "Stop" button
+    becomes active. When simulation is done, again "Run" button is active and
+    "Stop" is inactive.</p>
+
+    <p>Note: A whole incetion parameters set is described in one row. So there
+    are as many parameters sets to run as there are rows in file. Every
+    parameter is described with tho values - minimum and maximum value, written
+    between "" and parameters are separated with ;. Sample:
+    45";"50";"37";"";"1";"";.....;[line ends] means "Time period under
+    consideration" minimum is 45 and maximum value is 50, "Number of evolution
+    steps in a minute" has only minimum value defined - so this value will be
+    fixed to 37, Air tempetature has fixed value of 1 and so on.</p>
+
+    <p>For excel to export a proper CSV file for our program the List separator
+    must be set as ; in your settings. To change that: Go to the Control Panel
+    --&gt; Regional and Language Options (or Date, Time and Regional Options
+    --&gt; Regional and Language Option on some machines) --&gt; click the
+    Customize button. In the dialog box that opens you will see and option for
+    "List separator" in which you can change the comma to a different character
+    --&gt; click Apply then Ok and then Apply again. After you have saved the
+    file with parameters you open it with excel. A dialog will appear, you must
+    press yes there and click next. In the next window, in the upper left
+    corner, choose semicolon as the delimiter and click next. In the last
+    window activate the first column in the preview at the bottom and
+    shift+click on the last column to activate all of them and choose text as
+    the column data format in the upper left corner and click finish. Now it
+    should have imported int excel and each of the data points is in a separate
+    column.</p>
+
+    <p><strong>Related buttons &amp; features:</strong></p>
+
+    <p><strong>"Run"</strong> - start simulation(s);</p>
+
+    <p><strong>"Stop Current Process"</strong> - skip current calculation
+    process and go to next;</p>
+
+    <p><strong>"Stop Simulation"</strong> - finish calculations with ongoing
+    inception parameters set and stop;</p>
+
+    <p><strong>"# of runs"</strong> - determine how many simulations should be
+    done. Can be used when one or more inception parameters are generated;</p>
+
+    <p><strong>Comment field</strong> - comment field information will be
+    included to a database when simulation is done;</p>
+
+    <p><strong>"Clear"</strong> - clear all "Minimum" and "Maximum" values;</p>
+
+    <p><strong>"Defaults"</strong> - set default values to all "Minimum"
+    fields;</p>
+
+    <p>"<strong>Save Parameters</strong>" - save all parameters into a
+    file;</p>
+
+    <p>"<strong>Open Parameters</strong>" - load previously saved parameters
+    into fields;</p>
+
+    <p><strong>"Undo"</strong> and <strong>"redo"</strong> - take previous step
+    back or opposite;</p>
+
+    <h1><a id="Analysis" name="Analysis"></a>Analysis<a class="section_anchor"
+    href="#Analysis"></a></h1>
+
+    <p>Reference values are in
+    ..\aerosol-simulator-1.0-SNAPSHOT\etc\conf\ref.xl file. First line is
+    columns explanation, second is column "weights" and third and further lines
+    are actual values. User can freely modify those values, including column
+    "weights".</p>
+
+    <p><strong>Finding closest inception parameters sets</strong></p>
+
+    <p>In order to compare reference values with simulated values and determine
+    which inception parameters gave closest results to a reference values,
+    simply press the "Find Best Results" button. When program is done, a dialog
+    window will pop-up with an option to save (up to ten closest) results into
+    a file.</p>
+
+    <p>File with Reference values are located in
+    ..\aerosol-simulator-1.0-SNAPSHOT\etc\conf" foldef ref.xl file. Second line
+    is column "weights".</p>
+
+    <p><strong>Set best parameters</strong></p>
+
+    <p>To get best inception parameters set into a program "Minimum" fields,
+    simply click on "Open Best" button.</p>
+
+    <h1><a id="Extra_features" name="Extra_features"></a>Extra
+    features<a class="section_anchor" href="#Extra_features"></a></h1>
+
+    <p>You can export all your local program data into a file and import to
+    other computer with same program or make searches in you local database
+    without having any database browser program, such as "SQLite Database
+    Browser" installed into your computer.</p>
+
+    <p><strong>Import</strong></p>
+
+    <p>To import all data, simply click on "Utilities" button and a separate
+    window will pop-up. Click on "Import" and a dialog window will pop, select
+    a file with data and you are done.</p>
+
+    <p><strong>Export</strong></p>
+
+    <p>To export all data, simply click on "Utilities" button and a separate
+    window will pop-up. Click on "Export" and a dialog window will pop, give
+    file a name and location and you are done.</p>
+
+    <p><strong>Export specific result set by id</strong></p>
+
+    <p>To export specific result set, simply click on "Utilities" button and
+    write an id number (e.g .pid number from a file created by "Find Best
+    Results" function) and then click on "Save Results". Now result set of that
+    specific inception parameters will be written into a file of user
+    choice.</p>
+
+    <p><strong>Open specific parameters</strong></p>
+
+    <p>Select "Process" from a drop-down menu, write a pid (id) number and
+    click on "Open order or process by id". Inception parameters of that
+    specific run will be loaded.</p>
+
+    <p>If you also know the id of the simulations group (order) you can select
+    "Order" from drop-down menu, put that id into a text field and press the
+    button again. Simulations group (order) simply has the maximum fields set.
+    If you start simulating based on these min and max values the application
+    might generate totally different simulation parameters than it did in the
+    past, because it takes something random between min and max.</p>
+</body>
+</html>

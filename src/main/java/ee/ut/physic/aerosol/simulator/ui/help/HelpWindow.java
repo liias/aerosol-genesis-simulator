@@ -86,7 +86,7 @@ public class HelpWindow extends JFrame implements ActionListener {
         btnclose.addActionListener(this);
         //put into JPanel
         JPanel panebuttons = new JPanel();
-        panebuttons.add(btncontents);
+//        panebuttons.add(btncontents);
         panebuttons.add(btnclose);
         //add panel south
         getContentPane().add(panebuttons, BorderLayout.SOUTH);
