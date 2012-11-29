@@ -68,7 +68,28 @@ public class SimulationOrderServiceImpl implements SimulationOrderService {
         if (simulationProcessService.isFinishedProcessWithHashAlreadyExisting(hash)) {
             throw new ParametersExistException("Simulation process with these parameters already exists in database");
         }
+        fixNadyktoParameters(generatedProcess);
         order.addProcess(generatedProcess);
+    }
+
+    protected void fixNadyktoParameters(SimulationProcess generatedProcess) {
+        Double nadykto1Value = null;
+        Double nadykto2Value = null;
+        SimulationProcessParameter nadykto1Parameter = null;
+        for (SimulationProcessParameter processParameter : generatedProcess.getSimulationProcessParameters()) {
+            if (processParameter.isNadykto1()) {
+                nadykto1Parameter = processParameter;
+                nadykto1Value = processParameter.getFreeAirValue();
+            } else if (processParameter.isNadykto2()) {
+                nadykto2Value = processParameter.getFreeAirValue();
+            }
+        }
+        // just fix the nadykto1
+        if (nadykto1Value != null && nadykto2Value != null) {
+            if (nadykto1Value <= nadykto2Value) {
+                nadykto1Parameter.setFreeAirValue(nadykto2Value + 0.01);
+            }
+        }
     }
 
     @Override

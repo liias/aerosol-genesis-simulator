@@ -155,7 +155,6 @@ public class Configuration {
     public void setBurstSimulatorDirPathAndBinaryName() {
         String sep = "/";
         String archPath;
-        //TODO: add 32 bit support when such binaries are compiled
         if ("amd64".equals(SystemUtils.OS_ARCH) || "x86_64".equals(SystemUtils.OS_ARCH)) {
             archPath = "x86_64";
         } else {

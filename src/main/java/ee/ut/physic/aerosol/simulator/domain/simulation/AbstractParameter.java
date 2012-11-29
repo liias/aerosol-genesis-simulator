@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -148,5 +147,15 @@ public abstract class AbstractParameter implements Comparable<AbstractParameter>
             int intVal = value.intValue();
             return Integer.toString(intVal);
         }
+    }
+
+    @Transient
+    public boolean isNadykto1() {
+        return "Yu1".equals(getName());
+    }
+
+    @Transient
+    public boolean isNadykto2() {
+        return "Yu2".equals(getName());
     }
 }
