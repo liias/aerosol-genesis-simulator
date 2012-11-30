@@ -28,4 +28,6 @@ public interface SimulationOrderService {
     public Map<String, Map<String, String>> getParametersMapById(long id) throws GeneralException;
 
     void stopCurrentProcess(SimulationOrder simulationOrder);
+
+    void stopCurrentProcessAsFailed(SimulationOrder simulationOrder);
 }

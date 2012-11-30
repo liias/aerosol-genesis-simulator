@@ -16,13 +16,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.Reader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ToolboxFrame extends JFrame {
-    final Logger logger = LoggerFactory.getLogger(ToolboxFrame.class);
+public class UtilitiesFrame extends JFrame {
+    final Logger logger = LoggerFactory.getLogger(UtilitiesFrame.class);
     @Autowired
     private SimulationOrderService simulationOrderService;
     @Autowired
@@ -30,8 +32,9 @@ public class ToolboxFrame extends JFrame {
     private SaveAndWrite saveAndWrite;
     private JTextField processIdField;
     GridBagConstraints toolconstraints;
+    private OrderToolBar orderToolBar;
 
-    public ToolboxFrame(SaveAndWrite saveAndWrite) throws HeadlessException {
+    public UtilitiesFrame(SaveAndWrite saveAndWrite) throws HeadlessException {
         super();
         this.saveAndWrite = saveAndWrite;
 
@@ -80,6 +83,19 @@ public class ToolboxFrame extends JFrame {
                 saveResults();
             }
         });
+
+        final JCheckBox showToolbarLabels = new JCheckBox("Labels under toolbar buttons?");
+        showToolbarLabels.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (orderToolBar != null) {
+
+                }
+                orderToolBar.showLabels(showToolbarLabels.isSelected());
+            }
+        });
+
+
         toolconstraints.gridx = 0;
         toolconstraints.fill = GridBagConstraints.VERTICAL;
         toolconstraints.gridy = 0;
@@ -113,6 +129,12 @@ public class ToolboxFrame extends JFrame {
         toolconstraints.gridy = 4;
         toolconstraints.gridwidth = 2;
         panel.add(saveResultsFile, toolconstraints);
+
+        toolconstraints.gridy = 5;
+        toolconstraints.gridwidth = 2;
+        panel.add(showToolbarLabels, toolconstraints);
+
+
         add(panel);
     }
 
@@ -149,5 +171,9 @@ public class ToolboxFrame extends JFrame {
         String ordersInJson = simulationOrderService.getOrdersInJson();
         System.out.println("Retrieved all orders");
         saveAndWrite.promptSaveFileWithFileContent(ordersInJson);
+    }
+
+    public void setOrderToolBar(OrderToolBar orderToolBar) {
+        this.orderToolBar = orderToolBar;
     }
 }

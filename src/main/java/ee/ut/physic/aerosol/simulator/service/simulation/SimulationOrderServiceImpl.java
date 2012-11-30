@@ -103,6 +103,11 @@ public class SimulationOrderServiceImpl implements SimulationOrderService {
     }
 
     @Override
+    public void stopCurrentProcessAsFailed(SimulationOrder simulationOrder) {
+        simulationProcessService.stopCurrentProcessAsFailed();
+    }
+
+    @Override
     public void setOrderForm(OrderForm orderForm) {
         this.orderForm = orderForm;
     }

@@ -19,7 +19,7 @@ public class MainFrame extends JFrame {
     private OrderForm orderForm;
     private OrderToolBar orderToolBar;
     private SaveAndWrite saveAndWrite;
-    private ToolboxFrame toolboxFrame;
+    private UtilitiesFrame utilitiesFrame;
     private ApplicationContextLoader loader;
 
     public MainFrame() {
@@ -64,11 +64,12 @@ public class MainFrame extends JFrame {
         orderForm = new OrderForm(parametersConfiguration);
         saveAndWrite = new SaveAndWrite(orderForm);
         loader.injectDependencies(saveAndWrite);
-        toolboxFrame = new ToolboxFrame(saveAndWrite);
-        loader.injectDependencies(toolboxFrame);
-        orderToolBar = new OrderToolBar(orderForm, saveAndWrite, toolboxFrame);
+        utilitiesFrame = new UtilitiesFrame(saveAndWrite);
+        loader.injectDependencies(utilitiesFrame);
+        orderToolBar = new OrderToolBar(orderForm, saveAndWrite, utilitiesFrame);
         loader.injectDependencies(orderToolBar);
         orderToolBar.simulationOrderService.setOrderForm(orderForm);
+        utilitiesFrame.setOrderToolBar(orderToolBar);
         orderForm.setToolbar(orderToolBar);
         JScrollPane scrollPane = new JScrollPane(orderForm);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);

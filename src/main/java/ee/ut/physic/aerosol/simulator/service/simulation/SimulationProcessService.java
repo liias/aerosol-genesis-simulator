@@ -28,4 +28,6 @@ public interface SimulationProcessService {
     boolean isFinishedProcessWithHashAlreadyExisting(String hash);
 
     void stopCurrentProcess();
+
+    void stopCurrentProcessAsFailed();
 }

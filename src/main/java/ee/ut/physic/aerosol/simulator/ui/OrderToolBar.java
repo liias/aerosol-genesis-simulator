@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -36,7 +37,7 @@ public class OrderToolBar extends JToolBar {
 
     private OrderForm orderForm;
     private SaveAndWrite saveAndWrite;
-    private ToolboxFrame toolboxFrame;
+    private UtilitiesFrame utilitiesFrame;
 
     private JTextField commentField;
     private JSpinner numberOfProcessesSpinner;
@@ -49,11 +50,12 @@ public class OrderToolBar extends JToolBar {
     private JTextField orderOrProcessId;
     public JButton cancelButton;
     private JButton stopCurrentProcessButton;
+    private JButton stopCurrentProcessAsFailedButton;
 
-    public OrderToolBar(OrderForm orderForm, SaveAndWrite saveAndWrite, ToolboxFrame toolboxFrame) {
+    public OrderToolBar(OrderForm orderForm, SaveAndWrite saveAndWrite, UtilitiesFrame utilitiesFrame) {
         this.orderForm = orderForm;
         this.saveAndWrite = saveAndWrite;
-        this.toolboxFrame = toolboxFrame;
+        this.utilitiesFrame = utilitiesFrame;
         setFloatable(false);
         setRollover(true);
         createAndAddWidgets();
@@ -86,6 +88,7 @@ public class OrderToolBar extends JToolBar {
         simulateButton = createSimulateButton();
         cancelButton = createCancelButton();
         stopCurrentProcessButton = createStopCurrentProcessButton();
+        stopCurrentProcessAsFailedButton = createStopCurrentProcessAsFailedButton();
 
         openByIdType = new JComboBox();
         openByIdType.addItem("Order");
@@ -121,6 +124,7 @@ public class OrderToolBar extends JToolBar {
         add(openManyButton);
         add(simulateButton);
         add(stopCurrentProcessButton);
+        add(stopCurrentProcessAsFailedButton);
         add(cancelButton);
         add(helpButton);
     }
@@ -131,6 +135,8 @@ public class OrderToolBar extends JToolBar {
         URL imageURL = OrderToolBar.class.getResource(imgLocation);
         //Create and initialize the button.
         JButton button = new JButton();
+        button.setVerticalTextPosition(BOTTOM);
+        button.setHorizontalTextPosition(CENTER);
         if (imageURL != null) {                      //image found
             Icon icon = new ImageIcon(imageURL, altText);
             button.setIcon(icon);
@@ -240,7 +246,7 @@ public class OrderToolBar extends JToolBar {
     }
 
     private JButton createCompareButton() {
-        JButton resetButton = createButtonWithIcon("find_best", "Find Best Values");
+        JButton resetButton = createButtonWithIcon("find_best", "Find Best");
         resetButton.setToolTipText("<html>Find Best Results <br>Searches database for results which are most close to the wanted reference results.<br>" +
                 "It saves the results to a file.");
         resetButton.addActionListener(new ActionListener() {
@@ -253,7 +259,7 @@ public class OrderToolBar extends JToolBar {
 
 
     private JButton createViewBestButton() {
-        JButton resetButton = createButtonWithIcon("view_best", "Open Best Process");
+        JButton resetButton = createButtonWithIcon("view_best", "Open Best");
         resetButton.setToolTipText("Open Best");
         resetButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -317,7 +323,7 @@ public class OrderToolBar extends JToolBar {
     }
 
     private JSpinner createNumberOfProcessesSpinner() {
-        SpinnerModel model = new SpinnerNumberModel(1, 1, 1000000, 1);
+        SpinnerModel model = new SpinnerNumberModel(1, 1, 99999, 1);
         JSpinner spinner = new JSpinner(model);
         String toolTip = "Number of Simulations";
         spinner.setToolTipText(toolTip);
@@ -325,7 +331,7 @@ public class OrderToolBar extends JToolBar {
     }
 
     private JButton createSimulateButton() {
-        JButton simulateButton = createButtonWithIcon("start", "Simulate");
+        JButton simulateButton = createButtonWithIcon("start", "Run");
         simulateButton.setToolTipText("Start Simulation");
         simulateButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -351,10 +357,23 @@ public class OrderToolBar extends JToolBar {
         return cancelButton;
     }
 
-    private JButton createStopCurrentProcessButton() {
-        JButton cancelButton = createButtonWithIcon("stop", "Stop Current Process");
+    private JButton createStopCurrentProcessAsFailedButton() {
+        JButton cancelButton = createButtonWithIcon("set_failed", "Set Failed");
         cancelButton.setEnabled(false);
-        cancelButton.setToolTipText("Stop Current Process");
+        cancelButton.setToolTipText("<html>Kills current process, sets it's status to failed <br>" +
+                "and continues with the next process . Use when a simulation hasn't been progressed.");
+        cancelButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                stopCurrentProcessAsFailed();
+            }
+        });
+        return cancelButton;
+    }
+
+    private JButton createStopCurrentProcessButton() {
+        JButton cancelButton = createButtonWithIcon("stop", "Stop One");
+        cancelButton.setEnabled(false);
+        cancelButton.setToolTipText("Stop current Process");
         cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 stopCurrentProcess();
@@ -373,7 +392,7 @@ public class OrderToolBar extends JToolBar {
 
     private void showToolbox() {
         logger.debug("Toolbox button pressed");
-        toolboxFrame.setVisible(true);
+        utilitiesFrame.setVisible(true);
     }
 
     private void undo() {
@@ -470,6 +489,14 @@ public class OrderToolBar extends JToolBar {
         }
     }
 
+    private void stopCurrentProcessAsFailed() {
+        logger.debug("Stop Current Process as failed button pressed");
+        SimulationOrder simulationOrder = orderForm.getSimulationOrder();
+        if (simulationOrder != null) {
+            simulationOrderService.stopCurrentProcessAsFailed(simulationOrder);
+        }
+    }
+
     public void stopSimulation() {
         logger.debug("Stop Simulate button pressed");
 
@@ -486,11 +513,13 @@ public class OrderToolBar extends JToolBar {
             simulateButton.setEnabled(false);
             cancelButton.setEnabled(true);
             stopCurrentProcessButton.setEnabled(true);
+            stopCurrentProcessAsFailedButton.setEnabled(true);
         } else {
             logger.debug("Not in process");
             simulateButton.setEnabled(true);
             cancelButton.setEnabled(false);
             stopCurrentProcessButton.setEnabled(false);
+            stopCurrentProcessAsFailedButton.setEnabled(false);
             if (!multipleOrderService.isRunning()) {
                 SimulationIsReadyDialog.show();
             }
@@ -500,5 +529,26 @@ public class OrderToolBar extends JToolBar {
     // Not the most reliable way...
     public boolean isSimulationInProcess() {
         return !simulateButton.isEnabled();
+    }
+
+    public void showLabels(boolean isShown) {
+        Component c;
+        int i = 0;
+        while ((c = getComponentAtIndex(i++)) != null) {
+            if (c.getClass().isAssignableFrom(JButton.class)) {
+                JButton button = (JButton) c;
+                if (isShown) {
+                    if (button.getIcon().getClass().isAssignableFrom(ImageIcon.class)) {
+                        ImageIcon icon = (ImageIcon) button.getIcon();
+                        String text = icon.getDescription();
+                        button.setText(text);
+                    }
+                } else {
+                    button.setText(null);
+                }
+            }
+
+
+        }
     }
 }

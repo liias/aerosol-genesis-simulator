@@ -72,6 +72,11 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
         } else if (stoppingType == 1) {
             logger.info("One process was canceled, running the next process in order");
             runNextProcess(order);
+        } else if (stoppingType == 2) {
+            process.setState(SimulationProcessState.FAILED);
+            simulationProcessDao.update(process);
+            logger.info("One process was manually set as failed, running the next process in order");
+            runNextProcess(order);
         }
     }
 
@@ -127,6 +132,12 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
     @Override
     public void stopCurrentProcess() {
         stoppingType = 1;
+        interruptProcessThread();
+    }
+
+    @Override
+    public void stopCurrentProcessAsFailed() {
+        stoppingType = 2;
         interruptProcessThread();
     }
 
