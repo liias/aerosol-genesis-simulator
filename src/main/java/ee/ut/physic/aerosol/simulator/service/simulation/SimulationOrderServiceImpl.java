@@ -39,6 +39,7 @@ public class SimulationOrderServiceImpl implements SimulationOrderService {
         setInProcess();
         generateProcessesForOrder(simulationOrder);
         simulationOrderDao.add(simulationOrder);
+        notifyFinishedProcessCountChange(simulationOrder);
         simulationProcessService.startInNewThread(simulationOrder.getNextNotStartedProcess());
     }
 
@@ -113,6 +114,13 @@ public class SimulationOrderServiceImpl implements SimulationOrderService {
     @Override
     public void stopCurrentProcessAsFailed(SimulationOrder simulationOrder) {
         simulationProcessService.stopCurrentProcessAsFailed();
+    }
+
+    @Override
+    public void notifyFinishedProcessCountChange(SimulationOrder order) {
+        int current = order.getNumberOfFinishedProcesses() + 1;
+        int total = order.getNumberOfProcesses();
+        orderForm.statusBar.setCurrentProcessCount(current, total);
     }
 
     @Override

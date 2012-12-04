@@ -30,4 +30,6 @@ public interface SimulationOrderService {
     void stopCurrentProcess(SimulationOrder simulationOrder);
 
     void stopCurrentProcessAsFailed(SimulationOrder simulationOrder);
+
+    void notifyFinishedProcessCountChange(SimulationOrder order);
 }

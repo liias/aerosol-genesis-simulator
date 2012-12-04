@@ -26,10 +26,12 @@ public class OrderForm extends JPanel {
     private OrderToolBar orderToolbar;
     private UndoManager undoManager;
     public boolean isInitialized = false;
+    public StatusBar statusBar;
 
     public OrderForm(ParametersConfiguration parametersConfiguration) {
         this.parametersConfiguration = parametersConfiguration;
         initUndoManager();
+        statusBar = new StatusBar();
         GridBagLayout gridBagLayout = new GridBagLayout();
         JPanel allParametersPanel = new JPanel(gridBagLayout);
         JPanel leftPanel = new JPanel(gridBagLayout);
@@ -51,6 +53,8 @@ public class OrderForm extends JPanel {
         addParametersGroup("presentation", leftPanel, constraints);
         constraints.gridy = 4;
         addParametersGroup("nucleation", leftPanel, constraints);
+        constraints.gridy = 5;
+        leftPanel.add(statusBar, constraints);
 
         GridBagConstraints leftAndRightConstraints = new GridBagConstraints();
         leftAndRightConstraints.anchor = GridBagConstraints.NORTHWEST;
@@ -176,6 +180,9 @@ public class OrderForm extends JPanel {
 
     public void setSimulationInProcess(boolean inProcess) {
         orderToolbar.setSimulationInProcess(inProcess);
+        if (!inProcess) {
+            statusBar.resetCurrentProcessCount();
+        }
     }
 
     private void enableOrDisableUndoAndRedoButtons() {

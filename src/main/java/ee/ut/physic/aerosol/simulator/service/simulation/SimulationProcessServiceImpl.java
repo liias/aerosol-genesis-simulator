@@ -97,6 +97,7 @@ public class SimulationProcessServiceImpl implements SimulationProcessService {
         SimulationProcess nextProcess = order.getNextNotStartedProcess();
         if (nextProcess != null) {
             startInNewThread(nextProcess);
+            simulationOrderService.notifyFinishedProcessCountChange(order);
         } else {
             simulationOrderService.setCompleted();
         }
