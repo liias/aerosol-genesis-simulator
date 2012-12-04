@@ -407,12 +407,20 @@ public class OrderToolBar extends JToolBar {
 
     private void open() {
         logger.debug("Open button pressed");
-        saveAndWrite.openFile();
+        try {
+            saveAndWrite.openParametersFromFile();
+        } catch (GeneralException e) {
+            e.printStackTrace();
+        }
     }
 
     private void openMany() {
         logger.debug("Open button pressed");
-        saveAndWrite.openBigFile(this);
+        try {
+            saveAndWrite.openMultipleOrdersAndSimulate(this);
+        } catch (GeneralException e) {
+            e.printStackTrace();
+        }
     }
 
     public void save() {

@@ -31,7 +31,7 @@ public class UtilitiesFrame extends JFrame {
     private SimulationResultService simulationResultsService;
     private SaveAndWrite saveAndWrite;
     private JTextField processIdField;
-    GridBagConstraints toolconstraints;
+    GridBagConstraints constraints;
     private OrderToolBar orderToolBar;
 
     public UtilitiesFrame(SaveAndWrite saveAndWrite) throws HeadlessException {
@@ -47,7 +47,7 @@ public class UtilitiesFrame extends JFrame {
 
         GridBagLayout gridBagLayout = new GridBagLayout();
 
-        toolconstraints = new GridBagConstraints();
+        constraints = new GridBagConstraints();
         JPanel panel = new JPanel(gridBagLayout);
 
         JLabel databaseLabel = new JLabel("<html><b>Import or Export Database</b>");
@@ -56,7 +56,11 @@ public class UtilitiesFrame extends JFrame {
         importButton.setToolTipText("Import data from another database");
         importButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                importOrders();
+                try {
+                    importOrders();
+                } catch (GeneralException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
@@ -80,7 +84,11 @@ public class UtilitiesFrame extends JFrame {
         saveResultsFile.setToolTipText("Save results from specific process into a file");
         saveResultsFile.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                saveResults();
+                try {
+                    saveResults();
+                } catch (GeneralException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
@@ -89,67 +97,68 @@ public class UtilitiesFrame extends JFrame {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (orderToolBar != null) {
-
+                    orderToolBar.showLabels(showToolbarLabels.isSelected());
                 }
-                orderToolBar.showLabels(showToolbarLabels.isSelected());
             }
         });
 
 
-        toolconstraints.gridx = 0;
-        toolconstraints.fill = GridBagConstraints.VERTICAL;
-        toolconstraints.gridy = 0;
-        toolconstraints.gridx = 0;
-        panel.add(databaseLabel, toolconstraints);
-        toolconstraints.gridy = 1;
-        panel.add(importButton, toolconstraints);
+        constraints.gridx = 0;
+        constraints.fill = GridBagConstraints.VERTICAL;
+        constraints.gridy = 0;
+        constraints.gridx = 0;
+        panel.add(databaseLabel, constraints);
+        constraints.gridy = 1;
+        panel.add(importButton, constraints);
 
 
-        toolconstraints.gridx = 1;
-        panel.add(exportButton, toolconstraints);
-        toolconstraints.gridx = 0;
-        toolconstraints.gridy = 2;
-        toolconstraints.weightx = 1.0;
-        toolconstraints.ipady = 25;
-        toolconstraints.anchor = GridBagConstraints.SOUTHWEST;
-        toolconstraints.gridwidth = GridBagConstraints.REMAINDER;
-        panel.add(resultsDescription, toolconstraints);
+        constraints.gridx = 1;
+        panel.add(exportButton, constraints);
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        constraints.weightx = 1.0;
+        constraints.ipady = 25;
+        constraints.anchor = GridBagConstraints.SOUTHWEST;
+        constraints.gridwidth = GridBagConstraints.REMAINDER;
+        panel.add(resultsDescription, constraints);
 
         //reset
-        toolconstraints.anchor = GridBagConstraints.CENTER;
-        toolconstraints.ipady = 0;
-        toolconstraints.weightx = 0;
-        toolconstraints.gridwidth = 1;
-        toolconstraints.gridy = 3;
-        panel.add(processIdLabel, toolconstraints);
-        toolconstraints.gridx = 1;
+        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.ipady = 0;
+        constraints.weightx = 0;
+        constraints.gridwidth = 1;
+        constraints.gridy = 3;
+        panel.add(processIdLabel, constraints);
+        constraints.gridx = 1;
 
-        panel.add(processIdField, toolconstraints);
-        toolconstraints.gridx = 0;
-        toolconstraints.gridy = 4;
-        toolconstraints.gridwidth = 2;
-        panel.add(saveResultsFile, toolconstraints);
+        panel.add(processIdField, constraints);
+        constraints.gridx = 0;
+        constraints.gridy = 4;
+        constraints.gridwidth = 2;
+        panel.add(saveResultsFile, constraints);
 
-        toolconstraints.gridy = 5;
-        toolconstraints.gridwidth = 2;
-        panel.add(showToolbarLabels, toolconstraints);
+        constraints.gridy = 5;
+        constraints.gridwidth = 2;
+        panel.add(showToolbarLabels, constraints);
 
 
         add(panel);
     }
 
-    private void saveResults() {
+    private void saveResults() throws GeneralException {
         String idString = processIdField.getText();
-        Long id = new Long(idString);
         try {
+            Long id = new Long(idString);
             String resultsFileContent = simulationResultsService.getResultsFileContent(id);
             saveAndWrite.promptSaveFileWithFileContent(resultsFileContent);
         } catch (GeneralException e) {
             e.printStackTrace();
+        } catch (NumberFormatException e) {
+            throw new GeneralException("Process ID must be a number");
         }
     }
 
-    public void importOrders() {
+    public void importOrders() throws GeneralException {
         Reader streamReader = saveAndWrite.promptOpenFileAsInputStreamReader();
         if (streamReader == null) {
             return;
@@ -159,11 +168,10 @@ public class UtilitiesFrame extends JFrame {
             java.lang.reflect.Type listType = new TypeToken<ArrayList<SimulationOrder>>() {
             }.getType();
             List<SimulationOrder> orders = new Gson().fromJson(jsonReader, listType);
-            //Collection<SimulationOrder> orders = gson.fromJson(jsonReader, Collection.class);
-            System.out.println("Debugpoint");
             simulationOrderService.importOrders(orders);
         } catch (JsonSyntaxException e) {
             logger.warn("File could not be parsed as a json file");
+            throw new GeneralException("Couldn't import, because selected file is not valid json file.");
         }
     }
 

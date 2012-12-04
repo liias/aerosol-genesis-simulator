@@ -2,16 +2,16 @@ package ee.ut.physic.aerosol.simulator.ui;
 
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
-
+import ee.ut.physic.aerosol.simulator.errors.GeneralException;
+import ee.ut.physic.aerosol.simulator.service.simulation.MultipleOrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import ee.ut.physic.aerosol.simulator.service.simulation.MultipleOrderService;
-
 import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SaveAndWrite {
@@ -96,18 +96,22 @@ public class SaveAndWrite {
         return null;
     }
 
-    public void openFile() {
+    public void openParametersFromFile() throws GeneralException {
         Reader streamReader = promptOpenFileAsInputStreamReader();
         if (streamReader == null) {
+            // open dialog was canceled
             return;
         }
         CSVReader reader = new CSVReader(streamReader, ';');
         try {
             String[] fileRow = reader.readNext();
-            ArrayList<String> allValues = new ArrayList<String>();
-            for (String item : fileRow) {
-                allValues.add(item);
+            if (fileRow == null) {
+                throw new GeneralException("The CSV file you try to open seems to be empty");
+            } else if (fileRow.length < 10) {
+                throw new GeneralException("The CSV file you try to open seems to be invalid");
             }
+            ArrayList<String> allValues = new ArrayList<String>();
+            Collections.addAll(allValues, fileRow);
             // since last value from file may be "", it will get lost from end of line
             if (fileRow.length == 127) {
                 allValues.add("");
@@ -115,11 +119,11 @@ public class SaveAndWrite {
 
             orderForm.setAllParameterValues(allValues);
         } catch (IOException e) {
-            logger.warn("File could not be parsed as a CSV file");
+            throw new GeneralException("File could not be parsed as a CSV file");
         }
     }
 
-    public void openBigFile(OrderToolBar toolbar) {
+    public void openMultipleOrdersAndSimulate(OrderToolBar toolbar) throws GeneralException {
         Reader streamReader = promptOpenFileAsInputStreamReader();
         if (streamReader == null) {
             return;
@@ -127,13 +131,19 @@ public class SaveAndWrite {
         CSVReader reader = new CSVReader(streamReader, ';');
         try {
             List<String[]> file = reader.readAll();
+            if (file.size() == 0) {
+                throw new GeneralException("The CSV file you try to open seems to be empty");
+            }
             ArrayList<ArrayList<String>> stringSet = new ArrayList<ArrayList<String>>();
             for (String[] row : file) {
+                if (row == null) {
+                    throw new GeneralException("The CSV file you try to open seems to be empty");
+                } else if (row.length < 10) {
+                    throw new GeneralException("The CSV file you try to open seems to be invalid");
+                }
                 ArrayList<String> allValues = new ArrayList<String>();
                 logger.info("ROW SIZE : " + row.length);
-                for (String item : row) {
-                    allValues.add(item);
-                }
+                Collections.addAll(allValues, row);
                 if (row.length == 127) {
                     allValues.add("");
                 }
@@ -143,7 +153,7 @@ public class SaveAndWrite {
             multipleOrderService.init(orderForm, toolbar, stringSet);
 
         } catch (IOException e) {
-            logger.warn("File could not be parsed as a CSV file");
+            throw new GeneralException("File could not be parsed as a CSV file");
         }
     }
 }
