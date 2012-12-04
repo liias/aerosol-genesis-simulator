@@ -76,18 +76,26 @@ public class SimulationOrderServiceImpl implements SimulationOrderService {
         Double nadykto1Value = null;
         Double nadykto2Value = null;
         SimulationProcessParameter nadykto1Parameter = null;
+        SimulationProcessParameter nadykto2Parameter = null;
         for (SimulationProcessParameter processParameter : generatedProcess.getSimulationProcessParameters()) {
             if (processParameter.isNadykto1()) {
                 nadykto1Parameter = processParameter;
                 nadykto1Value = processParameter.getFreeAirValue();
             } else if (processParameter.isNadykto2()) {
+                nadykto2Parameter = processParameter;
                 nadykto2Value = processParameter.getFreeAirValue();
             }
         }
         // just fix the nadykto1
         if (nadykto1Value != null && nadykto2Value != null) {
             if (nadykto1Value <= nadykto2Value) {
-                nadykto1Parameter.setFreeAirValue(nadykto2Value + 0.01);
+                if (nadykto2Value < 2) {
+                    //ok, we must fix nadykto2 as well, see https://agsimulator.teamlab.com/products/projects/tasks.aspx?prjID=312726&id=2144269
+                    nadykto2Parameter.setFreeAirValue(2.0);
+                    nadykto1Parameter.setFreeAirValue(2.01);
+                } else {
+                    nadykto1Parameter.setFreeAirValue(nadykto2Value + 0.01);
+                }
             }
         }
     }

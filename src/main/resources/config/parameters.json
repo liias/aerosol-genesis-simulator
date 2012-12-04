@@ -271,8 +271,8 @@
             {
                 "name":"pol1",
                 "label":"Polarizability",
+                "description":"Should be [0, 100, 101, ..., 200], so 0 is also valid, despite the field going red",
                 "minimumValue":100,
-                //Actually it should be either 0 or 100. Randomly can be generater values between 100-200 or 0.
                 "maximumValue":200,
                 "defaultValue":150,
                 "step":10,
@@ -283,9 +283,10 @@
             {
                 "name":"Yu1",
                 "label":"Nadykto-Yu dipole enhancement factor for d = 1 nm",
+                "description":"This must be more than coefficient for d = 2 nm",
                 "minimumValue":1.0,
                 "maximumValue":3.0,
-                "defaultValue":1.0,
+                "defaultValue":2.1,
                 "step":0.1,
                 "unit":"",
                 "lineNumber":26
@@ -293,10 +294,10 @@
             {
                 "name":"Yu2",
                 "label":"Nadykto-Yu dipole enhancement coefficient for d = 2 nm",
-                //The value must be less than parameter with name "F4"
+                "description":"This must be less than factor for d = 1 nm",
                 "minimumValue":1.0,
                 "maximumValue":3.0,
-                "defaultValue":1.0,
+                "defaultValue":2.0,
                 "step":0.1,
                 "lineNumber":27
             },
@@ -374,8 +375,8 @@
             {
                 "name":"pol2",
                 "label":"Polarizability",
+                "description":"Should be [0, 100, 101, ..., 200], so 0 is also valid, despite the field going red",
                 "minimumValue":100,
-                //Actually it should be either 0 or 100. Randomly can be generater values between 100-200 or 0.
                 "maximumValue":200,
                 "defaultValue":100,
                 "step":10,

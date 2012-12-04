@@ -60,29 +60,29 @@ public class SimulationOrderServiceImplTest {
 
     @Test
     public void testFixNadyktoParametersWithYu1LessThanYu2() throws Exception {
-        SimulationProcess process = createProcessWithNadyktoValues(1.4, 1.5);
+        SimulationProcess process = createProcessWithNadyktoValues(2.4, 2.5);
         simulationOrderService.fixNadyktoParameters(process);
         List<SimulationProcessParameter> params = process.getSimulationProcessParameters();
-        assertEquals(1.51, params.get(0).getFreeAirValue());
-        assertEquals(1.5, params.get(1).getFreeAirValue());
+        assertEquals(2.51, params.get(0).getFreeAirValue());
+        assertEquals(2.5, params.get(1).getFreeAirValue());
     }
 
     @Test
     public void testFixNadyktoParametersWithYu1EqualToYu2() throws Exception {
-        SimulationProcess process = createProcessWithNadyktoValues(1.4, 1.4);
+        SimulationProcess process = createProcessWithNadyktoValues(2.5, 2.5);
         simulationOrderService.fixNadyktoParameters(process);
         List<SimulationProcessParameter> params = process.getSimulationProcessParameters();
-        assertEquals(1.41, params.get(0).getFreeAirValue());
-        assertEquals(1.4, params.get(1).getFreeAirValue());
+        assertEquals(2.51, params.get(0).getFreeAirValue());
+        assertEquals(2.5, params.get(1).getFreeAirValue());
     }
 
     @Test
     public void testFixNadyktoParametersWithNothingToDo() throws Exception {
-        SimulationProcess process = createProcessWithNadyktoValues(1.5, 1.4);
+        SimulationProcess process = createProcessWithNadyktoValues(2.5, 2.4);
         simulationOrderService.fixNadyktoParameters(process);
         List<SimulationProcessParameter> params = process.getSimulationProcessParameters();
-        assertEquals(1.5, params.get(0).getFreeAirValue());
-        assertEquals(1.4, params.get(1).getFreeAirValue());
+        assertEquals(2.5, params.get(0).getFreeAirValue());
+        assertEquals(2.4, params.get(1).getFreeAirValue());
     }
 
     private SimulationProcess createProcessWithNadyktoValues(double yu1, double yu2) {

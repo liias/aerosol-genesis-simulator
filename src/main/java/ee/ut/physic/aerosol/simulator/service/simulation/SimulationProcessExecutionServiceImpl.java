@@ -131,7 +131,8 @@ public class SimulationProcessExecutionServiceImpl implements SimulationProcessE
             int exitCode = burstAppProcess.exitValue();
             log.debug("Burst Simulator exit code: {}", exitCode);
         } catch (IOException e) {
-            log.debug(e.getMessage());
+            log.warn("IOException for burstapp. Not good.");
+            log.error(e.getMessage());
             stopReason = SimulationProcessState.CANCELED;
         } catch (InterruptedException e) {
             log.warn("Thread was interrupted");
