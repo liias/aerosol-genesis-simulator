@@ -13,6 +13,9 @@ public class UIHelper {
 
     public static void setInvalid(JComboBox comboBox) {
         comboBox.setBackground(INVALID_COLOR);
+        // For windows look-and-feel:
+        ((JComponent) comboBox.getEditor().getEditorComponent()).setOpaque(true);
+        comboBox.getEditor().getEditorComponent().setBackground(INVALID_COLOR);
     }
 
     public static void setInvalid(JComboBox... comboBoxes) {
@@ -33,5 +36,8 @@ public class UIHelper {
 
     public static void setValid(JComboBox comboBox) {
         comboBox.setBackground(VALID_COLOR);
+        // For windows look-and-feel:
+        ((JComponent) comboBox.getEditor().getEditorComponent()).setOpaque(true);
+        comboBox.getEditor().getEditorComponent().setBackground(VALID_COLOR);
     }
 }
